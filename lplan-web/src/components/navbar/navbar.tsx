@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import icon from "../../assets/images/lplan_icon_logo_v1.png";
+import icon from "../../assets/images/logo_lp_1.png";
 
 const Navbar = () => {
     return (
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
 			<nav>
-                <a href="#">Home</a>
+                <a href="#">Feed</a>
                 <a href="#">Discovery</a>
                 <a href="#">Messages</a>
                 <a href="#">Calendar and Events</a>

@@ -1,0 +1,65 @@
+@font-face { font-family: "SFNS"; src: url("../../assets/fonts/sf-ui-display-bold-58646a511e3d9.otf"); }
+@font-face { font-family: "Raffaella"; src: url("../../assets/fonts/Rafaella.ttf"); }
+@font-face { font-family: "Stussy"; src: url("../../assets/fonts/StussyScript-Regular.ttf"); }
+@font-face { font-family: "Belgan"; src: url("../../assets/fonts/Belgant\ Aesthetic.otf"); }
+@font-face { font-family: "Bookman"; src: url("../../assets/fonts/BookmanJFPro-Italic.ttf"); }
+@font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
+@font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
+
+.title { 
+    font-family: "Raffaella", sans-serif;
+    color: #fff;
+    font-size: 72px;
+ }
+
+ .button { 
+    font-family: "SFNS", sans-serif;
+    color: #fff;
+    font-size: 72px;
+ }
+
+ .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .fullscreen-bg__video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* ajustar altura en términos de viewport units */
+    z-index: -1;
+  }
+  
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* asegurarse de que el video se ajuste sin deformarse */
+    z-index: -1;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .button {
+    margin: 4px;
+    padding: 6px 6px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+  }
