@@ -1,0 +1,28 @@
+.button-container-back {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .buttonBack {
+    font-family: "SFNS", sans-serif;
+    margin: 4px;
+    padding: 6px 6px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .register-container {
+    position: relative;
+  }
