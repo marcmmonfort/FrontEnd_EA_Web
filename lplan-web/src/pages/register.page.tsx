@@ -11,7 +11,6 @@ export interface RegisterProps {
 }
 
 const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
-  const [errors, setErrors] = useState<Partial<User>>({});
   const [user, setUser] = useState<User>({
     appUser: '',
     nameUser: '',
@@ -28,13 +27,13 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     deletedUser: false,
   });
 
+  console.log(user);
   // Handle para input tipo checkbox
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: checked }));
 
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
-    console.log(user);
   };
 
   // Handle para select
@@ -48,24 +47,9 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     setUser((prevUser) => ({ ...prevUser, [name]: dateValue }));
   };
 
-  const handlePasswordSubmit = (password: string) => {
-    setUser((prevUser) => ({ ...prevUser, passwordUser: password }));
-    console.log(user);
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const validationErrors: Partial<User> = {};
-    if (!user.mailUser) {
-      validationErrors.mailUser = 'Please enter your email address';
-    }
-    if (!user.passwordUser) {
-      validationErrors.passwordUser = 'Please enter your password';
-    }
-    if (Object.keys(validationErrors).length) {
-      setErrors(validationErrors);
-      return;
-    }
+    
     console.log(user);
     AuthService.register(user)
       .then((response: any) => {
@@ -147,7 +131,13 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             value={user.mailUser}
             onChange={handleChange} 
             required/>
-          <PasswordForm onSubmit={handlePasswordSubmit} />
+          <Input 
+            label="Password"
+            name="passwordUser"
+            type="password"
+            value={user.passwordUser}
+            onChange={handleChange} 
+            required/>
           <Input
             label="Photo"
             name="photoUser"
@@ -160,7 +150,6 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             name="birthdateUser"
             type="date"
             value={new Date(user.birthdateUser).toISOString().substr(0, 10)}
-
             onChange={handleChange} 
             required/>
           <Select
@@ -195,4 +184,3 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
  );
 }
 export default RegisterForm;
-

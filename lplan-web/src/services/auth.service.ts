@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "../models/user.model";
 
-const API_URL = "http://localhost:5432/user";
+const API_URL = "http://localhost:5432/auth";
 
 export class AuthService {
   
@@ -13,7 +13,7 @@ export class AuthService {
 
   static async register(user:User)  {
     try {
-      const response = await axios.post(API_URL + "/register", {user});
+      const response = await axios.post(API_URL + "/register", user);
       return response;
     } catch (error) {
       console.error('Error during register:', error);
