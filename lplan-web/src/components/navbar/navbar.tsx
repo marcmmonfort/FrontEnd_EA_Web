@@ -7,6 +7,10 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import icon from "../../assets/images/logo_lp_1.png";
 
 const Navbar = () => {
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+    }
+
     return (
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
@@ -16,7 +20,7 @@ const Navbar = () => {
         <Link to="/messages">Messages</Link>
         <Link to="/calendarevents">Calendar and Events</Link>
         <Link to="/profile">Profile</Link>
-        <Link to="/">LogOut</Link>
+        <Link to="/" onClick={handleLogout}>LogOut</Link>
 			</nav>
 		</header>
 	);

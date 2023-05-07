@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { User } from "../../models/user.model";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
@@ -6,19 +6,32 @@ import Swal from 'sweetalert2';
 import PasswordForm from "../../components/password/password.component";
 import { AuthService } from "../../services/auth.service";
 
+import './register.page.css';
+
+import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
+
+// Fondo de pantalla personalizado ...
+import backgroundImage from '../../assets/images/background_1.jpg';
+import { Link } from "react-router-dom";
+
 export interface RegisterProps {
   onSubmit: (data: User) => void;
 }
 
 const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
-  const [errors, setErrors] = useState<Partial<User>>({});
+
+  useEffect(() => {
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+  }, []);
+
   const [user, setUser] = useState<User>({
     appUser: '',
     nameUser: '',
     surnameUser: '',
     mailUser: '',
     passwordUser: '',
-    photoUser: 'Hola que tal',
+    photoUser: 'photo.jpg',
     birthdateUser: new Date(),
     genderUser: 'male',
     ocupationUser: '',
@@ -27,6 +40,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     privacyUser: false,
     deletedUser: false,
   });
+  
 
   // Handle para input tipo checkbox
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +48,6 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     setUser((prevUser) => ({ ...prevUser, [name]: checked }));
 
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
-    console.log(user);
   };
 
   // Handle para select
@@ -48,24 +61,9 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     setUser((prevUser) => ({ ...prevUser, [name]: dateValue }));
   };
 
-  const handlePasswordSubmit = (password: string) => {
-    setUser((prevUser) => ({ ...prevUser, passwordUser: password }));
-    console.log(user);
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const validationErrors: Partial<User> = {};
-    if (!user.mailUser) {
-      validationErrors.mailUser = 'Please enter your email address';
-    }
-    if (!user.passwordUser) {
-      validationErrors.passwordUser = 'Please enter your password';
-    }
-    if (Object.keys(validationErrors).length) {
-      setErrors(validationErrors);
-      return;
-    }
+    
     console.log(user);
     AuthService.register(user)
       .then((response: any) => {
@@ -77,17 +75,20 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             position: 'center',
             icon: 'success',
             customClass: {
-              icon: 'swal-icon-color'
+              icon: 'swal-icon-color',
+              title: 'swal-title-font',
+              popup: 'swal-popup-width'
             },
-            title: 'Register succefull!',
+            title: 'Register Succesful!',
             showConfirmButton: false,
             timerProgressBar: true,
-            timer: 1500,
-            backdrop: `
-            rgba(0,0,0,0.8)
-            `
-          })
-          //window.location.href = '/home';
+            timer: 1000,
+            iconColor: '#000',
+            background: '#66fcf1',
+            backdrop: `rgba(0,0,0,0.8)`
+          }).then(() => {
+            window.location.href = '/login';    
+          });
         }
       })
       .catch((error: any) => {
@@ -97,121 +98,28 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
           position: 'center',
           icon: 'info',
           customClass: {
-            icon: 'swal-icon-color'
+            icon: 'swal-icon-color',
+            title: 'swal-title-font',
+            popup: 'swal-popup-width'
           },
-          title: 'This user already exists!',
+          title: 'This User already exists!',
           showConfirmButton: false,
           timerProgressBar: true,
-          timer: 1500,
-          backdrop: `
-          rgba(0,0,0,0.8)
-          `
-        })
-      
+          timer: 1000,
+          iconColor: '#000',
+          background: '#66fcf1',
+          backdrop: `rgba(0,0,0,0.8)`
+        }).then(() => {
+          window.location.href = '/login';    
+        });
+          
     });
       
   };  
 
   return (
-    <><div className="col-md-12">
-        <div className="card card-container">
-          <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card" />
-        
-        <form onSubmit={handleSubmit}>
-          <Input
-            label="Username"
-            name="appUser"
-            type="text"
-            value={user.appUser}
-            onChange={handleChange} />
-          <Input
-            label="Name"
-            name="nameUser"
-            type="text"
-            value={user.nameUser}
-            onChange={handleChange} />
-          <Input
-            label="Surname"
-            name="surnameUser"
-            type="text"
-            value={user.surnameUser}
-            onChange={handleChange} 
-            required/>
-          <Input
-            label="Email"
-            name="mailUser"
-            type="email"
-            value={user.mailUser}
-            onChange={handleChange} 
-            required/>
-          <PasswordForm onSubmit={handlePasswordSubmit} />
-          <Input
-            label="Photo"
-            name="photoUser"
-            type="text"
-            value={user.photoUser}
-            onChange={handleChange} 
-            required/>
-          <Input
-            label="Birthdate"
-            name="birthdateUser"
-            type="date"
-            value={new Date(user.birthdateUser).toISOString().substr(0, 10)}
-
-            onChange={handleChange} 
-            required/>
-          <Select
-            label="Gender"
-            name="gender"
-            value={user.genderUser}
-            onChange={handleSelectChange}
-            options={[
-              { value: "", label: "Choose an option" },
-              { value: "male", label: "Male" },
-              { value: "female", label: "Female" },
-            ]}
-            defaultValue=""
-            required/>
-          <Input
-            label="Description"
-            name="descriptionUser"
-            type="text"
-            value={user.descriptionUser}
-            onChange={handleChange} 
-            required/>
-          <Input
-            label="Privacy"
-            name="privacyUser"
-            type="checkbox"
-            checked={user.privacyUser}
-            onChange={handleChange}/>
-          <button type="submit">Register</button>
-        </form>
-      </div>
-    </div></>
- );
-}
-
-/*
-import React, { useEffect } from "react";
-import Navbar from "../../components/navbar/navbar";
-import Footer from "../../components/footer/footer";
-
-import './register.page.css';
-
-// Fondo de pantalla personalizado ...
-import backgroundImage from '../../assets/images/background_1.jpg';
-import { Link } from "react-router-dom";
-
-const Register = () => {
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-  }, []);
-  return (
-    <div className="register-container">
+    <div className="col-md-12">
+      <div className="register-container">
       <div className="button-container-back">
         <Link to="/" className="buttonBack">Back</Link>
       </div>
@@ -219,12 +127,28 @@ const Register = () => {
         <h1 className="titleSection">Register</h1>
       </div>
       <Footer/>
+      </div>
+      <div className="card-container">
+        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+        <form className="registerForm" onSubmit={handleSubmit}>
+          <Input label="Username" name="appUser" type="text" value={user.appUser} onChange={handleChange} />
+          <Input label="Name" name="nameUser" type="text" value={user.nameUser} onChange={handleChange} />
+          <Input label="Surname" name="surnameUser" type="text" value={user.surnameUser} onChange={handleChange} required/>
+          <Input label="Email" name="mailUser" type="email" value={user.mailUser} onChange={handleChange} required/>
+          <Input label="Password" name="passwordUser" type="password" value={user.passwordUser} onChange={handleChange} required/>
+          <Input label="Photo URL" name="photoUser" type="text" value={user.photoUser} onChange={handleChange} required/>
+          <Input label="Birthdate" name="birthdateUser" type="date" value={new Date(user.birthdateUser).toISOString().substr(0, 10)} onChange={handleChange} required/>
+          <Input label="Description" name="descriptionUser" type="text" value={user.descriptionUser} onChange={handleChange} required/>
+          <Select label="Gender" name="gender" value={user.genderUser} onChange={handleSelectChange} options={[
+              { value: "male", label: "Male" },
+              { value: "female", label: "Female" },
+            ]} />
+          <Input label="Privacy" name="privacyUser" type="checkbox" checked={user.privacyUser} onChange={handleChange}/>
+          <button className="buttonBack" type="submit">Register</button>
+        </form>
+      </div>
     </div>
-  )
-};
-
-export default Register;
-
-*/
+ );
+}
 
 export default RegisterForm;

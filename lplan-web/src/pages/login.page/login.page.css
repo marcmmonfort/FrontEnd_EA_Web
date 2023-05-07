@@ -7,103 +7,120 @@
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
 .containerSection {
-    background-color: #00000000;
-    color: #000;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .titleSection {
-    font-family: "Raffaella", sans-serif;
-    color: #fff;
-    font-size: 34px;
-  }
+  background-color: #00000000;
+  color: #000;
+  text-align: center;
+  padding: 20px;
+}
 
-  body {
-    background-image: url('../../assets/images/background_2.jpg');
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5);
-    background-attachment: fixed;
-    background-position: center;
-  }
-  
-  .loginForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
-    align-self: center;
-  }
-  
-  .emailEntry,
-  .passwordEntry {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
-  
-  label {
-    font-size: 14px;
-    font-family: "SFNS", sans-serif;
-    color: #fff;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  
-  input[type="email"],
-  input[type="password"] {
-    padding: 4px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: "SFNS", sans-serif;
-    color: #000;
-    background-color: #66fcf1;
-    width: 300px;
-    box-sizing: border-box;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  }
-  
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    outline: none;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
-  }
-  
-  .loginRegisterButton {
-    font-family: "SFNS", sans-serif;
-    margin: 6px;
-    padding: 6px 6px;
-    background-color: #000000;
-    border: none;
-    border-radius: 20px;
-    color: #66fcf1;
-    font-size: 14px;
-    width: 100px;
-    cursor: pointer;
-    text-align: center;
-    align-self: center;
-  }
-  
-  .loginRegisterButton:hover {
-    background-color: #66fcf1;
-    color: #000;
-  }
+.titleSection {
+  font-family: "Raffaella", sans-serif;
+  color: #fff;
+  font-size: 34px;
+}
 
-  .swal2-icon {
-    font-size: 0.6em;
-  }
+body {
+  background-image: url('../../assets/images/background_2.jpg');
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-attachment: fixed;
+  background-position: center;
+}
 
-  .swal-icon-color {
-    color: #000 !important; 
-  }
-  
-  .swal-title-font {
-    font-family: "SFNS", sans-serif; 
-    color: #000;
-    font-size: 24px;
-  }
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  align-self: center;
+}
 
-  .swal-popup-width {
-    width: 400px !important;
-  }
+.loginRegisterButton {
+  font-family: "SFNS", sans-serif;
+  margin: 6px;
+  padding: 6px 6px;
+  background-color: #000000;
+  border: none;
+  border-radius: 20px;
+  color: #66fcf1;
+  font-size: 14px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  align-self: center;
+}
+
+.loginRegisterButton:hover {
+  background-color: #66fcf1;
+  color: #000;
+}
+
+.swal2-icon {
+  font-size: 0.6em;
+}
+
+.swal-icon-color {
+  color: #000 !important; 
+}
+
+.swal-title-font {
+  font-family: "SFNS", sans-serif; 
+  color: #000;
+  font-size: 24px;
+}
+
+.swal-popup-width {
+  width: 400px !important;
+}
+
+.error {
+  color: #eeff00;
+  font-family: "SFNS", sans-serif;
+  font-size: 12px;
+}
+
+/*
+.buttonBack {
+  font-family: "SFNS", sans-serif;
+  margin: 4px;
+  padding: 6px 6px;
+  background-color: #000000;
+  border: none;
+  border-radius: 20px;
+  color: #66fcf1;
+  font-size: 14px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.buttonBack:hover {
+  background-color: #66fcf1;
+  color: #000;
+}
+
+.emailEntry,
+.passwordEntry {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 4px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: "SFNS", sans-serif;
+  color: #000;
+  background-color: #66fcf1;
+  width: 300px;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+}
+*/

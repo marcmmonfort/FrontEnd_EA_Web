@@ -1,0 +1,35 @@
+@font-face { font-family: "SFNS"; src: url("../../assets/fonts/sf-ui-display-bold-58646a511e3d9.otf"); }
+@font-face { font-family: "Raffaella"; src: url("../../assets/fonts/Rafaella.ttf"); }
+@font-face { font-family: "Stussy"; src: url("../../assets/fonts/StussyScript-Regular.ttf"); }
+@font-face { font-family: "Belgan"; src: url("../../assets/fonts/Belgant\ Aesthetic.otf"); }
+@font-face { font-family: "Bookman"; src: url("../../assets/fonts/BookmanJFPro-Italic.ttf"); }
+@font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
+@font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
+
+select {
+  font-family: "SFNS", sans-serif;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #66fcf1;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 14l6-6H4l6 6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: 16px;
+  margin-bottom: 14px;
+}
+
+select:disabled {
+  background-color: #f2f2f2;
+  cursor: not-allowed;
+}
+
+select:focus {
+  outline: none;
+}

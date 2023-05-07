@@ -36,10 +36,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     event.preventDefault();
     const validationErrors: Partial<Auth> = {};
     if (!formData.mailUser) {
-      validationErrors.mailUser = 'Please enter your email address';
+      validationErrors.mailUser = 'Enter your email address!';
     }
     if (!formData.passwordUser) {
-      validationErrors.passwordUser = 'Please enter your password';
+      validationErrors.passwordUser = 'Enter your password!';
     }
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
@@ -81,15 +81,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               position: 'center',
               icon: 'error',
               customClass: {
-                icon: 'swal-icon-color'
+                icon: 'swal-icon-color',
+                title: 'swal-title-font',
+                popup: 'swal-popup-width'
               },
               title: 'Incorrect Password!',
               showConfirmButton: false,
               timerProgressBar: true,
-              timer: 1500,
-              backdrop: `
-                rgba(0,0,0,0.8)
-              `
+              timer: 1000,
+              iconColor: '#000',
+              background: '#66fcf1',
+              backdrop: `rgba(0,0,0,0.8)`
             });
             break;
           case 406:
@@ -97,32 +99,35 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               position: 'center',
               icon: 'error',
               customClass: {
-                icon: 'swal-icon-color'
+                icon: 'swal-icon-color',
+                title: 'swal-title-font',
+                popup: 'swal-popup-width'
               },
-              title: 'You are not an admin!',
+              title: 'You are not an Admin!',
               showConfirmButton: false,
               timerProgressBar: true,
-              timer: 1500,
-              backdrop: `
-                rgba(0,0,0,0.8)
-              `
+              timer: 1000,
+              iconColor: '#000',
+              background: '#66fcf1',
+              backdrop: `rgba(0,0,0,0.8)`
             });
             break;
           case 404:
-            // Poner aquí el alert ...
             Swal.fire({
               position: 'center',
               icon: 'info',
               customClass: {
-                icon: 'swal-icon-color'
+                icon: 'swal-icon-color',
+                title: 'swal-title-font',
+                popup: 'swal-popup-width'
               },
-              title: 'This user does not exist!',
+              title: 'This User does not exist!',
               showConfirmButton: false,
               timerProgressBar: true,
-              timer: 1500,
-              backdrop: `
-                rgba(0,0,0,0.8)
-              `
+              timer: 1000,
+              iconColor: '#000',
+              background: '#66fcf1',
+              backdrop: `rgba(0,0,0,0.8)`
             });
             break;
         }

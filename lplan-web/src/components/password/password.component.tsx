@@ -2,6 +2,8 @@ import { useState } from "react";
 import Input from "../input/input.component";
 import React from "react";
 
+import "./password.component.css";
+
 interface Password {
   passwordUser: string;
   passwordConfirmUser: string;
@@ -34,7 +36,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit, passwordError }) 
   return (
     <form onSubmit={handleSubmit}>
       <Input
-        label="Contraseña"
+        label="Password"
         name="passwordUser"
         type="password"
         value={formWithoutPasswordConfirm.passwordUser}
@@ -42,13 +44,13 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit, passwordError }) 
         required
       />
       <Input
-        label="Confirmar contraseña"
+        label="Confirm Password"
         name="passwordConfirmUser"
         type="password"
         value={passwordConfirmUser}
         onChange={handleChange}
         required
-        error={formData.passwordUser !== formData.passwordConfirmUser || formData.passwordUser === '' ? "Las contraseñas no coinciden o están vacías" : passwordError}
+        error={formData.passwordUser !== formData.passwordConfirmUser || formData.passwordUser === '' ? "The passwords either do not match or are empty!" : passwordError}
       />
     </form>
   );

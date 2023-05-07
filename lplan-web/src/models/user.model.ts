@@ -2,6 +2,7 @@ import { ObjectId } from "mongoose";
 import { Auth } from "./auth.model";
 
 export interface User extends Auth {
+    _id?: string;
     appUser: string;
     nameUser: string;
     surnameUser: string;

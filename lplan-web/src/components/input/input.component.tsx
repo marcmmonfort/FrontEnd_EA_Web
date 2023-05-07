@@ -1,5 +1,7 @@
 import React from "react";
 
+import './input.component.css';
+
 interface InputProps {
     label: string;
     name: string;

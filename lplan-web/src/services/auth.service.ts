@@ -20,7 +20,7 @@ export class AuthService {
 
   static async register(user:User)  {
     try {
-      const response = await axios.post(API_URL + "/register", {user});
+      const response = await axios.post(API_URL + "/register", user);
       return response;
     } catch (error) {
       console.error('Error during register:', error);
