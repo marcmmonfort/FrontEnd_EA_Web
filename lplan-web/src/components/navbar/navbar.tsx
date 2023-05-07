@@ -11,11 +11,12 @@ const Navbar = () => {
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
 			<nav>
-                <a href="#">Feed</a>
-                <a href="#">Discovery</a>
-                <a href="#">Messages</a>
-                <a href="#">Calendar and Events</a>
-                <a href="#">Profile</a>
+        <Link to="/feed">Feed</Link>
+        <Link to="/discovery">Discovery</Link>
+        <Link to="/messages">Messages</Link>
+        <Link to="/calendarevents">Calendar and Events</Link>
+        <Link to="/profile">Profile</Link>
+        <Link to="/">LogOut</Link>
 			</nav>
 		</header>
 	);

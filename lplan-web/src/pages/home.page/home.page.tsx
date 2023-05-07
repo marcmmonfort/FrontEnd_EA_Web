@@ -1,7 +1,12 @@
 import React from "react";
+
+import { Link } from "react-router-dom";
+
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
-import Video from "../../assets/images/homebackground.mp4";
+// @ts-ignore
+import video from "../../assets/images/homebackground.mp4";
+
 import './home.page.css';
 
 const Home = () => {
@@ -10,11 +15,11 @@ const Home = () => {
       <div className="container">
         <h1 className="title">Lplan</h1>
         <div className="button-container">
-          <button className="button">LogIn</button>
-          <button className="button">Register</button>
+          <Link to="/login" className="button">LogIn</Link>
+          <Link to="/register" className="button">Register</Link>
         </div>
         <video autoPlay loop muted className="fullscreen-bg__video">
-          <source src={Video} type="video/mp4" />
+          <source src={video} type="video/mp4" />
         </video>
       </div>
       <Footer/>

@@ -14,8 +14,16 @@
 
  .button { 
     font-family: "SFNS", sans-serif;
-    color: #fff;
-    font-size: 72px;
+    margin: 4px;
+    padding: 6px 6px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    text-align: center;
  }
 
  .container {
@@ -50,16 +58,4 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-  .button {
-    margin: 4px;
-    padding: 6px 6px;
-    background-color: #000000;
-    border: none;
-    border-radius: 20px;
-    color: #66fcf1;
-    font-size: 14px;
-    width: 100px;
-    cursor: pointer;
   }
