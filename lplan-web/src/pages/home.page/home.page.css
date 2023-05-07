@@ -26,6 +26,11 @@
     text-align: center;
  }
 
+ .button:hover {
+  background-color: #66fcf1;
+  color: #000;
+}
+
  .container {
     display: flex;
     flex-direction: column;

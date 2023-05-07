@@ -1,1 +1,4 @@
-export interface authModel {}
+export interface Auth {
+    mailUser: string;
+    passwordUser: string;
+}

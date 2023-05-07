@@ -23,6 +23,11 @@
     text-align: center;
   }
 
+  .buttonBack:hover {
+    background-color: #66fcf1;
+    color: #000;
+  }
+
   .register-container {
     position: relative;
   }

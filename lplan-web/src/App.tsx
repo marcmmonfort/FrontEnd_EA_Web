@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Import of Pages ...
 import Home from './pages/home.page/home.page';
-import Login from './pages/login.page/login.page';
+import LoginForm from './pages/login.page/login.page';
 import Register from './pages/register.page/register.page';
 import Feed from './pages/feed.page/feed.page';
 import Discovery from './pages/discovery.page/discovery.page';
@@ -15,6 +15,7 @@ import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
 // Import of Components ...
 import Navbar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
+import { Auth } from './models/auth.model';
 
 function App() {
   return (
@@ -22,7 +23,9 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='login' element={<Login />} />
+          <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {
+            throw new Error('Function not implemented.');
+          } } />} />
           <Route path='register' element={<Register />} />
           <Route path='feed' element={<Feed />} />
           <Route path='discovery' element={<Discovery />} />
