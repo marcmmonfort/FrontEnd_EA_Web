@@ -1,5 +1,8 @@
-export interface  user{
-    appUser: String;
+import { ObjectId } from "mongoose";
+import { Auth } from "./auth.model";
+
+export interface User extends Auth {
+    appUser: string;
     nameUser: string;
     surnameUser: string;
     photoUser: string;
@@ -9,4 +12,7 @@ export interface  user{
     descriptionUser: string;
     roleUser: "admin" | "common" | "verified" | "business";
     privacyUser: boolean;
+    deletedUser: boolean;
+    followersUser?: ObjectId[];
+    followedUser?: ObjectId[];
 }
