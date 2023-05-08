@@ -3,15 +3,18 @@ import { AuthService } from "../services/auth.service";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import StyledTextInputs from "../components/inputs/StyledTextInputs";
-import { TouchableOpacity, StatusBar, TextInput, Platform } from "react-native";
+import { TouchableOpacity, StatusBar, TextInput, Platform, Button } from "react-native";
 import ButtonGradientRegister from "../components/buttons/ButtonGradientRegister";
 import MainContainer from "../components/containers/MainContainer";
 import NormalText from "../components/texts/NormalText";
 import Register from "../components/texts/Register";
 import SubTitle from "../components/texts/Subtitle";
 import { User } from "../models/user.model";
-import { Picker } from '@react-native-picker/picker';
-import DatePicker from 'react-native-datepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { Picker } from "@react-native-picker/picker";
+
+
+
 
 
 export default function RegisterScreen() {
@@ -39,6 +42,16 @@ export default function RegisterScreen() {
 
   const [date, setDate] = useState(user.birthdateUser);
 
+
+
+  const [showPicker, setShowPicker] = useState(false);
+
+  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    const currentDate = selectedDate || date;
+    setShowPicker(Platform.OS === 'ios');
+    setDate(currentDate);
+    handleInputChange('birthdateUser', currentDate);
+  };
 
   
   return (
@@ -75,27 +88,33 @@ export default function RegisterScreen() {
         value={user.photoUser}
         onChangeText={(value:any) => handleInputChange('photoUser', value)}
       />
-      {Platform.OS === 'ios' ? (
-        <DatePicker
-          date={user.birthdateUser}
-          onDateChange={(dateStr: string, date: Date) => setDate(date)}
-          mode="date"
-          
-        />
-      ) : (
-        <DatePicker
-          date={user.birthdateUser}
-          onDateChange={(dateStr: string, date: Date) => {
-            setDate(date);
-            handleInputChange('birthdateUser', date);
-          }}
-          mode="date"
-          androidMode="spinner"
-        />
+      <>
+      <Button title="Select Date" onPress={() => setShowPicker(true)} />
+      {showPicker && (
+        Platform.OS === 'ios' ? (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={handleDateChange}
+          />
+        ) : (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="spinner"
+            onChange={handleDateChange}
+          />
+        )
       )}
+    </>
       <Picker
         selectedValue={user.genderUser}
-        onValueChange={(itemValue, itemIndex) => {
+        onValueChange={(itemValue:any, itemIndex:any) => {
           handleInputChange('genderUser', itemValue);
         }}
       >
@@ -119,7 +138,7 @@ export default function RegisterScreen() {
       />
       <Picker
         selectedValue={user.privacyUser}
-        onValueChange={(itemValue, itemIndex) => {
+        onValueChange={(itemValue:any, itemIndex:any) => {
           handleInputChange('privacyUser', itemValue);
         }}
       >
