@@ -6,6 +6,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Fontisto } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import PageNotFoundScreen from './pagenotfound.screen';
+import FeedScreen from './feed.screen';
+import DiscoveryScreen from './discovery.screen';
+import MessagesScreen from './messages.screen';
+import CalendarEventsScreen from './calendarevents.screen';
+import ProfileScreen from './profile.screen';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +20,7 @@ function HomeScreen() {
       <Tab.Navigator>
         <Tab.Screen 
         name="Crazy button" 
-        component={Tab1Screen} 
+        component={FeedScreen} 
         options={{ headerShown: false, tabBarShowLabel: false,
           tabBarIcon: ({color, size}) =>
             (<MaterialCommunityIcons name="gesture-tap-button" size={30} color="#121212"/>)
@@ -22,134 +28,37 @@ function HomeScreen() {
         />
         <Tab.Screen 
         name="Photo page" 
-        component={Tab2Screen} 
+        component={DiscoveryScreen} 
         options={{ headerShown: false, tabBarShowLabel: false, tabBarBadge: 3,
           tabBarIcon: ({color, size}) =>
             (<MaterialIcons name="photo-library" size={25} color="#121212"/>)
         }}
         />
         <Tab.Screen name="List page" 
-        component={Tab3Screen} 
+        component={MessagesScreen} 
         options={{ headerShown: false, tabBarShowLabel: false,
           tabBarIcon: ({color, size}) =>
             (<Fontisto name="nav-icon-list-a" size={18} color="#121212"/>)
         }}
         />
+        <Tab.Screen name="CalendarEventsScreen" 
+        component={CalendarEventsScreen} 
+        options={{ headerShown: false, tabBarShowLabel: false,
+          tabBarIcon: ({color, size}) =>
+            (<Fontisto name="nav-icon-list-a" size={18} color="#121212"/>)
+        }}
+        />
+        <Tab.Screen name="ProfileScreen" 
+        component={ProfileScreen} 
+        options={{ headerShown: false, tabBarShowLabel: false,
+          tabBarIcon: ({color, size}) =>
+            (<Fontisto name="nav-icon-list-a" size={18} color="#121212"/>)
+        }}
+        />
+
       </Tab.Navigator>
   );
 }
 
-function Tab1Screen() {
-  const [animation] = useState(new Animated.ValueXY({ x: 0, y: 0}));
-  
-  const handlePressIn = () => {
-    Animated.spring(animation, {
-      toValue: { x: (Math.ceil((Math.random() - 0.5) * 2) < 1 ? -1 : 1)*Math.random()*150, 
-                 y: (Math.ceil((Math.random() - 0.5) * 2) < 1 ? -1 : 1)*Math.random()*250 },
-      useNativeDriver: false,
-    }).start();
-  };
-
-  return (
-    <View style={styles.tabContainer}>
-      <Text style={styles.tabTitle}>Random button</Text>
-      <TouchableOpacity
-        style={styles.tabButton}
-        onPressIn={handlePressIn}
-        activeOpacity={0.7}
-      >
-        <Animated.Text
-          style={[
-            styles.tabButtonText,
-            {
-              transform: [
-                { translateX: animation.x },
-                { translateY: animation.y },
-              ],
-            },
-          ]}
-        >
-          Press me!
-        </Animated.Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-function Tab2Screen() {
-  return (
-    <View style={styles.tabContainer}>
-      <Text style={styles.tabTitle}>Photo page</Text>
-      <Image 
-        style={{ width: 350, height: 255}}
-        source={{uri: 'https://www.meme-arsenal.com/memes/73770917d803b560114e0cf5e9d8a870.jpg'}}
-      />     
-      </View>
-  );
-}
-
-function Tab3Screen() {
-  return (
-    <View style={styles.tabContainer}>
-      <Text style={styles.tabTitle}>Contenido de la Tab 3</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-        container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        },
-        title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        },
-        button: {
-        backgroundColor: 'blue',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        },
-        buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-        },
-        tabContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        },
-        tabTitle: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#121212'
-        },
-        tabButton: {
-        backgroundColor: '#FF3A2E',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 17,
-        },
-        tabButtonText: {
-        color: '#121212',
-        fontWeight: 'bold',
-        },
-        header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'gray',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        },
-        headerText: {
-        color: 'white',
-        fontWeight: 'bold',
-        },
-});
         
 export default HomeScreen;
