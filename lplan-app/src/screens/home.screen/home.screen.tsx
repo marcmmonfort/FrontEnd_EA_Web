@@ -6,12 +6,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Fontisto } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import PageNotFoundScreen from './pagenotfound.screen';
-import FeedScreen from './feed.screen';
-import DiscoveryScreen from './discovery.screen';
-import MessagesScreen from './messages.screen';
-import CalendarEventsScreen from './calendarevents.screen';
-import ProfileScreen from './profile.screen';
+import PageNotFoundScreen from '../pagenotfound.screen/pagenotfound.screen';
+import FeedScreen from '../feed.screen/feed.screen';
+import DiscoveryScreen from '../discovery.screen/discovery.screen';
+import MessagesScreen from '../messages.screen/messages.screen';
+import CalendarEventsScreen from '../calendarevents.screen/calendarevents.screen';
+import ProfileScreen from '../profile.screen/profile.screen';
 
 const Tab = createBottomTabNavigator();
 

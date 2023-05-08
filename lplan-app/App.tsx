@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MainContainer from './src/components/containers/MainContainer';
-import LoginScreen from './src/screens/login.screen';
-import RegisterScreen from './src/screens/register.screen';
-import HomeScreen from './src/screens/home.screen';
+import LoginScreen from './src/screens/login.screen/login.screen';
+import RegisterScreen from './src/screens/register.screen/register.screen';
+import HomeScreen from './src/screens/home.screen/home.screen';
 
 // import { StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 

@@ -1,21 +1,19 @@
 import Swal from "sweetalert2";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import StyledTextInputs from "../components/inputs/StyledTextInputs";
-import { TouchableOpacity, StatusBar, TextInput, Platform, Button } from "react-native";
-import ButtonGradientRegister from "../components/buttons/ButtonGradientRegister";
-import MainContainer from "../components/containers/MainContainer";
-import NormalText from "../components/texts/NormalText";
-import Register from "../components/texts/Register";
-import SubTitle from "../components/texts/Subtitle";
-import { User } from "../models/user.model";
+import StyledTextInputs from "../../components/inputs/StyledTextInputs";
+import { TouchableOpacity, StatusBar, TextInput, Platform, Button, ScrollView } from "react-native";
+import ButtonGradientRegister from "../../components/buttons/ButtonGradientRegister";
+import MainContainer from "../../components/containers/MainContainer";
+import NormalText from "../../components/texts/NormalText";
+import Register from "../../components/texts/Register";
+import SubTitle from "../../components/texts/Subtitle";
+import { User } from "../../models/user.model";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Picker } from "@react-native-picker/picker";
 
-
-
-
+import './register.screen.css';
 
 export default function RegisterScreen() {
   const [user, setUser] = useState<User>({
@@ -55,7 +53,8 @@ export default function RegisterScreen() {
 
   
   return (
-    <MainContainer>
+    <ScrollView>
+      <MainContainer>
       <SubTitle>Join the @lplan Family!</SubTitle>
       <StyledTextInputs
         placeholder='nickname'
@@ -204,5 +203,7 @@ export default function RegisterScreen() {
         <Register>Log In!</Register>
       </TouchableOpacity>
     </MainContainer>
+
+    </ScrollView>
   );
 }

@@ -1,18 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
-import ButtonGradient from '../components/buttons/ButtonGradient';
-import MainContainer from '../components/containers/MainContainer';
-import SubTitle from '../components/texts/Subtitle';
-import Title from '../components/texts/Title';
-import NormalText from '../components/texts/NormalText';
-import Register from '../components/texts/Register';
+import { StyleSheet, TextInput, Alert, TouchableOpacity, ToastAndroid, ScrollView } from 'react-native';
+import ButtonGradient from '../../components/buttons/ButtonGradient';
+import MainContainer from '../../components/containers/MainContainer';
+import SubTitle from '../../components/texts/Subtitle';
+import Title from '../../components/texts/Title';
+import NormalText from '../../components/texts/NormalText';
+import Register from '../../components/texts/Register';
 import { useNavigation } from '@react-navigation/native';
 import Svg, {SvgProps, Path, G, Defs, Pattern, Use, Image,} from "react-native-svg"
-import StyledTextInputs from '../components/inputs/StyledTextInputs';
-import { AuthService } from '../services/auth.service';
-import { Auth } from '../models/auth.model';
+import StyledTextInputs from '../../components/inputs/StyledTextInputs';
+import { AuthService } from '../../services/auth.service';
+import { Auth } from '../../models/auth.model';
 import Swal from 'sweetalert2';
+
+import './login.screen.css';
 
 function LoginScreen() {
   
@@ -87,15 +89,18 @@ function LoginScreen() {
                 position: 'center',
                 icon: 'success',
                 customClass: {
-                  icon: 'swal-icon-color'
+                  icon: 'swal-icon-color',
+                  title: 'swal-title-font',
+                  popup: 'swal-popup-width'
                 },
-                title: 'LogIn succesful!',
+                title: 'Login Succesful!',
                 showConfirmButton: false,
                 timerProgressBar: true,
-                timer: 1500,
-                backdrop: `
-                  rgba(0,0,0,0.8)
-                `}).then(() => {
+                timer: 1000,
+                iconColor: '#000',
+                background: '#66fcf1',
+                backdrop: `rgba(0,0,0,0.8)`
+                }).then(() => {
                   navigation.navigate('Home' as never);  
                 });
 
@@ -109,17 +114,19 @@ function LoginScreen() {
                 // Poner aquí el alert ...
                 Swal.fire({
                   position: 'center',
-                  icon: 'error',
-                  customClass: {
-                    icon: 'swal-icon-color'
-                  },
-                  title: 'Incorrect Password!',
-                  showConfirmButton: false,
-                  timerProgressBar: true,
-                  timer: 1500,
-                  backdrop: `
-                    rgba(0,0,0,0.8)
-                  `
+                icon: 'error',
+                customClass: {
+                  icon: 'swal-icon-color',
+                  title: 'swal-title-font',
+                  popup: 'swal-popup-width'
+                },
+                title: 'Incorrect Password!',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 1000,
+                iconColor: '#000',
+                background: '#66fcf1',
+                backdrop: `rgba(0,0,0,0.8)`
                 });
                 break;
           }
