@@ -56,7 +56,7 @@ export default function RegisterScreen() {
   
   return (
     <MainContainer>
-      <SubTitle>Sign up to have a new account</SubTitle>
+      <SubTitle>Join the @lplan Family!</SubTitle>
       <StyledTextInputs
         placeholder='nickname'
         value={user.appUser}
@@ -116,11 +116,11 @@ export default function RegisterScreen() {
         selectedValue={user.genderUser}
         onValueChange={(itemValue:any, itemIndex:any) => {
           handleInputChange('genderUser', itemValue);
-        }}
-      >
+        }}>
         <Picker.Item label="Male" value="male" />
         <Picker.Item label="Female" value="female" />
       </Picker>
+      
       <StyledTextInputs
         placeholder='Occupation'
         value={user.ocupationUser}
@@ -170,7 +170,7 @@ export default function RegisterScreen() {
                   background: '#66fcf1',
                   backdrop: `rgba(0,0,0,0.8)`
                 }).then(() => {
-                  //window.location.href = '/login';
+                  window.location.href = '/login';
                 });
               }
             })
@@ -194,7 +194,7 @@ export default function RegisterScreen() {
                 background: '#66fcf1',
                 backdrop: `rgba(0,0,0,0.8)`
               }).then(() => {
-                //window.location.href = '/login';
+                window.location.href = '/login';
               });
             });
         }}

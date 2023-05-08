@@ -58,8 +58,8 @@ function LoginScreen() {
   return (
       <MainContainer>
       <SvgTop/>
-      <Title>Hello!</Title>
-      <SubTitle>Sign in with your account</SubTitle>
+      <Title>Lplan</Title>
+      <SubTitle>Let's Go!</SubTitle>
       <StyledTextInputs 
         placeholder = 'Mail'
         value = {inputEmail}
@@ -71,7 +71,6 @@ function LoginScreen() {
         onChangeText = {setInputPassword}
         secureTextEntry={true}
         />   
-      <NormalText>Forgot your password?</NormalText>
       <ButtonGradient onPress={() => {
         const formData: Auth = {
           mailUser: inputEmail,
@@ -126,7 +125,7 @@ function LoginScreen() {
           }
         });
       }} />
-      <NormalText>Don't have an account?</NormalText>
+      <NormalText>Aren't you still an @lplan member?</NormalText>
       <TouchableOpacity onPress={() => navigation.navigate('Register' as never)}>
         <Register>Sign Up!</Register>
       </TouchableOpacity>

@@ -2,12 +2,24 @@ import React, { FunctionComponent } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { TextProps } from './types';
 
+import * as Font from 'expo-font';
+
+async function loadFonts() {
+  await Font.loadAsync({
+    'Rafaella': require('../../../assets/fonts/Rafaella.ttf'),
+  });
+}
+
+loadFonts();
+
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 80,
-        color: '#344340',
+        fontFamily: 'Rafaella',
         fontWeight: 'bold',
+        fontSize: 68,
+        color: '#fff',
+        marginBottom: 0,
     },
 });
 
