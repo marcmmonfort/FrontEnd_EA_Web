@@ -7,6 +7,11 @@ const API_URL = "http://localhost:5432/auth";
 
 
 export class AuthService {
+    
+  static isLoggedIn(): boolean {
+      console.log('Estoy' + localStorage.getItem('token'));
+      return !!localStorage.getItem('token');
+    }
   
   static async login(auth: Auth) {
     try {
@@ -27,6 +32,8 @@ export class AuthService {
       throw error;
       }
     }
+
+    
   
   /*
   getCurrentUser() {

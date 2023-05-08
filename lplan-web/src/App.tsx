@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Import of Pages ...
 import Home from './pages/home.page/home.page';
@@ -15,10 +15,12 @@ import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
 // Import of Components ...
 import Navbar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
-import { Auth } from './models/auth.model';
 import logo from './logo.svg';
 import './App.css';
 import { User } from './models/user.model';
+import { Auth } from './models/auth.model';
+import { AuthService } from './services/auth.service';
+import PrivateRoute from './components/private/private.component';
 
 function App() {
   const handleRegister = async (authData: any) => {
@@ -30,20 +32,39 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {
-            throw new Error('Function not implemented.');
-          } } />} />
+          <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {} } />} />
           <Route path='register' element={<RegisterForm onSubmit={handleRegister}/>} />
-          <Route path='feed' element={<Feed />} />
-          <Route path='discovery' element={<Discovery />} />
-          <Route path='messages' element={<Messages />} />
-          <Route path='calendarevents' element={<CalendarEvents />} />
-          <Route path='profile' element={<Profile />} />
+          
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/discovery" element={<Discovery />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/calendarevents" element={<CalendarEvents />} />
+          <Route path="/profile" element={<Profile />} />
+
           <Route path='*' element={<PageNotFound />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
 };
 
 export default App;
+
+/*
+          RUTAS PROTEGIDAS ...
+
+          <Route path="/feed" element={<PrivateRoute element={<Feed />} />} />
+          <Route path="/discovery" element={<PrivateRoute element={<Discovery />} />} />
+          <Route path="/messages" element={<PrivateRoute element={<Messages />} />} />
+          <Route path="/calendarevents" element={<PrivateRoute element={<CalendarEvents />} />} />
+          <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+
+          RUTAS SIN PROTEGER ...
+
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/discovery" element={<Discovery />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/calendarevents" element={<CalendarEvents />} />
+          <Route path="/profile" element={<Profile />} />
+*/
