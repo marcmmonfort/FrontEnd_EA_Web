@@ -26,9 +26,9 @@ function App(){
   return(
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name='Register' options={{headerShown: false}} component={RegisterScreen} />
       <Stack.Screen name='Login' options={{headerShown: false}} component={LoginScreen} />
-      <Stack.Screen name="Home" options={{title: 'Return'}} component={HomeScreen}/>
+      <Stack.Screen name="Home" options={{title: 'LPlan'}} component={HomeScreen}/>
+      <Stack.Screen name='Register' options={{headerShown: false}} component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

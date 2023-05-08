@@ -96,9 +96,11 @@ function LoginScreen() {
                 timer: 1500,
                 backdrop: `
                   rgba(0,0,0,0.8)
-                `});
+                `}).then(() => {
+                  navigation.navigate('Home' as never);  
+                });
 
-            }
+              }
           })
           .catch((error) => {
             console.error("error: " + error);
