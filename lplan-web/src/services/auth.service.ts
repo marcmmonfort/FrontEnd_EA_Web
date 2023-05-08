@@ -15,7 +15,7 @@ export class AuthService {
   
   static async login(auth: Auth) {
     try {
-      const response = await axios.post(API_URL + "/login", auth);
+      const response = await axios.post(API_URL + "/loginfrontend", auth);
       return response;
     } catch (error) {
       console.error('Error during login:', error);
