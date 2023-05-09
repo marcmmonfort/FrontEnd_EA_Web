@@ -49,7 +49,7 @@ function LoginScreen() {
           id="b"
           width={715}
           height={630}
-          xlinkHref=""
+          // xlinkHref=""
         />
       </Defs>
     </Svg>
@@ -129,6 +129,27 @@ function LoginScreen() {
                 backdrop: `rgba(0,0,0,0.8)`
                 });
                 break;
+              case 404:
+                  // Poner aquí el alert ...
+                  Swal.fire({
+                    position: 'center',
+                  icon: 'error',
+                  customClass: {
+                    icon: 'swal-icon-color',
+                    title: 'swal-title-font',
+                    popup: 'swal-popup-width'
+                  },
+                  title: 'User does not exist!',
+                  showConfirmButton: false,
+                  timerProgressBar: true,
+                  timer: 1000,
+                  iconColor: '#000',
+                  background: '#66fcf1',
+                  backdrop: `rgba(0,0,0,0.8)`
+                }).then(() => {
+                  navigation.navigate('Register' as never);  
+                });
+                  break;
           }
         });
       }} />

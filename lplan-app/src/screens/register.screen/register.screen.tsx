@@ -130,11 +130,6 @@ export default function RegisterScreen() {
         value={user.descriptionUser}
         onChangeText={(value:any) => handleInputChange('descriptionUser', value)}
       />
-      <StyledTextInputs
-        placeholder='Role'
-        value={user.roleUser}
-        onChangeText={(value:any) => handleInputChange('roleUser', value)}
-      />
       <Picker
         selectedValue={user.privacyUser}
         onValueChange={(itemValue:any, itemIndex:any) => {
