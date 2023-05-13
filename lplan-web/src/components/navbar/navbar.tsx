@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import icon from "../../assets/images/logo_lp_1.png";
+import { AuthService } from "../../services/auth.service";
 
 const Navbar = () => {
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        AuthService.logOut();
+
     }
 
     return (
