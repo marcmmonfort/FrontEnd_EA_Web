@@ -9,6 +9,7 @@ import { UserService } from "../../services/user.service";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import _debounce from 'lodash/debounce';
+import './discovery.page.css';
 
 const Discovery = () => {
 
