@@ -11,7 +11,7 @@ export class AuthService {
   static isLoggedIn(): boolean {
       console.log('Estoy' + localStorage.getItem('token'));
       return !!localStorage.getItem('token');
-    }
+  }
   
   static async login(auth: Auth) {
     try {
@@ -30,10 +30,10 @@ export class AuthService {
     } catch (error) {
       console.error('Error during register:', error);
       throw error;
-      }
     }
-
+  }
     
+   
   
   /*
   getCurrentUser() {
@@ -44,7 +44,7 @@ export class AuthService {
   */
 
   logout() {
-      localStorage.removeItem("user");
+    localStorage.removeItem("user");
   }
 }
 
