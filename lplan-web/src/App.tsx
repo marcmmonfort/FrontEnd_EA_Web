@@ -11,6 +11,7 @@ import Messages from './pages/messages.page/messages.page';
 import CalendarEvents from './pages/calendarevents.page/calendarevents.page';
 import Profile from './pages/profile.page/profile.page';
 import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
+import SettingsPage from './pages/settings.page/settings.page';
 
 // Import of Components ...
 import Navbar from './components/navbar/navbar';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<SettingsPage/>}></Route>
 
           <Route path='*' element={<PageNotFound />} />
         </Routes>

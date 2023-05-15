@@ -13,7 +13,12 @@
   .titleSection {
     color: white;
   }
-  .profile-stats,
+  .profile-stats{
+    text-align: center;
+    display: inline-block;
+    color: white;
+  }
+  
   .profile-bio,
   .profile-user-name,
   .profile-stat-count,

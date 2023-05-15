@@ -52,12 +52,12 @@ const Profile = () => {
             <div className="profile-user-settings">
               <h1 className="profile-user-name">{currentUser.appUser}</h1>
               <button className="btn_profile-edit-btn">Edit Profile</button>
-              <button className="btn_profile-settings-btn" aria-label="profile settings"> Settings <i className="fas fa-cog" aria-hidden="true"></i></button>
+              <Link to="/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link>
             </div>
             <div className="profile-stats">
               <ul>
-                <li><span className="profile-stat-count">{currentUser.followersUser?.length}</span> followers</li>
-                <li><span className="profile-stat-count">{currentUser.followedUser?.length}</span> following</li>
+                <li>You have <span className="profile-stat-count">{currentUser.followersUser?.length}</span> followers</li>
+                <li><span className="profile-stat-count">{currentUser.followedUser?.length}</span> people is following you</li>
               </ul>
             </div>
             <div className="profile-bio">
