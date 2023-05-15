@@ -13,12 +13,12 @@ document.body.style.backgroundImage = `url(${backgroundImage})`;
 const SettingsPage = () => {
   return (
     <div>
-        <Navbar/>
-        <div>
-            <h1>Configuración de usuario </h1>
-            <p>Aquí es donde se editarán los ajustes del usuario.</p>
-        </div>
-        <Footer/>
+      <Navbar />
+      <div>
+        <h1>Configuración de usuario </h1>
+        <p>Aquí es donde se editarán los ajustes del usuario.</p>
+      </div>
+      <Footer />
     </div>
   );
 };

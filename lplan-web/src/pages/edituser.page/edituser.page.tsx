@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
-import './profile.page.css';
+import './edituser.page.css';
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_7.jpg';
 import { AuthService } from "../../services/auth.service";
@@ -38,7 +38,7 @@ const Profile = () => {
       <div>
         <Navbar/>
         <div className="containerSection">
-          <h1 className="titleSection">Profile</h1>
+          <h1 className="titleSection">Edit User</h1>
         </div>
         <Footer/>
         <div className="col-md-12">
@@ -51,8 +51,7 @@ const Profile = () => {
             </div>
             <div className="profile-user-settings">
               <h1 className="profile-user-name">{currentUser.appUser}</h1>
-              <Link to="/profile/edituser" className="btn_profile-edit-btn">Edit Profile</Link>
-              <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link>
+              <Link to="/profile" className="btn_profile-edit-btn">Go back</Link>
             </div>
             <div className="profile-stats">
               <ul>
