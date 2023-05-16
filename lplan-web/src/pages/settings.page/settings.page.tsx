@@ -15,8 +15,8 @@ const SettingsPage = () => {
     <div>
       <Navbar />
       <div>
-        <h1>Configuración de usuario </h1>
-        <p>Aquí es donde se editarán los ajustes del usuario.</p>
+        <h1>User configuration </h1>
+        <p>Here we will implement the user settings</p>
       </div>
       <Footer />
     </div>

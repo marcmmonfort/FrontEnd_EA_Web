@@ -16,9 +16,6 @@ class userService {
           console.error('Error during login:', error);
           throw error;
         }
-        
-
-    
     }
     
     /*
