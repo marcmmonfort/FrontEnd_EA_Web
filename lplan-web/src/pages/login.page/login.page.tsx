@@ -67,7 +67,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             background: '#66fcf1',
             backdrop: `rgba(0,0,0,0.8)`
           }).then(() => {
-            localStorage.setItem('token', response.token);
+            console.log(response.data);
+            localStorage.setItem('userData', JSON.stringify(response.data));
+            console.log('userData' + JSON.stringify(response.data))
             window.location.href = '/profile';
           });
         }
