@@ -8,6 +8,7 @@ export class PublicationService {
   static async feed(numPage: string, userId: string) {
     try {
       const response = await axios.get(API_URL + "/getPostFollowed/" + numPage + "/" + userId);
+      //console.log("try response " + response)
       return response;
     } catch (error) {
       console.error('Error during load feed:', error);

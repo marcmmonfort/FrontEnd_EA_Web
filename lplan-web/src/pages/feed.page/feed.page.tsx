@@ -8,13 +8,16 @@ import { AuthService } from "../../services/auth.service";
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_3.jpg';
 import './feed.page.css';
-
+import { CommentService } from "../../services/comment.service";
+import { Comment } from "../../models/comment.model";
 
 
 const Feed = () => {
 
   const [listPublications, setListPublications] = useState<Publication[]>([]);
+  const [listComments, setListComments] = useState<Comment[]>([]);
   const [numPage, setNumPage] = useState<number>(0);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -48,6 +51,24 @@ const Feed = () => {
       });
   }
 
+  const getComments = (idPublication: string) => {
+    console.log("Ver comentarios");
+    setNumPage(prevPage => prevPage + 1);
+    setShowComments(true);
+    console.log("Page comentarios:" + numPage);
+    CommentService.getCommentsPublication(idPublication, (1).toString())
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setListComments(prevComments=> [...prevComments, ...response.data]);
+      })
+      .catch(error => {
+        //window.location.href = '*';
+      });
+  }
+
+
+
   return (
     <div>
       <Navbar/>
@@ -73,6 +94,16 @@ const Feed = () => {
                   {publication.photoPublication.map((photo) => (
                     <img className="post__image" key={photo} src={photo} alt="Post"/>
                   ))}
+                  <button className="show__comments" onClick={() => getComments(publication._id)}>Comentarios ({publication.commentsPublication?.length})</button>
+                  
+                  {showComments && (
+                  <div>
+                    {listComments.map((comment) => (
+                      <div key={comment._id}>{comment.textComment}</div>
+                    ))}
+                  </div>
+                  )}
+                  
                 </div>
               </div>
             ))}
