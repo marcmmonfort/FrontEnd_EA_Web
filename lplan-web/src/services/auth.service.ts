@@ -35,9 +35,9 @@ export class AuthService {
 
   static getCurrentUser() {
     const userStr = localStorage.getItem("userData");
-    console.log("str " + userStr)
+    //console.log("str " + userStr)
     if (userStr){
-      console.log("JSOn " + JSON.parse(userStr))
+      //console.log("JSON " + JSON.parse(userStr))
       return JSON.parse(userStr);
     }
     
