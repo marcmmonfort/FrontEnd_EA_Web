@@ -44,8 +44,9 @@ export class AuthService {
     return null;
   }
 
+
   static logOut() {
-    localStorage.removeItem("userData");
+      localStorage.removeItem("userData");
   }
 }
 
