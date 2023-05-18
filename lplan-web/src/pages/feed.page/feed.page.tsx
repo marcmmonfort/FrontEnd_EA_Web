@@ -16,8 +16,9 @@ const Feed = () => {
 
   const [listPublications, setListPublications] = useState<Publication[]>([]);
   const [listComments, setListComments] = useState<Comment[]>([]);
-  const [numPage, setNumPage] = useState<number>(0);
+  const [numPage, setNumPage] = useState<number>(1);
   const [showComments, setShowComments] = useState(false);
+  const [selectedPublicationId, setSelectedPublicationId] = useState<string>("");
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -40,7 +41,7 @@ const Feed = () => {
     setNumPage(prevPage => prevPage + 1);
     const userData = AuthService.getCurrentUser();
     console.log("HandleLoadMore:" + numPage);
-    PublicationService.feed((numPage + 1).toString(), userData.user._id)
+    PublicationService.feed((numPage).toString(), userData.user._id)
       .then(response => {
         console.log(response);
         console.log(response.data);
@@ -53,8 +54,9 @@ const Feed = () => {
 
   const getComments = (idPublication: string) => {
     console.log("Ver comentarios");
-    setNumPage(prevPage => prevPage + 1);
+    //setNumPage(prevPage => prevPage + 1);
     setShowComments(true);
+    setSelectedPublicationId(idPublication);
     console.log("Page comentarios:" + numPage);
     CommentService.getCommentsPublication(idPublication, (1).toString())
       .then(response => {
@@ -94,16 +96,20 @@ const Feed = () => {
                   {publication.photoPublication.map((photo) => (
                     <img className="post__image" key={photo} src={photo} alt="Post"/>
                   ))}
-                  <button className="show__comments" onClick={() => getComments(publication._id)}>Comentarios ({publication.commentsPublication?.length})</button>
+
+
                   
-                  {showComments && (
+                  <button className="show__comments" onClick={() => {
+                      getComments(publication._id);
+                      }}>Comentarios ({publication.commentsPublication?.length})</button>
+
+                  {showComments && selectedPublicationId === publication._id && (
                   <div>
                     {listComments.map((comment) => (
                       <div key={comment._id}>{comment.textComment}</div>
                     ))}
                   </div>
                   )}
-                  
                 </div>
               </div>
             ))}
