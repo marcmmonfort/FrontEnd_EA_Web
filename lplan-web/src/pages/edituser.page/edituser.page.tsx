@@ -11,7 +11,7 @@ import { User } from "../../models/user.model";
 import Swal from "sweetalert2";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
-import {userService} from "../../services/user.service";
+import {UserService} from "../../services/user.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const EditUser = () => {
@@ -69,7 +69,7 @@ const EditUser = () => {
     event.preventDefault();
 
     console.log(user);
-    userService.editUser(user)
+    UserService.editUser(user)
       .then((response: any) => {
         console.log(user);
         console.log(response);
