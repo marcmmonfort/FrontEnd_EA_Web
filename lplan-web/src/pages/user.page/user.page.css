@@ -1,0 +1,127 @@
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    font-family: "SFNS", sans-serif;
+    color: white;
+    }
+    
+    .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #66fcf1;
+    padding: 20px;
+    border-radius: 20px;
+    width: 50%;
+    text-align: center;
+    }
+    
+    .profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    }
+    
+    .default-profile-img {
+    font-size: 150px;
+    color: #66fcf1;
+    }
+    
+    .profile-img-card {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    }
+    
+    .profile-user-settings {
+    margin-bottom: 20px;
+    }
+    
+    .profile-user-name {
+    font-size: 2rem;
+    margin-bottom: 0;
+    }
+    
+    .follow-button,
+    .following-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color: #66fcf1;
+    border: none;
+    border-radius: 20px;
+    color: #000;
+    cursor: pointer;
+    }
+    
+    .following-button {
+    background-color: #000;
+    color: #66fcf1;
+    }
+    
+    .profile-stats {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+    }
+    
+    .profile-stats li {
+    list-style: none;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    }
+    
+    .profile-stats li:last-child {
+    margin-right: 0;
+    }
+    
+    .profile-stat-count {
+    font-weight: bold;
+    }
+    
+    .profile-bio {
+    text-align: center;
+    }
+    
+    .profile-bio p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    }
+    
+    .profile-real-name {
+    font-weight: bold;
+    }
+    
+    .btn_profile-edit-btn {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    cursor: pointer;
+    }
+    
+    .btn_profile-edit-btn:hover {
+    background-color: #66fcf1;
+    color: #000;
+    }
+    
+    .btn_profile-settings-btn {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    cursor: pointer;
+    }
+    
+    .btn_profile-settings-btn:hover {
+    background-color: #66fcf1;
+    color: #000;
+    }

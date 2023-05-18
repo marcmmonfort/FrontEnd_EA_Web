@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import _debounce from 'lodash/debounce';
 import './discovery.page.css';
+import { Link } from "react-router-dom";
 
 const Discovery = () => {
 
@@ -73,17 +74,19 @@ const Discovery = () => {
           <ul>
             {userList.map((user: User) => (
               <li key={user._id}>
-                <div className="user">
-                  {user.photoUser ? (
-                    <img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />
-                  ) : (
-                    <FaUserCircle className="user__profile-img user__profile-img--default" />
-                  )}
-                  <div className="user__info">
-                    <p className="user__name">{user.nameUser} {user.surnameUser}</p>
-                    <p className="user__username">{user.appUser}</p>
+                <Link to={`/user/${user._id}`} className="user-link">
+                  <div className="user">
+                    {user.photoUser ? (
+                      <img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />
+                    ) : (
+                      <FaUserCircle className="user__profile-img user__profile-img--default" />
+                    )}
+                    <div className="user__info">
+                      <p className="user__name">{user.nameUser} {user.surnameUser}</p>
+                      <p className="user__username">{user.appUser}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>

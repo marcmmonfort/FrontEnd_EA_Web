@@ -10,8 +10,8 @@ export class AuthService {
     
   static isLoggedIn(): boolean {
       console.log('Estoy' + localStorage.getItem('token'));
-      return !!localStorage.getItem('token');
-  }
+      return !!localStorage.getItem('userData');
+    }
   
   static async login(auth: Auth) {
     try {
@@ -32,21 +32,24 @@ export class AuthService {
       throw error;
     }
   }
+
+  static getCurrentUser() {
+    const userStr = localStorage.getItem("userData");
+    console.log("str " + userStr)
+    if (userStr){
+      console.log("JSOn " + JSON.parse(userStr))
+      return JSON.parse(userStr);
+    }
     
-   
-  
-  /*
-  getCurrentUser() {
-    const userStr = localStorage.getItem("user");
-    if (userStr) return JSON.parse(userStr);
     return null;
   }
-  */
 
-  logout() {
-    localStorage.removeItem("user");
+
+  static logOut() {
+      localStorage.removeItem("userData");
   }
 }
+
 
   
   
