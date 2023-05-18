@@ -11,6 +11,7 @@ import { User } from "../../models/user.model";
 import Swal from "sweetalert2";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
+import {userService} from "../../services/user.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const EditUser = () => {
@@ -68,7 +69,7 @@ const EditUser = () => {
     event.preventDefault();
 
     console.log(user);
-    AuthService.register(user)
+    userService.editUser(user)
       .then((response: any) => {
         console.log(user);
         console.log(response);
@@ -82,7 +83,7 @@ const EditUser = () => {
               title: "swal-title-font",
               popup: "swal-popup-width",
             },
-            title: "Register Succesful!",
+            title: "Edit succesfull!",
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 1000,
@@ -90,7 +91,10 @@ const EditUser = () => {
             background: "#66fcf1",
             backdrop: `rgba(0,0,0,0.8)`,
           }).then(() => {
-            window.location.href = "/login";
+              console.log(response.data);
+              localStorage.setItem('userData', JSON.stringify(response.data));
+              console.log('userData' + JSON.stringify(response.data))
+              window.location.href = '/profile';
           });
         }
       })
@@ -105,7 +109,7 @@ const EditUser = () => {
             title: "swal-title-font",
             popup: "swal-popup-width",
           },
-          title: "This User already exists!",
+          title: "The edit was not possible!",
           showConfirmButton: false,
           timerProgressBar: true,
           timer: 1000,
@@ -113,7 +117,7 @@ const EditUser = () => {
           background: "#66fcf1",
           backdrop: `rgba(0,0,0,0.8)`,
         }).then(() => {
-          window.location.href = "/login";
+          window.location.href = "/profile";
         });
       });
   };
