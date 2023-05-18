@@ -7,10 +7,13 @@ import LoginForm from './pages/login.page/login.page';
 import RegisterForm from './pages/register.page/register.page';
 import Feed from './pages/feed.page/feed.page';
 import Discovery from './pages/discovery.page/discovery.page';
+import UserProfile from './pages/user.page/user.page';
 import Messages from './pages/messages.page/messages.page';
 import CalendarEvents from './pages/calendarevents.page/calendarevents.page';
 import Profile from './pages/profile.page/profile.page';
 import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
+import SettingsPage from './pages/settings.page/settings.page';
+import EditUserPage from './pages/edituser.page/edituser.page';
 
 // Import of Components ...
 import Navbar from './components/navbar/navbar';
@@ -21,6 +24,7 @@ import { User } from './models/user.model';
 import { Auth } from './models/auth.model';
 import { AuthService } from './services/auth.service';
 import PrivateRoute from './components/private/private.component';
+
 
 function App() {
   const handleRegister = async (authData: any) => {
@@ -37,9 +41,12 @@ function App() {
           
           <Route path="/feed" element={<Feed />} />
           <Route path="/discovery" element={<Discovery />} />
+          <Route path="/user/:userId" element={<UserProfile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/settings" element={<SettingsPage/>}></Route>
+          <Route path="/profile/edituser" element={<EditUserPage/>}></Route>
 
           <Route path='*' element={<PageNotFound />} />
         </Routes>

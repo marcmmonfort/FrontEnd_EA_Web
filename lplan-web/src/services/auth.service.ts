@@ -10,7 +10,7 @@ export class AuthService {
     
   static isLoggedIn(): boolean {
       console.log('Estoy' + localStorage.getItem('token'));
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem('userData');
     }
   
   static async login(auth: Auth) {
@@ -30,30 +30,23 @@ export class AuthService {
     } catch (error) {
       console.error('Error during register:', error);
       throw error;
-      }
     }
+  }
 
+  static getCurrentUser() {
+    const userStr = localStorage.getItem("userData");
+    //console.log("str " + userStr)
+    if (userStr){
+      //console.log("JSON " + JSON.parse(userStr))
+      return JSON.parse(userStr);
+    }
     
-  
-  /*
-  getCurrentUser() {
-    const userStr = localStorage.getItem("user");
-    if (userStr) return JSON.parse(userStr);
     return null;
   }
-  */
 
-  logout() {
-      localStorage.removeItem("user");
+
+  static logOut() {
+      localStorage.removeItem("userData");
   }
 }
 
-  
-  
-  
-  
-  
-
-  
-
-  
