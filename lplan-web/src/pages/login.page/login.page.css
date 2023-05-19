@@ -8,7 +8,7 @@
 
 .containerSection {
   background-color: #00000000;
-  color: #000;
+  color: #000000;
   text-align: center;
   padding: 20px;
 }
@@ -17,14 +17,24 @@
   font-family: "Raffaella", sans-serif;
   color: #fff;
   font-size: 34px;
+  z-index: 1;
+  background-color: transparent; /* Establece el fondo del título como transparente */
 }
+
+
 
 body {
   background-image: url('../../assets/images/background_2.jpg');
   background-size: cover;
-  background-color: rgba(0, 0, 0, 0.5);
   background-attachment: fixed;
   background-position: center;
+}
+
+.register-container {
+  background-color: transparent; /* Cambia el fondo negro a transparente */
+  color: #000000;
+  text-align: center;
+  padding: 20px;
 }
 
 .loginForm {
@@ -52,7 +62,7 @@ body {
 
 .loginRegisterButton:hover {
   background-color: #66fcf1;
-  color: #000;
+  color: #000000;
 }
 
 .swal2-icon {
