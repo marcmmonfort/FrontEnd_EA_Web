@@ -61,29 +61,25 @@ const Discovery = () => {
       <Navbar />
       <div className="titleContainer">
         <h1 className="titleSection">Discovery</h1>
-        <input
-          type="text"
-          placeholder="Search users"
-          value={searchQuery}
-          onChange={(event) => {
+        <input type="text" placeholder="Search Users" value={searchQuery} onChange={(event) => {
             setSearchQuery(event.target.value);
             debouncedSearch(event);
           }}
         />
+      </div>
+      <div className = "cardsUsers">
         {userList.length > 0 ? (
           <ul>
             {userList.map((user: User) => (
               <li key={user._id}>
                 <Link to={`/user/${user._id}`} className="user-link">
                   <div className="user">
-                    {user.photoUser ? (
-                      <img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />
-                    ) : (
-                      <FaUserCircle className="user__profile-img user__profile-img--default" />
+                    {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
+                      <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
                     )}
                     <div className="user__info">
                       <p className="user__name">{user.nameUser} {user.surnameUser}</p>
-                      <p className="user__username">{user.appUser}</p>
+                      <p className="user__username">@{user.appUser}</p>
                     </div>
                   </div>
                 </Link>
@@ -91,7 +87,7 @@ const Discovery = () => {
             ))}
           </ul>
         ) : (
-          <p>No users found</p>
+          <h1 className="usersnotfound">User Not Found</h1>
         )}
       </div>
       <Footer />

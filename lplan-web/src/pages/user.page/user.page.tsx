@@ -110,38 +110,29 @@ const UserProfile = () => {
             <div className="user-profile">
                 {currentUser ? (
                     <div className="profile">
-                    <div className="profile-image">
-                        {currentUser.photoUser ? (
-                        <img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />
-                        ) : (
-                        <FaUserCircle className="default-profile-img" />
-                        )}
-                    </div>
-                    <div className="profile-user-settings">
                         <h1 className="profile-user-name">{currentUser.appUser}</h1>
+                        <div className="profile-image">{currentUser.photoUser ? (<img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />) : (
+                            <FaUserCircle className="default-profile-img" />
+                            )}
+                        </div>
                         <button className={isFollowing ? "following-button" : "follow-button"} onClick={handleFollow}>
-                        {isFollowing ? "Following" : "Follow"}
-                        </button>
-                    </div>
-                    <div className="profile-stats">
-                        <ul>
-                        <li>
-                            <span className="profile-stat-count">{currentUser.followersUser?.length}</span> followers
-                        </li>
-                        <li>
-                            <span className="profile-stat-count">{currentUser.followedUser?.length}</span> following
-                        </li>
-                        </ul>
-                    </div>
-                    <div className="profile-bio">
-                        <p>
-                        Name: <span className="profile-real-name">{currentUser.nameUser}</span>
-                        </p>
-                        <p>Description: {currentUser.descriptionUser}</p>
-                    </div>
+                                {isFollowing ? "Following" : "Follow"}
+                            </button>
+                        <div className="profile-stats">
+                            <h1 className="profileTitle">Followers</h1>
+                            <h1 className="profile-stat-count">{currentUser.followersUser?.length}</h1>
+                            <h1 className="profileTitle">Following</h1>
+                            <h1 className="profile-stat-count">{currentUser.followedUser?.length}</h1>
+                        </div>
+                        <div className="profile-bio">
+                            <h1 className="profileTitle">Name</h1>
+                            <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
+                            <h1 className="profileTitle">Description</h1>
+                            <p>{currentUser.descriptionUser}</p>
+                        </div>
                     </div>
                 ) : (
-                    <p>Loading user profile...</p>
+                    <p>Loading ...</p>
                 )}
             </div>
             <Footer/>

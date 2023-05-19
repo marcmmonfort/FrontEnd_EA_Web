@@ -6,78 +6,73 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-.containerSection {
-    background-color: #000;
-    color: #000;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .titleSection {
-    font-family: "Raffaella", sans-serif;
-    color: #66fcf1;
-    font-size: 34px;
-  }
-
-  body {
-    background-color: #000;
-    color: #fff; /* cambiar el color del texto a blanco */
-  }
-
-  .user {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+    .user {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 80px;
+      height: 80px;
+      border: 1px solid #fff;
+      margin-top:-32px;
+      margin-left:-40px;
     }
-    
+
     .user__profile-img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-right: 10px;
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-left: 8px;
     }
-    
-    .user__profile-img--default {
-    background-color: #ccc;
-    }
+
     
     .user__info {
-    flex: 1;
+    flex: 2;
+    font-size: 18px;
     text-align: left;
     color: #fff; 
-    }
-    
-    .user__name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px; 
+    font-family: "SFNS", sans-serif;
+    margin-top:0px;
+    margin-left:8px;
+    margin-bottom:2px;
     }
     
     .user__username {
-    font-size: 14px;
-    color: #ccc;
+      margin-top:-18px;
+      font-size: 14px;
+      color: #66fcf1;
     }
     
     ul {
-    list-style: none;
-    padding: 0;
+      list-style: none;
+      width: 360px;
+      margin-top: 42px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top:68px;
     }
     
     input[type="text"] {
-    background-color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    max-width: 400px;
-    margin: 20px auto;
-    display: block;
-    text-align: center;
-    color: #000;
+      font-family: "SFNS", sans-serif;
+      font-size: 14px;
+      display: block;
+      width: 300px;
+      margin-bottom: 0.5rem; 
+      padding: 4px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+      line-height: 1.5;
+      background-color: #66fcf1;
+      color: #000;
+      text-align: left;
+      margin-top: 0px;
+      margin: 0 auto;
     }
-    
-    p {
-    font-size: 16px;
+
+    .usersnotfound{
+      font-size: 14px;
+      margin-top: 54px;
+      color: #66fcf1;
+      font-family: "SFNS", sans-serif;
     }
