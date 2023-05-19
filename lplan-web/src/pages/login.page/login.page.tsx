@@ -142,17 +142,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
 
-      <div className="register-container">
+      <div className="loginForm">
+        <div className="titleContainer">
+          <h1 className="titleSection">Login</h1>
+        </div>
         <div className="button-container-back">
           <Link to="/" className="buttonBack">Back</Link>
         </div>
-        <div className="containerSection">
-          <h1 className="titleSection">Login</h1>
-        </div>
-        <Footer/>
-      </div>
-
-      <div className="loginForm">
         <div className="emailEntry">
           <label htmlFor="mailUser">Email</label>
           <input id="mailUser" name="mailUser" type="email" value={formData.mailUser} onChange={handleInputChange} />
@@ -164,6 +160,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           {errors.passwordUser && <span>{errors.passwordUser}</span>}
         </div>
         <button className="loginRegisterButton" type="submit">LogIn</button>
+        <Footer/>
       </div>
     </form>
   );

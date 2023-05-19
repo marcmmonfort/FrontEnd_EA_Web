@@ -119,14 +119,11 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 
   return (
     <div className="col-md-12">
-      <div className="register-container">
+      <div className="titleContainer">
+          <h1 className="titleSection">Register</h1>
+        </div>
       <div className="button-container-back">
         <Link to="/" className="buttonBack">Back</Link>
-      </div>
-      <div className="containerSection">
-        <h1 className="titleSection">Register</h1>
-      </div>
-      <Footer/>
       </div>
       <div className="card-container">
         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
@@ -147,6 +144,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
           <button className="buttonBack" type="submit">Register</button>
         </form>
       </div>
+      <Footer/>
     </div>
  );
 }

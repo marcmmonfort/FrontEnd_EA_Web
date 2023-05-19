@@ -1,12 +1,14 @@
-.button-container-back {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
+  .button-container-back {
+    position: relative; /* Cambia la posición a relativa en lugar de absoluta */
+    margin-bottom: 10px; /* Agrega un margen inferior para separarlo del contenedor */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .titleContainer {
+    padding-top: 20px;
   }
   
   .buttonBack {
@@ -23,6 +25,31 @@
     text-align: center;
   }
 
+  .registerForm input[type="text"] {
+    font-family: "SFNS", sans-serif;
+    font-size: 14px;
+    display: block;
+    width: 300px;
+    margin-bottom: 0.5rem; /* Ajusta el valor del margen inferior según tus preferencias */
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    line-height: 1.5;
+    background-color: #66fcf1;
+    color: #000;
+    text-align: left;
+    margin-top: 0rem;
+  }
+  
+  .registerForm label {
+    font-size: 14px;
+    font-family: "SFNS", sans-serif;
+    color: #fff;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
   .buttonBack:hover {
     background-color: #66fcf1;
     color: #000;
@@ -30,17 +57,21 @@
 
   .register-container {
     position: relative;
+    background-color: transparent; /* Cambia el fondo negro a transparente */
+    color: #000000;
+    text-align: center;
+    padding: 20px;
   }
 
   .profile-img-card {
-    width: 86px;
-    height: 86px;
+    width: 146px !important;
+    height: 146px !important;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 50% !important;
   }
 
   .card-container{
-    margin: 12px;
+    margin: 16px;
     margin-bottom: 100px;
   }
 

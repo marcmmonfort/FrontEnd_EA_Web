@@ -6,35 +6,22 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-.containerSection {
-  background-color: #00000000;
-  color: #000000;
-  text-align: center;
-  padding: 20px;
+.titleContainer {
+  padding-top: 20px;
 }
 
 .titleSection {
   font-family: "Raffaella", sans-serif;
   color: #fff;
   font-size: 34px;
-  z-index: 1;
-  background-color: transparent; /* Establece el fondo del título como transparente */
+  background-color: transparent; /* Cambia el fondo negro a transparente */
 }
-
-
 
 body {
   background-image: url('../../assets/images/background_2.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-}
-
-.register-container {
-  background-color: transparent; /* Cambia el fondo negro a transparente */
-  color: #000000;
-  text-align: center;
-  padding: 20px;
 }
 
 .loginForm {

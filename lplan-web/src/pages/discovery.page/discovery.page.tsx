@@ -59,7 +59,7 @@ const Discovery = () => {
   return (
     <div>
       <Navbar />
-      <div className="containerSection">
+      <div className="titleContainer">
         <h1 className="titleSection">Discovery</h1>
         <input
           type="text"

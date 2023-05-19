@@ -17,12 +17,12 @@ const Navbar = () => {
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
 			<nav>
-        <Link to="/feed">Feed</Link>
-        <Link to="/discovery">Discovery</Link>
-        <Link to="/messages">Messages</Link>
-        <Link to="/calendarevents">Calendar and Events</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/" onClick={handleLogout}>LogOut</Link>
+                <Link to="/feed">Feed</Link>
+                <Link to="/discovery">Discovery</Link>
+                <Link to="/messages">Messages</Link>
+                <Link to="/calendarevents">Calendar and Events</Link>
+                <Link to="/profile">Profile</Link>
+                <Link to="/" onClick={handleLogout} className="logout-link">LogOut</Link>
 			</nav>
 		</header>
 	);

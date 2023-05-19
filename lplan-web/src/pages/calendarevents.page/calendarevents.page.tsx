@@ -12,7 +12,7 @@ const CalendarEvents = () => {
     return (
       <div>
         <Navbar/>
-        <div className="containerSection">
+        <div className="titleContainer">
           <h1 className="titleSection">Calendar + Events</h1>
         </div>
         <Footer/>

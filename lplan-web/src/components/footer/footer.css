@@ -8,23 +8,20 @@
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
 .footer-content {
-    font-family: "SFNS", sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    font-size: 14px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 0px;
-  }
+  font-family: "SFNS", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 14px;
+}
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #33333300;
-    color: #fff;
-  }
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  color: #ffffff3e;
+  margin-top: auto;
+}

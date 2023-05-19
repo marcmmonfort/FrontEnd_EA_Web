@@ -12,7 +12,7 @@ const Messages = () => {
     return (
       <div>
         <Navbar/>
-        <div className="containerSection">
+        <div className="titleContainer">
           <h1 className="titleSection">Messages</h1>
         </div>
         <Footer/>

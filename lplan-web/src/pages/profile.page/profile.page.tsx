@@ -46,39 +46,37 @@ const Profile = () => {
     return (
       <div>
         <Navbar/>
-        <div className="containerSection">
+        <div className="titleContainer">
           <h1 className="titleSection">Profile</h1>
         </div>
-        <Footer/>
-        <div className="col-md-12">
-      
-        {currentUser && (
-          <div className="profile-container">
-          <div className="profile">
-            <div className="profile-image">
-              <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
-            </div>
-            <div className="profile-user-settings">
-              <h1 className="profile-user-name">{currentUser.appUser}</h1>
-              <Link to="/profile/edituser" className="btn_profile-edit-btn">Edit Profile</Link>
-              <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link>
-            </div>
-            <div className="profile-stats">
-              <ul>
-                <li>You have <span className="profile-stat-count">{currentUser.followersUser?.length}</span> followers</li>
-                <li><span className="profile-stat-count">{currentUser.followedUser?.length}</span> people is following you</li>
-              </ul>
-            </div>
-            <div className="profile-bio">
-              <p>Name: <span className="profile-real-name">{currentUser.nameUser}</span></p>
-              <p>Description: {currentUser.descriptionUser}</p>
-            </div>
-          </div>
-        </div>        
+        <div className="profileContour">
+          {currentUser && (
+            <div className="profile-container">
+              <div className="profile">
+                <h1 className="profile-user-name">{currentUser.appUser}</h1>
+                <div className="profile-image">
+                  <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+                </div>
+                <div className="profile-user-buttons">
+                  <Link to="/profile/edituser" className="btn_profile">Edit Profile</Link>
+                  <Link to="/profile/settings" className="btn_profile">Settings</Link>
+                  {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
+                </div>
+                <div className="profile-stats">
+                  <p>Followed by <span className="profile-stat-count">{currentUser.followersUser?.length}</span> Users</p>
+                  <p>Following <span className="profile-stat-count">{currentUser.followedUser?.length}</span> Users</p>
+                </div>
+                <div className="profile-bio">
+                  <h1 className="profileTitle">Name</h1>
+                  <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
+                  <h1 className="profileTitle">Description</h1>
+                  <p>{currentUser.descriptionUser}</p>
+                </div>
+              </div>
+          </div>        
         )}
-      <Footer/>
       </div>
-      
+      <Footer/>
     </div>
     );
   };

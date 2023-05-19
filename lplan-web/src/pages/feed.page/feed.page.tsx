@@ -77,7 +77,7 @@ const Feed = () => {
   return (
     <div>
       <Navbar/>
-      <div className="containerSection">
+      <div className="titleContainer">
         <h1 className="titleSection">Feed</h1>
         <div className="container">
           <div className="feed">
