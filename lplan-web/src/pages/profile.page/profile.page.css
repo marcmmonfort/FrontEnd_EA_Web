@@ -6,9 +6,24 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-.containerSection {
-    color: white;
+  .containerSection {
+      color: white;
   }
+
+  .buttonProfile { 
+    font-family: "SFNS", sans-serif;
+    margin: 4px;
+    padding: 6px 6px;
+    background-color: #000000;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    text-align: center;
+    z-index: 1;
+ }
 
   .profile-container {
     display: flex;
@@ -64,26 +79,26 @@
     margin-top: 20px;
   }
   
-  .profile-stats p {
+  .profile-stat-count{
     font-family: "SFNS", sans-serif;
     color: #fff;
-    margin: 6px 0;
+    font-size:22px;
+    margin-top: 16px;
   }
-  
-  .profile-stats span {
-    font-weight: bold;
-  }
+
+  /* LÍNEAS */
   
   .profile-stats::before,
   .profile-stats::after {
     content: "";
     display: block;
-    width: 100%;
+    width: 300%;
     height: 0.5px;
     background-color: #fff;
-    margin: 10px 0;
+    margin: 10px auto; 
+    margin-left: -100%;
   }
-  
+
   .profile-stats::before {
     margin-top: 2px;
   }

@@ -126,11 +126,10 @@ const EditUser = () => {
   };
   return (
     <div>
-      <Navbar />
-      <div className="containerSection">
-        <h1 className="titleSection">Edit User</h1>
-      </div>
-      <Footer />
+      <Navbar/>
+        <div className="titleContainer">
+          <h1 className="titleSection">Edit User</h1>
+        </div>
       <div className="col-md-12">
         {user && (
           <div className="profile-container">
@@ -139,14 +138,10 @@ const EditUser = () => {
                 <img
                   src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                   alt="profile-img"
-                  className="profile-img-card"
+                  className="profile-img-card-edit"
                 />
               </div>
-              <div className="profile-user-settings">
-                <Link to="/profile" className="btn_profile-edit-btn">
-                  Go back
-                </Link>
-              </div>
+              <Link to="/profile" className="button">Back</Link>
               <div className="profile-bio">
                 <div className="card-container">
                   <form className="editForm" onSubmit={handleSubmit}>
@@ -179,14 +174,6 @@ const EditUser = () => {
                       type="email"
                       readOnly={true} 
                       value={user.mailUser}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Input
-                      label="Password"
-                      name="passwordUser"
-                      type="password"
-                      value={user.passwordUser}
                       onChange={handleChange}
                       required
                     />
@@ -234,9 +221,7 @@ const EditUser = () => {
                       checked={user.privacyUser}
                       onChange={handleChange}
                     />
-                    <button className="buttonBack" type="submit">
-                      Edit user, que por ahora hace registro!!!
-                    </button>
+                    <button className="buttonSave" type="submit">Save </button>
                   </form>
                 </div>
               </div>

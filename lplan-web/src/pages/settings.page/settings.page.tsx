@@ -13,12 +13,11 @@ document.body.style.backgroundImage = `url(${backgroundImage})`;
 const SettingsPage = () => {
   return (
     <div>
-      <Navbar />
-      <div>
-        <h1>User configuration </h1>
-        <p>Here we will implement the user settings</p>
-      </div>
-      <Footer />
+      <Navbar/>
+        <div className="titleContainer">
+          <h1 className="titleSection">Settings</h1>
+        </div>
+        <Footer/>
     </div>
   );
 };

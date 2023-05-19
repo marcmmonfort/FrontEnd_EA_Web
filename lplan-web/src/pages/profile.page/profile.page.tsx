@@ -58,13 +58,15 @@ const Profile = () => {
                   <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
                 </div>
                 <div className="profile-user-buttons">
-                  <Link to="/profile/edituser" className="btn_profile">Edit Profile</Link>
-                  <Link to="/profile/settings" className="btn_profile">Settings</Link>
+                  <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
+                  <Link to="/profile/settings" className="buttonProfile">Settings</Link>
                   {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
                 </div>
                 <div className="profile-stats">
-                  <p>Followed by <span className="profile-stat-count">{currentUser.followersUser?.length}</span> Users</p>
-                  <p>Following <span className="profile-stat-count">{currentUser.followedUser?.length}</span> Users</p>
+                  <h1 className="profileTitle">Followers</h1>
+                  <h1 className="profile-stat-count">{currentUser.followersUser?.length}</h1>
+                  <h1 className="profileTitle">Following</h1>
+                  <h1 className="profile-stat-count">{currentUser.followedUser?.length}</h1>
                 </div>
                 <div className="profile-bio">
                   <h1 className="profileTitle">Name</h1>
