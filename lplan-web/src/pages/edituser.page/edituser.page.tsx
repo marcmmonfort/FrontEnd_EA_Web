@@ -96,10 +96,8 @@ const EditUser = () => {
             background: "#66fcf1",
             backdrop: `rgba(0,0,0,0.8)`,
           }).then(() => {
-              console.log(response.data);
-              localStorage.setItem('userData', JSON.stringify(response.data));
-              console.log('userData' + JSON.stringify(response.data))
-              window.location.href = '/profile';
+            console.log(response.data);
+            window.location.href = '/profile';
           });
         }
       })
