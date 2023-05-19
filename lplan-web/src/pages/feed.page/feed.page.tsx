@@ -10,6 +10,7 @@ import backgroundImage from '../../assets/images/background_3.jpg';
 import './feed.page.css';
 import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
+import { UserService } from "../../services/user.service";
 
 
 const Feed = () => {
@@ -72,54 +73,42 @@ const Feed = () => {
       });
   }
 
-
-
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="titleContainer">
         <h1 className="titleSection">Feed</h1>
-        <div className="container">
-          <div className="feed">
-            {listPublications.map((publication) => (
-              <div className="post" key={publication._id}>
-                <div className="post__header">
-                  <img
-                    className="post__profile-img"
-                    src={publication.idUserPublication.photoUser}
-                    alt="Profile"
-                  />
-                  <div className="post__info">
-                    <p className="post__username">{publication.idUserPublication.nameUser} {publication.idUserPublication.surnameUser}</p>
-                    <p className="post__timestamp">{publication.createdAt}</p>
-                  </div>
+      </div>
+      <div className="feed">
+        {listPublications.map((publication) => (
+          <div className="post" key={publication._id}>
+
+            <div className="post__header">
+                <img className="post__profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Profile"/>
+                <div className="post__info">
+                  <p className="post__username">{publication.idUserPublication.nameUser} {publication.idUserPublication.surnameUser}</p>
+                  <p className="post__timestamp">{(publication.createdAt).toLocaleString()}</p>
                 </div>
-                <div className="post__body">
-                  <p className="post__text">{publication.textPublication}</p>
-                  {publication.photoPublication.map((photo) => (
-                    <img className="post__image" key={photo} src={photo} alt="Post"/>
-                  ))}
+            </div>
 
-
-                  
-                  <button className="show__comments" onClick={() => {
-                      getComments(publication._id);
-                      }}>Comentarios ({publication.commentsPublication?.length})</button>
-
-                  {showComments && selectedPublicationId === publication._id && (
-                  <div>
-                    {listComments.map((comment) => (
-                      <div key={comment._id}>{comment.textComment}</div>
-                    ))}
-                  </div>
-                  )}
-                </div>
+            <div className="post__body">
+              <p className="post__text">{publication.textPublication}</p>
+              {publication.photoPublication.map((photo) => ( <img className="post__image" key={photo} src={photo} alt="Post"/> ))}
+              <div style={{ textAlign: "center" }}>
+                <button className="show__comments" onClick={() => { getComments(publication._id); }}>
+                  Show {publication.commentsPublication?.length} Comments
+                </button>
               </div>
-            ))}
-            <div className="load-more">
-              <button onClick={handleLoadMore}>Cargar más publicaciones</button>
+              {showComments && selectedPublicationId === publication._id && (
+              <div> {listComments.map((comment) => ( 
+                <div className="commentContainer" key={comment._id}>
+                  <span className="commentText">{comment.textComment}</span>                </div> ))}
+              </div> )}
             </div>
           </div>
+        ))}
+        <div className="load-more">
+          <button className="buttonLoadMore" onClick={handleLoadMore}>Load More</button>
         </div>
       </div>
       <Footer/>

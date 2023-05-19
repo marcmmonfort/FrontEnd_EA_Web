@@ -136,7 +136,7 @@ const EditUser = () => {
             <div className="profile">
               <div className="profile-image">
                 <img
-                  src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                  src={user.photoUser}
                   alt="profile-img"
                   className="profile-img-card-edit"
                 />

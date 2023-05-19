@@ -55,7 +55,7 @@ const Profile = () => {
               <div className="profile">
                 <h1 className="profile-user-name">{currentUser.appUser}</h1>
                 <div className="profile-image">
-                  <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+                  <img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />
                 </div>
                 <div className="profile-user-buttons">
                   <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
