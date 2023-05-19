@@ -3,15 +3,16 @@ import { User } from "../models/user.model";
 
 import axios from "axios";
 
+
 const API_URL = "http://localhost:5432/auth";
 
 
 export class AuthService {
     
   static isLoggedIn(): boolean {
-      console.log('Estoy' + localStorage.getItem('token'));
-      return !!localStorage.getItem('userData');
-    }
+    console.log('Estoy' + localStorage.getItem('token'));
+    return !!localStorage.getItem('token');
+  }
   
   static async login(auth: Auth) {
     try {
@@ -34,19 +35,20 @@ export class AuthService {
   }
 
   static getCurrentUser() {
-    const userStr = localStorage.getItem("userData");
-    //console.log("str " + userStr)
-    if (userStr){
-      //console.log("JSON " + JSON.parse(userStr))
-      return JSON.parse(userStr);
+    const userId = localStorage.getItem("userId");
+    if(userId){
+      return JSON.parse(userId);
     }
-    
-    return null;
   }
 
+  static setCurrentUser(userId:string, token:string) {
+    localStorage.setItem("userId",userId);
+    localStorage.setItem("token", token);
+  }
 
   static logOut() {
-      localStorage.removeItem("userData");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
   }
 }
 

@@ -14,16 +14,24 @@ const UserProfile = () => {
   const { userId } = useParams();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [myId, setMyId] = useState("1234");
 
   useEffect(() => {
       document.body.style.backgroundImage = `url(${backgroundImage})`;
-      console.log("Obtenemos los datos del otro usuario");
-      //Obtenemos el usuario
-      getById();
+      const myUserId = AuthService.getCurrentUser();
 
-      console.log("Pedimos la relacion que tenemos con ese user");
-      //Obtenemos si es seguidor o no.
-      getRelation();
+      if(myUserId){
+        setMyId(myUserId);
+        console.log("Obtenemos los datos del otro usuario");
+        //Obtenemos el usuario
+        getById();
+
+        console.log("Pedimos la relacion que tenemos con ese user");
+        //Obtenemos si es seguidor o no.
+        getRelation(myUserId);
+      }
+
+      
     }, [userId]);
 
 
@@ -41,12 +49,11 @@ const UserProfile = () => {
         }
     };
 
-    const getRelation = async () => {
+    const getRelation = async (myUserId:string) => {
         
-        const user = await AuthService.getCurrentUser().user;
-        console.log("Pedimos la relacion que tenemos con ese user:", user._id);
+        console.log("Pedimos la relacion que tenemos con ese user:", myUserId);
         try {
-            const response = await UserService.isFollowed(user._id,userId ?? 'NoID');
+            const response = await UserService.isFollowed(myUserId, userId ?? 'NoID');
             console.log("Pedimos la relacion que tenemos con ese user:: exito");
             console.log(response);
             setIsFollowing(response.data);
@@ -58,12 +65,12 @@ const UserProfile = () => {
     };
 
     const handleFollow = async () => {
-        const user = await AuthService.getCurrentUser().user;
+        
         // Aquí implemento la lógica para seguir o dejar de seguir al usuario
         console.log("Este usuario es seguir tuyo?:" + isFollowing);
         if(isFollowing){
             try {
-                const response = await UserService.removeFollowed(user._id,userId ?? 'NoID');
+                const response = await UserService.removeFollowed(myId, userId ?? 'NoID');
                 console.log("Pedimos la relacion que tenemos con ese user:: exito");
                 console.log(response);
                 if(response){
@@ -80,7 +87,7 @@ const UserProfile = () => {
             }
         }else{
             try {
-                const response = await UserService.addFollowed(user._id,userId ?? 'NoID');
+                const response = await UserService.addFollowed(myId, userId ?? 'NoID');
                 console.log("Pedimos la relacion que tenemos con ese user:: exito");
                 console.log(response);
                 if(response){

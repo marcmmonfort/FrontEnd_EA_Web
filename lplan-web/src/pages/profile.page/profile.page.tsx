@@ -8,6 +8,7 @@ import { AuthService } from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
+import { UserService } from "../../services/user.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 
@@ -20,13 +21,21 @@ const Profile = () => {
 
   useEffect(() => {
       const getUser = async () => {
-        try {
-          const user = await AuthService.getCurrentUser().user;
-          setCurrentUser(user);
-          console.log("current user = " + user)
-        } catch (error) {
-          window.location.href = '/home'
+        const userId = AuthService.getCurrentUser();
+
+        if(userId){
+          UserService.getPerson(userId)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            setCurrentUser(response.data);
+          })
+          .catch(error => {
+            //window.location.href = '*';
+          });
+        
         }
+        
       };
 
       document.body.style.backgroundImage = `url(${backgroundImage})`;

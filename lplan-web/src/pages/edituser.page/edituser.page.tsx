@@ -33,12 +33,17 @@ const EditUser = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      try {
-        const user = await AuthService.getCurrentUser().user;
-        setUser(user);
-        console.log("current user = " + user);
-      } catch (error) {
-        window.location.href = "/home";
+      const userId = AuthService.getCurrentUser();
+      if(userId){
+        UserService.getPerson(userId)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            setUser(response.data);
+          })
+          .catch(error => {
+            window.location.href = '*';
+          });
       }
     };
 

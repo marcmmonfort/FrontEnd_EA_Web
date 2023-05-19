@@ -38,7 +38,7 @@ export class UserService {
     }
   }
 
-  static async isFollowed(userId: string, followerId: string) {
+  static async isFollowed(userId:string, followerId: string) {
     try {
       const response = await axios.get(
         API_URL + "/isFollower/" + userId + "/" + followerId

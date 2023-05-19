@@ -23,33 +23,36 @@ const Feed = () => {
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
     console.log("Iniciamos");
-    const userData = AuthService.getCurrentUser();
-    console.log(userData.user);
-    PublicationService.feed(numPage.toString(),userData.user._id)
+    const userId = AuthService.getCurrentUser();
+    if(userId){
+      PublicationService.feed(numPage.toString(),userId)
       .then(response => {
         console.log(response);
         console.log(response.data);
         setListPublications(response.data);
       })
       .catch(error => {
-        //window.location.href = '*';
+        window.location.href = '*';
       });
+    }
   }, [numPage]);
 
   const handleLoadMore = () => {
     console.log("Has pulsado el btn");
     setNumPage(prevPage => prevPage + 1);
-    const userData = AuthService.getCurrentUser();
+    const userId = AuthService.getCurrentUser();
     console.log("HandleLoadMore:" + numPage);
-    PublicationService.feed((numPage).toString(), userData.user._id)
+    if(userId){
+      PublicationService.feed((numPage).toString(), userId)
       .then(response => {
         console.log(response);
         console.log(response.data);
         setListPublications(prevPublications => [...prevPublications, ...response.data]);
       })
       .catch(error => {
-        //window.location.href = '*';
+        window.location.href = '*';
       });
+    }
   }
 
   const getComments = (idPublication: string) => {
