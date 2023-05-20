@@ -18,20 +18,22 @@ document.body.style.backgroundImage = `url(${backgroundImage})`;
 const Profile = () => {
     
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [userId, setUserId] = useState<string>("hola");
 
   useEffect(() => {
       const getUser = async () => {
-        const userId = AuthService.getCurrentUser();
+        const id = AuthService.getCurrentUser();
 
-        if(userId){
-          UserService.getPerson(userId)
+        if(id){
+          setUserId(id);
+          UserService.getPerson(id)
           .then(response => {
             console.log(response);
             console.log(response.data);
             setCurrentUser(response.data);
           })
           .catch(error => {
-            //window.location.href = '*';
+            window.location.href = '*';
           });
         
         }
@@ -43,44 +45,44 @@ const Profile = () => {
     }, []);
 
 
-    return (
-      <div>
-        <Navbar/>
-        <div className="titleContainer">
-          <h1 className="titleSection">Profile</h1>
-        </div>
-        <div className="profileContour">
-          {currentUser && (
-            <div className="profile-container">
-              <div className="profile">
-                <h1 className="profile-user-name">{currentUser.appUser}</h1>
-                <div className="profile-image">
-                  <img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />
-                </div>
-                <div className="profile-user-buttons">
-                  <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
-                  <Link to="/profile/settings" className="buttonProfile">Settings</Link>
-                  {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
-                </div>
-                <div className="profile-stats">
-                  <h1 className="profileTitle">Followers</h1>
-                  <h1 className="profile-stat-count">{currentUser.followersUser?.length}</h1>
-                  <h1 className="profileTitle">Following</h1>
-                  <h1 className="profile-stat-count">{currentUser.followedUser?.length}</h1>
-                </div>
-                <div className="profile-bio">
-                  <h1 className="profileTitle">Name</h1>
-                  <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
-                  <h1 className="profileTitle">Description</h1>
-                  <p>{currentUser.descriptionUser}</p>
-                </div>
-              </div>
-          </div>        
-        )}
+  return (
+    <div>
+      <Navbar/>
+      <div className="titleContainer">
+        <h1 className="titleSection">Profile</h1>
       </div>
-      <Footer/>
+      <div className="profileContour">
+        {currentUser && (
+          <div className="profile-container">
+            <div className="profile">
+              <h1 className="profile-user-name">{currentUser.appUser}</h1>
+              <div className="profile-image">
+                <img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />
+              </div>
+              <div className="profile-user-buttons">
+                <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
+                <Link to="/profile/settings" className="buttonProfile">Settings</Link>
+                {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
+              </div>
+              <div className="profile-stats">
+                <h1 className="profileTitle">Followers:{" "}</h1>
+                <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/followers`}>{currentUser.followersUser?.length}</Link></h1>
+                <h1 className="profileTitle">Following:{" "}</h1>
+                <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/following`}>{currentUser.followedUser?.length}</Link></h1>
+              </div>
+              <div className="profile-bio">
+                <h1 className="profileTitle">Name</h1>
+                <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
+                <h1 className="profileTitle">Description</h1>
+                <p>{currentUser.descriptionUser}</p>
+              </div>
+            </div>
+        </div>        
+      )}
     </div>
-    );
-  };
+    <Footer/>
+  </div>
+  );
+};
 
 export default Profile;

@@ -78,12 +78,13 @@
     margin-top: 20px;
   }
   
-  .profile-stat-count{
+  .profile-stat-count {
     font-family: "SFNS", sans-serif;
     color: #fff;
-    font-size:22px;
-    margin-top: 16px;
+    font-size: 22px;
+    margin-top: 32px; /* Aumentar este valor para separar más los enlaces */
   }
+  
 
   /* LÍNEAS */
   

@@ -14,16 +14,14 @@ import Profile from './pages/profile.page/profile.page';
 import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
 import SettingsPage from './pages/settings.page/settings.page';
 import EditUserPage from './pages/edituser.page/edituser.page';
+import UsersList from './pages/usersList.page/usersList.page';
 
 // Import of Components ...
-import Navbar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
-import logo from './logo.svg';
-import './App.css';
-import { User } from './models/user.model';
 import { Auth } from './models/auth.model';
-import { AuthService } from './services/auth.service';
-import PrivateRoute from './components/private/private.component';
+import './App.css';
+
+
 
 
 function App() {
@@ -42,6 +40,7 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/discovery" element={<Discovery />} />
           <Route path="/user/:userId" element={<UserProfile />} />
+          <Route path="/profile/userList/:userId/:mode" element={<UsersList />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/profile" element={<Profile />} />

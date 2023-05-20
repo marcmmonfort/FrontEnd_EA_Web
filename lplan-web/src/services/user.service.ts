@@ -65,6 +65,26 @@ export class UserService {
       throw error;
     }
   }
+
+  static async getFollowers(userId: string | undefined, numPage: string) {
+    try {
+      const response = await axios.get(API_URL + "/follower/" + userId + "/" + numPage, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error("Error getting followers:", error);
+      throw error;
+    }
+  }
+
+  static async getFollowed(userId: string | undefined, numPage: string) {
+    try {
+      const response = await axios.get(API_URL + "/followed/" + userId + "/" + numPage, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error("Error getting followed:", error);
+      throw error;
+    }
+  }
   
   static async editUser(user: User) {
     try {
