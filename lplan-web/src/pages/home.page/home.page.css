@@ -6,12 +6,23 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-.title { 
-    font-family: "Raffaella", sans-serif;
-    color: #fff;
-    font-size: 72px;
-    z-index: 1;
- }
+.title {
+  font-family: "Raffaella", sans-serif;
+  color: #fff;
+  font-size: 72px;
+  z-index: 1;
+  animation: rotate 3s infinite;
+  transform-style: preserve-3d;
+}
+
+ @keyframes rotate {
+  0% {
+    transform: perspective(400px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(360deg);
+  }
+}
 
  .button { 
     font-family: "SFNS", sans-serif;
