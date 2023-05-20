@@ -10,7 +10,7 @@ export class UserService {
       const response = await axios.get(API_URL + "/all/" + 1);
       return response;
     } catch (error) {
-      console.error("Error during register:", error);
+      console.error("Error getting users", error);
       throw error;
     }
   }
@@ -23,7 +23,7 @@ export class UserService {
       );
       return response;
     } catch (error) {
-      console.error("Error during register:", error);
+      console.error("Error seraching users:", error);
       throw error;
     }
   }

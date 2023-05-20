@@ -3,7 +3,7 @@ import { User } from "../models/user.model";
 
 import axios from "axios";
 
-const API_URL = "http://localhost:5432/auth";
+const API_URL = "http://localhost:5432/user";
 
 
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
   
   static async login(auth: Auth) {
     try {
-      const response = await axios.post(API_URL + "/loginfrontend", auth);
+      const response = await axios.post(API_URL + "/login", auth);
       return response;
     } catch (error) {
       console.error('Error during login:', error);

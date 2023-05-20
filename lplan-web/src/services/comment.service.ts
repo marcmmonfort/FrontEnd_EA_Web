@@ -15,5 +15,4 @@ export class CommentService {
       throw error;
     }
   }
-
 }
