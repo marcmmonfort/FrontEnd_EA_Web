@@ -12,6 +12,7 @@ import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
 import { Link } from "react-router-dom";
+import { ObjectId } from "mongoose";
 
 
 const Feed = () => {
@@ -19,12 +20,11 @@ const Feed = () => {
   const [listPublications, setListPublications] = useState<Publication[]>([]);
   const [listComments, setListComments] = useState<Comment[]>([]);
   const [numPagePublication, setNumPagePublication] = useState<number>(1);
-  const [numPageComments, setNumPageComments] = useState<number>(1);
-  const [showComments, setShowComments] = useState(false);
-  const [selectedPublicationId, setSelectedPublicationId] = useState<string>("");
   const [commentButtonText, setCommentButtonText] = useState("Show Comments");
   const [commentsVisibility, setCommentsVisibility] = useState<{ [key: string]: boolean }>({});
-
+  const [pageComments, setPageComments] = useState<{ [key: string]: number }>({});
+  const [commentButton, setCommentButton] = useState<{ [key: string]: string }>({});
+  const [listCommentsPublication, setListCommentsPublication] = useState<{ [key: string]: Comment[] }>({});
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -41,6 +41,24 @@ const Feed = () => {
           return acc;
         }, {});
         setCommentsVisibility(initialVisibility);
+
+        const initialPage = response.data.reduce((acc: { [key: string]: number }, publication: Publication) => {
+          acc[publication._id] = 1;
+          return acc;
+        }, {});
+        setPageComments(initialPage);
+
+        const initialCommentButton = response.data.reduce((acc: { [key: string]: string }, publication: Publication) => {
+          acc[publication._id] = "Show comments";
+          return acc;
+        }, {});
+        setCommentButton(initialCommentButton);
+
+        const initialListComments = response.data.reduce((acc: { [key: string]: Comment[] }, publication: Publication) => {
+          acc[publication._id] = [];
+          return acc;
+        }, {});
+        setListCommentsPublication(initialListComments);
 
         setListPublications(response.data);
       })
@@ -70,30 +88,77 @@ const Feed = () => {
 
   const getComments = (idPublication: string) => {
     console.log("Ver comentarios");
-    setNumPageComments(prevPage => prevPage + 1);
-    //setShowComments(true);
-    setSelectedPublicationId(idPublication);
-    setCommentsVisibility(prevVisibility => ({
-      ...prevVisibility,
-      [idPublication]: !prevVisibility[idPublication]
+    console.log("idPublication: " + idPublication);
+    console.log("commentsVisibility[PublicationId]=" + commentsVisibility[idPublication]);
+    console.log("pageComments[PublicationId]=" + pageComments[idPublication]);
+    setCommentsVisibility(prevVisibility => {
+      const updatedVisibility = {
+        ...prevVisibility,
+        [idPublication]: !prevVisibility[idPublication]
+      };
+      console.log("second " + updatedVisibility[idPublication]);
+
+      if (updatedVisibility[idPublication]) {
+        setCommentButton(prevCommentButton => ({
+          ...prevCommentButton,
+          [idPublication]: prevCommentButton[idPublication] = "Hide Comments"
+        }));
+        console.log("Entro a hide");
+        CommentService.getCommentsPublication(idPublication, (pageComments[idPublication]).toString())
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
+          setListComments(prevComments=> [...prevComments, ...response.data]);
+          setListCommentsPublication(prevListComments => ({
+            ...prevListComments,
+            [idPublication]: response.data
+          }));
+        })
+        .catch(error => {
+          //window.location.href = '*';
+        });
+      } else {
+        setCommentButton(prevCommentButton => ({
+          ...prevCommentButton,
+          [idPublication]: prevCommentButton[idPublication] = "Show Comments"
+        }));
+        console.log("Entro a show");
+        setListCommentsPublication(prevListComments => ({
+          ...prevListComments,
+          [idPublication]: []
+        }));
+        setPageComments(prevPageComments => ({
+          ...prevPageComments,
+          [idPublication]: prevPageComments[idPublication] = 1
+        }));
+      }
+        return updatedVisibility;
+    });
+    console.log("Page comentarios:" + pageComments[idPublication]);
+  }
+
+  const showMoreComments = (idPublication: string) => {
+    console.log("Ver más comentarios");
+    setPageComments(prevPageComments => ({
+      ...prevPageComments,
+      [idPublication]: prevPageComments[idPublication] +1
     }));
-    //setShowComments(prevShowComments => !prevShowComments)
-    if (idPublication === selectedPublicationId && !showComments) {
-      setCommentButtonText("Hide Comments");
-    } else {
-      setCommentButtonText("Show Comments");
-    }
-    console.log("Page comentarios:" + numPageComments);
-    CommentService.getCommentsPublication(idPublication, (numPageComments).toString())
+    CommentService.getCommentsPublication(idPublication, (pageComments[idPublication] +1).toString())
       .then(response => {
         console.log(response);
         console.log(response.data);
-        setListComments(prevComments=> [...prevComments, ...response.data]);
+        setListCommentsPublication(prevListComments => ({
+          ...prevListComments,
+          [idPublication]: [...prevListComments[idPublication], ...response.data]
+        }));
       })
       .catch(error => {
         //window.location.href = '*';
       });
   }
+
+
+
 
   return (
     <div>
@@ -117,15 +182,15 @@ const Feed = () => {
               <p className="post__text">{publication.textPublication}</p>
               {publication.photoPublication.map((photo) => ( <img className="post__image" key={photo} src={photo} alt="Post"/> ))}
               <div style={{ textAlign: "center" }}>
-                <button className="show__comments" onClick={() => { getComments(publication._id); }}>
-                {publication._id === selectedPublicationId && commentsVisibility[publication._id] ? "Hide Comments" : "Show Comments"} {publication.commentsPublication?.length}
+                <button className="show__comments" onClick={() => { getComments(publication._id.toString()); }}>
+                {commentsVisibility[publication._id]} {commentButton[publication._id]} {publication.commentsPublication?.length}
                 </button>
               </div>
-              {commentsVisibility[publication._id] && selectedPublicationId === publication._id &&  (
-              <div> {listComments.map((comment) => ( 
+              {commentsVisibility[publication._id] &&  (
+              <div> {listCommentsPublication[publication._id].map((comment) => ( 
                 <div className="commentContainer" key={comment._id}>                  
                   
-                  <Link to={`/user/${comment.idUserComment}`} className="user-link">
+                  <Link to={`/user/${comment.idUserComment._id}`} className="user-link">
                     <div className="user">
                     {comment.idUserComment.photoUser ? (<img src={comment.idUserComment.photoUser} alt={comment.idUserComment.nameUser} className="user__profile-img" />) : (
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="user__profile-img" />
@@ -137,7 +202,19 @@ const Feed = () => {
                   </Link>
                   
                   <span className="commentText">{comment.textComment}</span>
+                  
                 </div> ))}
+                {publication.commentsPublication && publication.commentsPublication.length > (pageComments[publication._id] ?? 0) * 2 ? (
+                  <button className="show_more_comments" onClick={() => { showMoreComments(publication._id); }}>
+                    {'Show More'}
+                  </button>
+                  ) : (
+                  <button className="show_more_comments" onClick={() => { showMoreComments(publication._id); }} disabled>
+                    {'Show More'}
+                  </button>
+                )}
+
+
               </div> )}
             </div>
 
