@@ -12,15 +12,12 @@ import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
 import { Link } from "react-router-dom";
-import { ObjectId } from "mongoose";
 
 
 const Feed = () => {
 
   const [listPublications, setListPublications] = useState<Publication[]>([]);
-  const [listComments, setListComments] = useState<Comment[]>([]);
   const [numPagePublication, setNumPagePublication] = useState<number>(1);
-  const [commentButtonText, setCommentButtonText] = useState("Show Comments");
   const [commentsVisibility, setCommentsVisibility] = useState<{ [key: string]: boolean }>({});
   const [pageComments, setPageComments] = useState<{ [key: string]: number }>({});
   const [commentButton, setCommentButton] = useState<{ [key: string]: string }>({});
@@ -37,25 +34,25 @@ const Feed = () => {
         console.log(response.data);
         
         const initialVisibility = response.data.reduce((acc: { [key: string]: boolean }, publication: Publication) => {
-          acc[publication._id] = false;
+          acc[publication.uuid] = false;
           return acc;
         }, {});
         setCommentsVisibility(initialVisibility);
 
         const initialPage = response.data.reduce((acc: { [key: string]: number }, publication: Publication) => {
-          acc[publication._id] = 1;
+          acc[publication.uuid] = 1;
           return acc;
         }, {});
         setPageComments(initialPage);
 
         const initialCommentButton = response.data.reduce((acc: { [key: string]: string }, publication: Publication) => {
-          acc[publication._id] = "Show comments";
+          acc[publication.uuid] = "Show comments";
           return acc;
         }, {});
         setCommentButton(initialCommentButton);
 
         const initialListComments = response.data.reduce((acc: { [key: string]: Comment[] }, publication: Publication) => {
-          acc[publication._id] = [];
+          acc[publication.uuid] = [];
           return acc;
         }, {});
         setListCommentsPublication(initialListComments);
@@ -108,14 +105,13 @@ const Feed = () => {
         .then(response => {
           console.log(response);
           console.log(response.data);
-          setListComments(prevComments=> [...prevComments, ...response.data]);
           setListCommentsPublication(prevListComments => ({
             ...prevListComments,
             [idPublication]: response.data
           }));
         })
         .catch(error => {
-          //window.location.href = '*';
+          window.location.href = '*';
         });
       } else {
         setCommentButton(prevCommentButton => ({
@@ -153,7 +149,7 @@ const Feed = () => {
         }));
       })
       .catch(error => {
-        //window.location.href = '*';
+        window.location.href = '*';
       });
   }
 
@@ -168,12 +164,12 @@ const Feed = () => {
       </div>
       <div className="feed">
         {listPublications.map((publication) => (
-          <div className="post" key={publication._id}>
+          <div className="post" key={publication.uuid}>
 
             <div className="post__header">
-                <img className="post__profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Profile"/>
+              <img className="post__profile-img" src={`${publication.idUser.photoUser}`} alt="Profile"/>
                 <div className="post__info">
-                  <p className="post__username">{publication.idUserPublication.nameUser} {publication.idUserPublication.surnameUser}</p>
+                  <p className="post__username">{publication.idUser.nameUser} {publication.idUser.surnameUser}</p>
                   <p className="post__timestamp">{(publication.createdAt).toLocaleString()}</p>
                 </div>
             </div>
@@ -182,15 +178,15 @@ const Feed = () => {
               <p className="post__text">{publication.textPublication}</p>
               {publication.photoPublication.map((photo) => ( <img className="post__image" key={photo} src={photo} alt="Post"/> ))}
               <div style={{ textAlign: "center" }}>
-                <button className="show__comments" onClick={() => { getComments(publication._id.toString()); }}>
-                {commentsVisibility[publication._id]} {commentButton[publication._id]} {publication.commentsPublication?.length}
+                <button className="show__comments" onClick={() => { getComments(publication.uuid.toString()); }}>
+                {commentsVisibility[publication.uuid]} {commentButton[publication.uuid]} {publication.commentsPublication?.length}
                 </button>
               </div>
-              {commentsVisibility[publication._id] &&  (
-              <div> {listCommentsPublication[publication._id].map((comment) => ( 
-                <div className="commentContainer" key={comment._id}>                  
+              {commentsVisibility[publication.uuid] &&  (
+              <div> {listCommentsPublication[publication.uuid].map((comment) => ( 
+                <div className="commentContainer" key={comment.uuid}>                  
                   
-                  <Link to={`/user/${comment.idUserComment._id}`} className="user-link">
+                  <Link to={`/user/${comment.idUserComment.uuid}`} className="user-link">
                     <div className="user">
                     {comment.idUserComment.photoUser ? (<img src={comment.idUserComment.photoUser} alt={comment.idUserComment.nameUser} className="user__profile-img" />) : (
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="user__profile-img" />
@@ -204,12 +200,12 @@ const Feed = () => {
                   <span className="commentText">{comment.textComment}</span>
                   
                 </div> ))}
-                {publication.commentsPublication && publication.commentsPublication.length > (pageComments[publication._id] ?? 0) * 2 ? (
-                  <button className="show_more_comments" onClick={() => { showMoreComments(publication._id); }}>
+                {publication.commentsPublication && publication.commentsPublication.length > (pageComments[publication.uuid] ?? 0) * 2 ? (
+                  <button className="show_more_comments" onClick={() => { showMoreComments(publication.uuid); }}>
                     {'Show More'}
                   </button>
                   ) : (
-                  <button className="show_more_comments" onClick={() => { showMoreComments(publication._id); }} disabled>
+                  <button className="show_more_comments" onClick={() => { showMoreComments(publication.uuid); }} disabled>
                     {'Show More'}
                   </button>
                 )}
@@ -221,7 +217,11 @@ const Feed = () => {
           </div>
         ))}
         <div className="load-more">
+        {listPublications.length > numPagePublication * 3 ? (
           <button className="buttonLoadMore" onClick={handleLoadMore}>Load More</button>
+          ) : (
+            <button className="buttonLoadMore" onClick={handleLoadMore} disabled>Load More </button>
+          )}
         </div>
       </div>
       <Footer/>

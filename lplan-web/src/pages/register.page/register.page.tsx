@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User } from "../../models/user.model";
+import { UserAuthEntity } from "../../models/user.model";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
 import Swal from 'sweetalert2';
@@ -16,7 +16,7 @@ import backgroundImage from '../../assets/images/background_1.jpg';
 import { Link } from "react-router-dom";
 
 export interface RegisterProps {
-  onSubmit: (data: User) => void;
+  onSubmit: (data: UserAuthEntity) => void;
 }
 
 const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
@@ -25,7 +25,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
   }, []);
 
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<UserAuthEntity>({
     appUser: '',
     nameUser: '',
     surnameUser: '',

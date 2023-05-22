@@ -68,8 +68,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             backdrop: `rgba(0,0,0,0.8)`
           }).then(() => {
             console.log(response.data);
-            AuthService.setCurrentUser(JSON.stringify(response.data.user._id), JSON.stringify(response.data.token));
-            console.log('_id' + JSON.stringify(response.data.user._id));
+            AuthService.setCurrentUser(JSON.stringify(response.data.user.uuid), JSON.stringify(response.data.token));
+            console.log('_id' + JSON.stringify(response.data.user.uuid));
             console.log('token' + JSON.stringify(response.data.token));
             window.location.href = '/profile';
           });

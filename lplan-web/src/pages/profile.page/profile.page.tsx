@@ -21,28 +21,28 @@ const Profile = () => {
   const [userId, setUserId] = useState<string>("hola");
 
   useEffect(() => {
-      const getUser = async () => {
-        const id = AuthService.getCurrentUser();
+    const getUser = async () => {
+      const id = AuthService.getCurrentUser();
+      console.log(id);
+      if(id){
+        setUserId(id);
+        UserService.getPerson(id)
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
+          setCurrentUser(response.data.response);
+        })
+        .catch(error => {
+          window.location.href = '*';
+        });
+      
+      }
+      
+    };
 
-        if(id){
-          setUserId(id);
-          UserService.getPerson(id)
-          .then(response => {
-            console.log(response);
-            console.log(response.data);
-            setCurrentUser(response.data);
-          })
-          .catch(error => {
-            window.location.href = '*';
-          });
-        
-        }
-        
-      };
-
-      document.body.style.backgroundImage = `url(${backgroundImage})`;
-      getUser();
-    }, []);
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+    getUser();
+  }, []);
 
 
   return (

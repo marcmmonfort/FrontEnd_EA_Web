@@ -5,6 +5,7 @@ import { User } from "../models/user.model";
 const API_URL = "http://localhost:5432/user";
 
 export class UserService {
+  //OK
   static async getUsers() {
     try {
       const response = await axios.get(API_URL + "/all/" + 1, { headers: authHeader() });
@@ -15,10 +16,11 @@ export class UserService {
     }
   }
 
+  //OK
   static async searchUsers(searchQuery: string) {
     try {
       console.log("He entrado al servicio:" + searchQuery);
-      const response = await axios.get(API_URL + "/searchUserCtrl/" + searchQuery, { headers: authHeader() });
+      const response = await axios.get(API_URL + "/search/" + searchQuery, { headers: authHeader() });
       return response;
     } catch (error) {
       console.error("Error during register:", error);
@@ -26,6 +28,7 @@ export class UserService {
     }
   }
 
+  //OK
   static async getPerson(userId: string) {
     try {
       const response = await axios.get(API_URL + "/" + userId, { headers: authHeader() });
@@ -36,9 +39,10 @@ export class UserService {
     }
   }
 
-  static async isFollowed(userId:string, followerId: string) {
+  //OK
+  static async isFollowed(uuid:string, uuidFollowed: string) {
     try {
-      const response = await axios.get(API_URL + "/isFollower/" + userId + "/" + followerId, { headers: authHeader() });
+      const response = await axios.get(API_URL + "/isFollower/" + uuid + "/" + uuidFollowed, { headers: authHeader() });
       return response;
     } catch (error) {
       console.error("Error when obtaining if follower:", error);
@@ -46,9 +50,10 @@ export class UserService {
     }
   }
 
-  static async addFollowed(userId: string, followerId: string) {
+  //OK
+  static async addFollowed(uuid: string, uuidFollowed: string) {
     try {
-      const response = await axios.post(API_URL + "/followed", {idUser: userId, idFollowed: followerId}, { headers: authHeader() });
+      const response = await axios.post(API_URL + "/followed", {uuid: uuid, uuidFollowed: uuidFollowed}, { headers: authHeader() });
       return response;
     } catch (error) {
       console.error("Error adding followed:", error);
@@ -56,19 +61,22 @@ export class UserService {
     }
   }
 
-  static async removeFollowed(userId: string, followerId: string) {
+  //OK
+  static async removeFollowed(uuid: string, uuidFollowed: string) {
     try {
-      const response = await axios.post(API_URL + "/remfollowed/" + userId + "/" + followerId, { headers: authHeader() });
+      const response = await axios.put(API_URL + "/followed/this", { uuid: uuid, uuidFollowed: uuidFollowed }, { headers: authHeader()}, );
       return response;
-    } catch (error) {
+    } catch (error) { 
       console.error("Error removing followed:", error);
       throw error;
     }
   }
+  
 
-  static async getFollowers(userId: string | undefined, numPage: string) {
+  //OK
+  static async getFollowers(uuid: string | undefined, numPage: string) {
     try {
-      const response = await axios.get(API_URL + "/follower/" + userId + "/" + numPage, { headers: authHeader() });
+      const response = await axios.get(API_URL + "/follower/" + uuid + "/" + numPage, { headers: authHeader() });
       return response;
     } catch (error) {
       console.error("Error getting followers:", error);
@@ -76,9 +84,10 @@ export class UserService {
     }
   }
 
-  static async getFollowed(userId: string | undefined, numPage: string) {
+  //OK
+  static async getFollowed(uuid: string | undefined, numPage: string) {
     try {
-      const response = await axios.get(API_URL + "/followed/" + userId + "/" + numPage, { headers: authHeader() });
+      const response = await axios.get(API_URL + "/followed/" + uuid + "/" + numPage, { headers: authHeader() });
       return response;
     } catch (error) {
       console.error("Error getting followed:", error);
@@ -86,9 +95,12 @@ export class UserService {
     }
   }
   
+  //OK
   static async editUser(user: User) {
     try {
-      const response = await axios.put(API_URL + "/" + user._id, user, {headers: authHeader()});
+      console.log("Estamos en el editUser");
+      const response = await axios.put(API_URL + "/" + user.uuid, user, { headers: authHeader() });
+      console.log("Recibimos respuesta" + response);
       return response;
     } catch (error) {
       console.error("Error editing user: ", error);

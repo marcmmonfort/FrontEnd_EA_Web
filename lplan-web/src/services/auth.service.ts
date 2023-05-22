@@ -4,7 +4,8 @@ import { User } from "../models/user.model";
 import axios from "axios";
 
 
-const API_URL = "http://localhost:5432/auth";
+const API_URL = "http://localhost:5432/user";
+//const API_URL = "http://localhost:5432/auth";
 
 
 export class AuthService {
@@ -35,19 +36,19 @@ export class AuthService {
   }
 
   static getCurrentUser() {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("uuid");
     if(userId){
       return JSON.parse(userId);
     }
   }
 
   static setCurrentUser(userId:string, token:string) {
-    localStorage.setItem("userId",userId);
+    localStorage.setItem("uuid",userId);
     localStorage.setItem("token", token);
   }
 
   static logOut() {
-    localStorage.removeItem("userId");
+    localStorage.removeItem("uuid");
     localStorage.removeItem("token");
   }
 }

@@ -39,10 +39,10 @@ const UserProfile = () => {
         console.log("Obtenemos los datos del otro usuario:", userId);
         try {
             const response = await UserService.getPerson(userId ?? 'NoID');
-            setCurrentUser(response.data);
+            setCurrentUser(response.data.response);
             console.log("Obtenemos los datos del otro usuario: exito");
         } catch (error) {
-            //window.location.href = '*';
+            window.location.href = '*';
             console.log("Obtenemos los datos del otro usuario: mal");
             console.error(error);
             
@@ -59,7 +59,7 @@ const UserProfile = () => {
             setIsFollowing(response.data);
         } catch (error) {
             console.log("Pedimos la relacion que tenemos con ese user:: mal");
-            //window.location.href = '*';
+            window.location.href = '*';
             console.error(error);
         }
     };
@@ -98,7 +98,7 @@ const UserProfile = () => {
                 }
             } catch (error) {
                 console.log("Pedimos la relacion que tenemos con ese user:: mal");
-                //window.location.href = '*';
+                window.location.href = '*';
                 console.error(error);
             }
         }

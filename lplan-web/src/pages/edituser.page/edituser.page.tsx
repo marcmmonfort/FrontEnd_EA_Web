@@ -16,11 +16,11 @@ document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const EditUser = () => {
   const [user, setUser] = useState<User>({
+    uuid:"",
     appUser: "",
+    mailUser:"",
     nameUser: "",
     surnameUser: "",
-    mailUser: "",
-    passwordUser: "",
     photoUser: "photo.jpg",
     birthdateUser: new Date(),
     genderUser: "male",
@@ -39,7 +39,7 @@ const EditUser = () => {
           .then(response => {
             console.log(response);
             console.log(response.data);
-            setUser(response.data);
+            setUser(response.data.response);
           })
           .catch(error => {
             window.location.href = '*';
@@ -79,7 +79,7 @@ const EditUser = () => {
         console.log(user);
         console.log(response);
         console.log(response.status);
-        if (response.status === 200) {
+        if (response.request.status === 200) {
           Swal.fire({
             position: "center",
             icon: "success",
@@ -165,15 +165,6 @@ const EditUser = () => {
                       name="surnameUser"
                       type="text"
                       value={user.surnameUser}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Input
-                      label="Email"
-                      name="mailUser"
-                      type="email"
-                      readOnly={true} 
-                      value={user.mailUser}
                       onChange={handleChange}
                       required
                     />

@@ -1,11 +1,11 @@
-import { ObjectId } from "mongoose";
 import { Auth } from "./auth.model";
 
-export interface User extends Auth {
-    _id?: string;
+export interface User {
+    uuid?:string;
     appUser: string;
     nameUser: string;
     surnameUser: string;
+    mailUser:string;
     photoUser: string;
     birthdateUser: Date;
     genderUser: "male" | "female";
@@ -14,6 +14,11 @@ export interface User extends Auth {
     roleUser: "admin" | "common" | "verified" | "business";
     privacyUser: boolean;
     deletedUser: boolean;
-    followersUser?: ObjectId[];
-    followedUser?: ObjectId[];
+    followersUser?: string[];
+    followedUser?: string[];
+}
+
+
+export interface UserAuthEntity extends User{
+    passwordUser:string;
 }

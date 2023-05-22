@@ -71,8 +71,8 @@ const Discovery = () => {
         {userList.length > 0 ? (
           <ul>
             {userList.map((user: User) => (
-              <li key={user._id}>
-                <Link to={`/user/${user._id}`} className="user-link">
+              <li key={user.uuid}>
+                <Link to={`/user/${user.uuid}`} className="user-link">
                   <div className="user">
                     {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
                       <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
