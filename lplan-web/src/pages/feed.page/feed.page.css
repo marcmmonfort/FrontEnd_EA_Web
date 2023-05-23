@@ -183,7 +183,7 @@
     color: #fff;
   }
 
-  .show_more_comments{
+  .buttonLoadMore{
     font-family: "SFNS", sans-serif;
     margin: 6px;
     padding: 6px 6px;
@@ -197,4 +197,21 @@
     margin-top: -4px;
     margin-bottom: 10px;
   }
+
+  .buttonLoadMoreD{
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    background-color: #539b96;
+    border: none;
+    border-radius: 20px;
+    color: #000000;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    margin-top: -4px;
+    margin-bottom: 10px;
+  }
+
+
   

@@ -11,6 +11,7 @@ import './usersList.page.css';
 
 const UsersList = () => {
   const { userId, mode } = useParams();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userList, setUserList] = useState<User[]>([]);
   const [numPage, setNumPage] = useState(1); // Variable para el número de página
   const navigate = useNavigate();
@@ -21,15 +22,31 @@ const UsersList = () => {
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
     if(userId){
-        loadUserList();
+        loadUserList();       
+        loadUser();
+        
     } // Cargar la lista de usuarios al inicializar
 
     // Actualizar la lista de usuarios cuando cambie la página
   }, [numPage]);
 
+  const loadUser = async () => {
+    try {
+      const response = await UserService.getPerson(userId ?? 'NoID');
+      setCurrentUser(response.data.response);
+      console.log("Obtenemos los datos del otro usuario: exito");
+    } catch (error) {
+      navigate("*");
+      console.log("Obtenemos los datos del otro usuario: mal");
+      console.error(error);
+    }
+  };
+
+
   const loadUserList = () => {
     // Obtener la lista de usuarios según el modo y el número de página
     if (isFollowersMode) {
+
       UserService.getFollowers(userId, numPage.toString())
         .then(response => {
           console.log(response);
@@ -37,7 +54,7 @@ const UsersList = () => {
           setUserList(prevUserList => [...prevUserList, ...response.data]);
         })
         .catch(error => {
-          navigate("*");
+            navigate("*");
         });
     } else {
       UserService.getFollowed(userId, numPage.toString())
@@ -45,7 +62,7 @@ const UsersList = () => {
           console.log(response);
           console.log(response.data);
           setUserList(prevUserList => [...prevUserList, ...response.data]);
-        })
+          })
         .catch(error => {
           navigate("*");
         });
@@ -55,6 +72,8 @@ const UsersList = () => {
   const handleLoadMore = () => {
     setNumPage(prevNumPage => prevNumPage + 1); // Aumentar el número de página al hacer clic en "Obtener más"
   };
+
+
 
   return (
     <div>
@@ -84,7 +103,11 @@ const UsersList = () => {
         ) : (
           <h1 className="usersnotfound">User Not Found</h1>
         )}
-        <button className="btnLoadMore" onClick={handleLoadMore}>Obtener más</button>
+        {currentUser?.followersUser?.length !== undefined && currentUser.followersUser.length > numPage * 2 ? (
+          <button className="btnLoadMore" onClick={handleLoadMore}>Load More</button>
+        ):(
+          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled >Load More</button>
+        )}
       </div>
       <Footer />
     </div>
@@ -92,3 +115,5 @@ const UsersList = () => {
 };
 
 export default UsersList;
+
+

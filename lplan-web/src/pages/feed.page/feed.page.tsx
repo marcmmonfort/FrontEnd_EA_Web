@@ -275,17 +275,9 @@ const Feed = () => {
         ))}
         <div className="load-more">
           {listPublications.length > numPagePublication * 3 ? (
-            <button className="buttonLoadMore" onClick={handleLoadMore}>
-              Load More
-            </button>
+            <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
           ) : (
-            <button
-              className="buttonLoadMore"
-              onClick={handleLoadMore}
-              disabled
-            >
-              Load More{" "}
-            </button>
+            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
           )}
         </div>
       </div>
