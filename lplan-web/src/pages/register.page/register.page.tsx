@@ -87,33 +87,58 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             iconColor: '#000',
             background: '#66fcf1',
             backdrop: `rgba(0,0,0,0.8)`
-          }).then(() => {
+          })
+          .then(() => {
             navigate("/login");    
           });
         }
+        else if (response.status === 403){
+          Swal.fire({
+            position: 'center',
+            icon: 'info',
+            customClass: {
+              icon: 'swal-icon-color',
+              title: 'swal-title-font',
+              popup: 'swal-popup-width'
+            },
+            title: 'This User already exists!',
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 1000,
+            iconColor: '#000',
+            background: '#66fcf1',
+            backdrop: `rgba(0,0,0,0.8)`
+          }).then(() => {
+            navigate("/login");    
+          });  
+        }
       })
       .catch((error: any) => {
-        console.error(error);
-        console.log(error.response)
-        Swal.fire({
-          position: 'center',
-          icon: 'info',
-          customClass: {
-            icon: 'swal-icon-color',
-            title: 'swal-title-font',
-            popup: 'swal-popup-width'
-          },
-          title: 'This User already exists!',
-          showConfirmButton: false,
-          timerProgressBar: true,
-          timer: 1000,
-          iconColor: '#000',
-          background: '#66fcf1',
-          backdrop: `rgba(0,0,0,0.8)`
-        }).then(() => {
-          navigate("/login");    
-        });
-          
+        console.error("error: " + error);
+        console.log("error.response: " + error.response)
+        switch (error.response.status) {
+          case 403:
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              customClass: {
+                icon: 'swal-icon-color',
+                title: 'swal-title-font',
+                popup: 'swal-popup-width'
+              },
+              title: 'Email Already Exists!',
+              showConfirmButton: false,
+              timerProgressBar: true,
+              timer: 1000,
+              iconColor: '#000',
+              background: '#66fcf1',
+              backdrop: `rgba(0,0,0,0.8)`
+            }).then(() => {
+              navigate("/login");    
+            });
+            break;
+        }
+         
     });
       
   };  

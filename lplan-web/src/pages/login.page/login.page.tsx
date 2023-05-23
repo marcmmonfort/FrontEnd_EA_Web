@@ -98,24 +98,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               backdrop: `rgba(0,0,0,0.8)`
             });
             break;
-          case 406:
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              customClass: {
-                icon: 'swal-icon-color',
-                title: 'swal-title-font',
-                popup: 'swal-popup-width'
-              },
-              title: 'You are not an Admin!',
-              showConfirmButton: false,
-              timerProgressBar: true,
-              timer: 1000,
-              iconColor: '#000',
-              background: '#66fcf1',
-              backdrop: `rgba(0,0,0,0.8)`
-            });
-            break;
           case 404:
             Swal.fire({
               position: 'center',
@@ -132,8 +114,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               iconColor: '#000',
               background: '#66fcf1',
               backdrop: `rgba(0,0,0,0.8)`
-            });
+            }).then(() => {
+              navigate("/register");    
+            }); 
             break;
+
+            
+            
         }
       
     });
