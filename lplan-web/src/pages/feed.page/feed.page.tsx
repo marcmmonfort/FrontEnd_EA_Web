@@ -11,7 +11,7 @@ import './feed.page.css';
 import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Feed = () => {
@@ -22,6 +22,7 @@ const Feed = () => {
   const [pageComments, setPageComments] = useState<{ [key: string]: number }>({});
   const [commentButton, setCommentButton] = useState<{ [key: string]: string }>({});
   const [listCommentsPublication, setListCommentsPublication] = useState<{ [key: string]: Comment[] }>({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -60,7 +61,7 @@ const Feed = () => {
         setListPublications(response.data);
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
     }
   }, [numPagePublication]);
@@ -78,7 +79,7 @@ const Feed = () => {
         setListPublications(prevPublications => [...prevPublications, ...response.data]);
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
     }
   }
@@ -111,7 +112,7 @@ const Feed = () => {
           }));
         })
         .catch(error => {
-          window.location.href = '*';
+          navigate("*");
         });
       } else {
         setCommentButton(prevCommentButton => ({
@@ -149,7 +150,7 @@ const Feed = () => {
         }));
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
   }
 
@@ -165,15 +166,15 @@ const Feed = () => {
       <div className="feed">
         {listPublications.map((publication) => (
           <div className="post" key={publication.uuid}>
-
-            <div className="post__header">
-              <img className="post__profile-img" src={`${publication.idUser.photoUser}`} alt="Profile"/>
-                <div className="post__info">
-                  <p className="post__username">{publication.idUser.nameUser} {publication.idUser.surnameUser}</p>
-                  <p className="post__timestamp">{(publication.createdAt).toLocaleString()}</p>
-                </div>
-            </div>
-
+            <Link to={`/user/${publication.idUser.uuid}`} className="user-link">
+              <div className="post__header">
+                <img className="post__profile-img" src={`${publication.idUser.photoUser}`} alt="Profile"/>
+                  <div className="post__info">
+                    <p className="post__username">{publication.idUser.nameUser} {publication.idUser.surnameUser}</p>
+                    <p className="post__timestamp">{(publication.createdAt).toLocaleString()}</p>
+                  </div>
+              </div>
+            </Link>
             <div className="post__body">
               <p className="post__text">{publication.textPublication}</p>
               {publication.photoPublication.map((photo) => ( <img className="post__image" key={photo} src={photo} alt="Post"/> ))}

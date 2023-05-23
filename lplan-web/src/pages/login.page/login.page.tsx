@@ -13,7 +13,7 @@ import './login.page.css';
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_2.jpg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface LoginFormProps {
   onSubmit: (auth: Auth) => void;
@@ -27,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
   const [formData, setFormData] = useState<Auth>({ mailUser: '', passwordUser: '' });
   const [errors, setErrors] = useState<Partial<Auth>>({});
+  const navigate = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -71,7 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             AuthService.setCurrentUser(JSON.stringify(response.data.user.uuid), JSON.stringify(response.data.token));
             console.log('_id' + JSON.stringify(response.data.user.uuid));
             console.log('token' + JSON.stringify(response.data.token));
-            window.location.href = '/profile';
+            navigate('/profile');
           });
         }
       })

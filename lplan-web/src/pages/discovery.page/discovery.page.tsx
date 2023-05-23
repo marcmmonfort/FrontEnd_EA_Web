@@ -10,12 +10,13 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import _debounce from 'lodash/debounce';
 import './discovery.page.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Discovery = () => {
 
   const [userList, setUserList] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const navigate = useNavigate();
 
   console.log("global:" + searchQuery);
 
@@ -28,7 +29,7 @@ const Discovery = () => {
         setUserList(response.data);
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
   }, []);
 

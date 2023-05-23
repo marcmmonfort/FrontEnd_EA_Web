@@ -13,7 +13,7 @@ import Footer from "../../components/footer/footer";
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_1.jpg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface RegisterProps {
   onSubmit: (data: UserAuthEntity) => void;
@@ -40,6 +40,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     privacyUser: false,
     deletedUser: false,
   });
+  const navigate = useNavigate();
   
 
   // Handle para input tipo checkbox
@@ -87,7 +88,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             background: '#66fcf1',
             backdrop: `rgba(0,0,0,0.8)`
           }).then(() => {
-            window.location.href = '/login';    
+            navigate("/login");    
           });
         }
       })
@@ -110,7 +111,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
           background: '#66fcf1',
           backdrop: `rgba(0,0,0,0.8)`
         }).then(() => {
-          window.location.href = '/login';    
+          navigate("/login");    
         });
           
     });

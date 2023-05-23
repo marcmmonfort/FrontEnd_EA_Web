@@ -4,8 +4,17 @@ import { User } from "../models/user.model";
 import axios from "axios";
 
 
-const API_URL = "http://localhost:5432/user";
+//const API_URL = "http://localhost:5432/user";
 //const API_URL = "http://localhost:5432/auth";
+let API_URL="";
+if (process.env.NODE_ENV === 'production') {
+  // Cargar variables de entorno desde .env.production
+  API_URL = "http://147.83.7.158:5432/user";
+  console.log(API_URL);
+} else {
+  // Cargar variables de entorno desde .env.local
+  API_URL = process.env.REACT_APP_API_URL_LOCAL + "/user";
+}
 
 
 export class AuthService {
