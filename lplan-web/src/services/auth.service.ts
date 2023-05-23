@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
   console.log(API_URL);
 } else {
   // Cargar variables de entorno desde .env.local
-  API_URL = process.env.REACT_APP_API_URL_LOCAL + "/user";
+  API_URL = "http://localhost:5432/user";
 }
 
 
