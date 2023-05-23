@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
@@ -13,6 +13,7 @@ const UsersList = () => {
   const { userId, mode } = useParams();
   const [userList, setUserList] = useState<User[]>([]);
   const [numPage, setNumPage] = useState(1); // Variable para el número de página
+  const navigate = useNavigate();
 
   const isFollowersMode = mode === "followers";
   const title = isFollowersMode ? "Followers" : "Following";
@@ -36,7 +37,7 @@ const UsersList = () => {
           setUserList(prevUserList => [...prevUserList, ...response.data]);
         })
         .catch(error => {
-          window.location.href = '*';
+          navigate("*");
         });
     } else {
       UserService.getFollowed(userId, numPage.toString())
@@ -46,7 +47,7 @@ const UsersList = () => {
           setUserList(prevUserList => [...prevUserList, ...response.data]);
         })
         .catch(error => {
-          window.location.href = '*';
+          navigate("*");
         });
     }
   };

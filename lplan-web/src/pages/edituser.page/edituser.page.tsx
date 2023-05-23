@@ -5,7 +5,7 @@ import "./edituser.page.css";
 // Fondo de pantalla personalizado ...
 import backgroundImage from "../../assets/images/background_7.jpg";
 import { AuthService } from "../../services/auth.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
 import Swal from "sweetalert2";
@@ -30,6 +30,7 @@ const EditUser = () => {
     privacyUser: false,
     deletedUser: false,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -42,7 +43,7 @@ const EditUser = () => {
             setUser(response.data.response);
           })
           .catch(error => {
-            window.location.href = '*';
+            navigate("*");
           });
       }
     };
@@ -97,7 +98,7 @@ const EditUser = () => {
             backdrop: `rgba(0,0,0,0.8)`,
           }).then(() => {
             console.log(response.data);
-            window.location.href = '/profile';
+            navigate("/profile");
           });
         }
       })
@@ -120,7 +121,7 @@ const EditUser = () => {
           background: "#66fcf1",
           backdrop: `rgba(0,0,0,0.8)`,
         }).then(() => {
-          window.location.href = "/profile";
+          navigate("/profile");
         });
       });
   };

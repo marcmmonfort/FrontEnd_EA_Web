@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import backgroundImage from '../../assets/images/background_4.jpg';
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
@@ -7,6 +7,7 @@ import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthService } from "../../services/auth.service";
+import { Link } from "react-router-dom";
 import './user.page.css';
 
 const UserProfile = () => {
@@ -15,6 +16,7 @@ const UserProfile = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [myId, setMyId] = useState("1234");
+  const navigate = useNavigate();
 
   useEffect(() => {
       document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -42,7 +44,7 @@ const UserProfile = () => {
             setCurrentUser(response.data.response);
             console.log("Obtenemos los datos del otro usuario: exito");
         } catch (error) {
-            window.location.href = '*';
+            navigate("*");
             console.log("Obtenemos los datos del otro usuario: mal");
             console.error(error);
             
@@ -59,7 +61,7 @@ const UserProfile = () => {
             setIsFollowing(response.data);
         } catch (error) {
             console.log("Pedimos la relacion que tenemos con ese user:: mal");
-            window.location.href = '*';
+            navigate("*");
             console.error(error);
         }
     };
@@ -82,7 +84,7 @@ const UserProfile = () => {
                 
             } catch (error) {
                 console.log("Pedimos la relacion que tenemos con ese user:: mal");
-                //window.location.href = '*';
+                navigate("*");
                 console.error(error);
             }
         }else{
@@ -98,7 +100,7 @@ const UserProfile = () => {
                 }
             } catch (error) {
                 console.log("Pedimos la relacion que tenemos con ese user:: mal");
-                window.location.href = '*';
+                navigate("*");
                 console.error(error);
             }
         }
@@ -120,9 +122,9 @@ const UserProfile = () => {
                             </button>
                         <div className="profile-stats">
                             <h1 className="profileTitle">Followers</h1>
-                            <h1 className="profile-stat-count">{currentUser.followersUser?.length}</h1>
+                            <h1 className="profile-stat-count"><Link  to={`/profile/userList/${currentUser.uuid}/followers`}>{currentUser.followersUser?.length}</Link></h1>
                             <h1 className="profileTitle">Following</h1>
-                            <h1 className="profile-stat-count">{currentUser.followedUser?.length}</h1>
+                            <h1 className="profile-stat-count"><Link  to={`/profile/userList/${currentUser.uuid}/following`}>{currentUser.followedUser?.length}</Link></h1>
                         </div>
                         <div className="profile-bio">
                             <h1 className="profileTitle">Name</h1>

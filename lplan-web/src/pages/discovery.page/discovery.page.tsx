@@ -10,13 +10,14 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import _debounce from 'lodash/debounce';
 import './discovery.page.css';
-import { Link } from "react-router-dom";
 import { AuthService } from "../../services/auth.service";
+import { Link, useNavigate } from "react-router-dom";
 
 const Discovery = () => {
 
   const [userList, setUserList] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const navigate = useNavigate();
 
   console.log("global:" + searchQuery);
 
@@ -29,7 +30,7 @@ const Discovery = () => {
         setUserList(response.data);
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
   }, []);
 
@@ -58,6 +59,7 @@ const Discovery = () => {
   const debouncedSearch = _debounce(handleSearch, 500);
 
   const currentUser = AuthService.getCurrentUser();
+  console.log("usuario", currentUser);
 
   return (
     <div>
@@ -75,7 +77,7 @@ const Discovery = () => {
           <ul>
             {userList.map((user: User) => (
               <li key={user.uuid}>
-                {currentUser.uuid === user.uuid ? ( // Verifica si el usuario actual coincide con el usuario del bucle
+                {currentUser === user.uuid ? (
                   <div className="user">
                     <Link to={`/profile`} className="user-link">
                       <div className="user">
