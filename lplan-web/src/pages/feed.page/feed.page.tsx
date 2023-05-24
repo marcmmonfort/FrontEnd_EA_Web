@@ -12,6 +12,7 @@ import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate } from "react-router-dom";
+import { FaComment } from "react-icons/fa";
 
 const Feed = () => {
   const [listPublications, setListPublications] = useState<Publication[]>([]);
@@ -20,6 +21,9 @@ const Feed = () => {
   const [pageComments, setPageComments] = useState<{ [key: string]: number }>({});
   const [commentButton, setCommentButton] = useState<{ [key: string]: string }>({});
   const [listCommentsPublication, setListCommentsPublication] = useState<{ [key: string]: Comment[] }>({});
+  const [showCommentForm, setShowCommentForm] = useState<{[key: string]: boolean; }>({});
+  const [commentText, setCommentText] = useState<{ [key: string]: string }>({});
+  const [recargar, setRecargar] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,13 +72,31 @@ const Feed = () => {
           );
           setListCommentsPublication(initialListComments);
 
+          const initialShowCommentButton = response.data.reduce(
+            (acc: { [key: string]: boolean }, publication: Publication) => {
+              acc[publication.uuid] = false;
+              return acc;
+            },
+            {}
+          );
+          setShowCommentForm(initialShowCommentButton);
+
+          const initialCommentText= response.data.reduce(
+            (acc: { [key: string]: string }, publication: Publication) => {
+              acc[publication.uuid] = "";
+              return acc;
+            },
+            {}
+          );
+          setCommentText(initialCommentText);
+
           setListPublications(response.data);
       })
       .catch(error => {
         navigate("*");
       });
     }
-  }, [numPagePublication]);
+  }, [numPagePublication, recargar]);
 
   const handleLoadMore = () => {
     console.log("Has pulsado el btn");
@@ -172,6 +194,53 @@ const Feed = () => {
       });
   };
 
+  //Para escribir respuesta a publicación
+  const handleToggleCommentForm = (idPublication:string) => {
+    setShowCommentForm((prevShowComments) => ({
+      ...prevShowComments,
+      [idPublication]: !prevShowComments[idPublication],
+    }));
+  };
+
+  const handleInputChange = (event:any, idPublication:string) => {
+    setCommentText((prevCommentText) => ({
+      ...prevCommentText,
+      [idPublication]: prevCommentText[idPublication] = event.target.value,
+    }));
+  };
+
+  const handleSubmit = (event:any, idPublication:string) => {
+    event.preventDefault();
+
+    // Lógica para enviar el comentario a la publicación
+    const userId = AuthService.getCurrentUser();
+
+    if(userId){
+      const comment:Comment = {
+        idUserComment: userId,
+        idPublicationComment: idPublication,
+        textComment: commentText[idPublication],
+      };
+
+      CommentService.createComment(comment)
+        .then((response) => {
+          console.log(response);
+          console.log(response.data);
+          setRecargar("recargate");
+        })
+        .catch(error => {
+          navigate("*");
+        });
+  
+    }
+    
+    setCommentText((prevCommentText) => ({
+      ...prevCommentText,
+      [idPublication]: prevCommentText[idPublication] = "",
+    }));
+  };
+  
+
   return (
     <div>
       <Navbar />
@@ -212,6 +281,15 @@ const Feed = () => {
                   {commentButton[publication.uuid]}{" "}
                   {publication.commentsPublication?.length}
                 </button>
+                <div className="comment-icon" onClick={() => {handleToggleCommentForm(publication.uuid.toString());}}>
+                <FaComment></FaComment>
+              </div>
+              {showCommentForm[publication.uuid] && (
+                <form onSubmit={(event) => {handleSubmit(event, publication.uuid.toString());}}>
+                  <input type="text" value={commentText[publication.uuid]} onChange={(event) => {handleInputChange(event, publication.uuid.toString());}}/>
+                  <button type="submit">Send Comment</button>
+                </form>
+              )}
               </div>
               {commentsVisibility[publication.uuid] && (
                 <div>
