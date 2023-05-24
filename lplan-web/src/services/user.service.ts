@@ -2,7 +2,16 @@ import axios from "axios";
 
 import authHeader from "./authHeader.service";
 import { User } from "../models/user.model";
-const API_URL = "http://localhost:5432/user";
+
+//const API_URL = "http://localhost:5432/user";
+let API_URL="";
+if (process.env.NODE_ENV === 'production') {
+  // Cargar variables de entorno desde .env.production
+  API_URL ="http://147.83.7.158:5432/user";
+} else {
+  // Cargar variables de entorno desde .env.local
+  API_URL = "http://localhost:5432/user";
+}
 
 export class UserService {
   //OK

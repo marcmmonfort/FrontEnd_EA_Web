@@ -11,7 +11,7 @@ import "./feed.page.css";
 import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Feed = () => {
   const [listPublications, setListPublications] = useState<Publication[]>([]);
@@ -19,8 +19,8 @@ const Feed = () => {
   const [commentsVisibility, setCommentsVisibility] = useState<{[key: string]: boolean; }>({});
   const [pageComments, setPageComments] = useState<{ [key: string]: number }>({});
   const [commentButton, setCommentButton] = useState<{ [key: string]: string }>({});
-  const [listCommentsPublication, setListCommentsPublication] = useState<{[key: string]: Comment[];}>({});
-  const [datePublication, setDatePublication] = useState<{[key: string]: string;}>({});
+  const [listCommentsPublication, setListCommentsPublication] = useState<{ [key: string]: Comment[] }>({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -67,14 +67,12 @@ const Feed = () => {
             {}
           );
           setListCommentsPublication(initialListComments);
-        
 
           setListPublications(response.data);
-
-        })
-        .catch((error) => {
-          window.location.href = "*";
-        });
+      })
+      .catch(error => {
+        navigate("*");
+      });
     }
   }, [numPagePublication]);
 
@@ -83,19 +81,16 @@ const Feed = () => {
     setNumPagePublication((prevPage) => prevPage + 1);
     const userId = AuthService.getCurrentUser();
     console.log("HandleLoadMore:" + numPagePublication);
-    if (userId) {
-      PublicationService.feed(numPagePublication.toString(), userId)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data);
-          setListPublications((prevPublications) => [
-            ...prevPublications,
-            ...response.data,
-          ]);
-        })
-        .catch((error) => {
-          window.location.href = "*";
-        });
+    if(userId){
+      PublicationService.feed((numPagePublication).toString(), userId)
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setListPublications(prevPublications => [...prevPublications, ...response.data]);
+      })
+      .catch(error => {
+        navigate("*");
+      });
     }
   };
 
@@ -119,21 +114,18 @@ const Feed = () => {
           [idPublication]: (prevCommentButton[idPublication] = "Hide Comments"),
         }));
         console.log("Entro a hide");
-        CommentService.getCommentsPublication(
-          idPublication,
-          pageComments[idPublication].toString()
-        )
-          .then((response) => {
-            console.log(response);
-            console.log(response.data);
-            setListCommentsPublication((prevListComments) => ({
-              ...prevListComments,
-              [idPublication]: response.data,
-            }));
-          })
-          .catch((error) => {
-            window.location.href = "*";
-          });
+        CommentService.getCommentsPublication(idPublication, (pageComments[idPublication]).toString())
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
+          setListCommentsPublication(prevListComments => ({
+            ...prevListComments,
+            [idPublication]: response.data
+          }));
+        })
+        .catch(error => {
+          navigate("*");
+        });
       } else {
         setCommentButton((prevCommentButton) => ({
           ...prevCommentButton,
@@ -175,8 +167,8 @@ const Feed = () => {
           ],
         }));
       })
-      .catch((error) => {
-        window.location.href = "*";
+      .catch(error => {
+        navigate("*");
       });
   };
 
@@ -189,22 +181,15 @@ const Feed = () => {
       <div className="feed">
         {listPublications.map((publication) => (
           <div className="post" key={publication.uuid}>
-            <div className="post__header">
-              <img
-                className="post__profile-img"
-                src={`${publication.idUser.photoUser}`}
-                alt="Profile"
-              />
-              <div className="post__info">
-                <p className="post__username_header">
-                  {publication.idUser.appUser}
-                </p>
-                <p className="post__timestamp_header">
-                  {new Date(publication.createdAt).toLocaleString()}
-                </p>
+            <Link to={`/user/${publication.idUser.uuid}`} className="user-link">
+              <div className="post__header">
+                <img className="post__profile-img" src={`${publication.idUser.photoUser}`} alt="Profile"/>
+                  <div className="post__info">
+                    <p className="post__username_header">{publication.idUser.nameUser} {publication.idUser.surnameUser}</p>
+                    <p className="post__timestamp_header">{new Date(publication.createdAt).toLocaleString()}</p>
+                  </div>
               </div>
-            </div>
-
+            </Link>
             <div className="post__body">
               {publication.photoPublication.map((photo) => (
                 <img
@@ -290,17 +275,9 @@ const Feed = () => {
         ))}
         <div className="load-more">
           {listPublications.length > numPagePublication * 3 ? (
-            <button className="buttonLoadMore" onClick={handleLoadMore}>
-              Load More
-            </button>
+            <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
           ) : (
-            <button
-              className="buttonLoadMore"
-              onClick={handleLoadMore}
-              disabled
-            >
-              Load More{" "}
-            </button>
+            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
           )}
         </div>
       </div>

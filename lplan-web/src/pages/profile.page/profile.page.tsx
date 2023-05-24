@@ -5,7 +5,7 @@ import './profile.page.css';
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_7.jpg';
 import { AuthService } from "../../services/auth.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
@@ -19,6 +19,8 @@ const Profile = () => {
     
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userId, setUserId] = useState<string>("hola");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const getUser = async () => {
@@ -33,7 +35,7 @@ const Profile = () => {
           setCurrentUser(response.data.response);
         })
         .catch(error => {
-          window.location.href = '*';
+          navigate('*');
         });
       
       }

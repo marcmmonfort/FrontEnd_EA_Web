@@ -184,7 +184,7 @@
     align-self: center;
   }
 
-  .show_more_comments{
+  .buttonLoadMore{
     font-family: "SFNS", sans-serif;
     margin: 18px auto 10px;
     padding: 6px;
@@ -197,4 +197,56 @@
     cursor: pointer;
     text-align: center;
     align-self: center;
+    margin-top: 0px;
+    margin-bottom: 46px;
   }
+
+  .buttonLoadMoreD{
+    font-family: "SFNS", sans-serif;
+    margin: 18px auto 10px;
+    padding: 6px;
+    background-color: #66fcf27e;
+    border: none;
+    border-radius: 20px;
+    color: #000000;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    text-align: center;
+    align-self: center;
+    margin-top: 0px;
+    margin-bottom: 46px;
+    cursor: not-allowed;
+  }
+
+  .show_more_comments {
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    margin-top: -4px;
+    margin-bottom: 10px;
+    background-color: #000000;
+  }
+
+  .show_more_comments:disabled {
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf283;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    background-color: #00000078;
+    cursor: not-allowed;
+  }
+  

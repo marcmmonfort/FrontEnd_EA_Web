@@ -1,7 +1,15 @@
 import axios from "axios";
 import authHeader from "./authHeader.service";
 
-const API_URL = "http://localhost:5432/publication";
+//const API_URL = "http://localhost:5432/publication";
+let API_URL="";
+if (process.env.NODE_ENV === 'production') {
+  // Cargar variables de entorno desde .env.production
+  API_URL = "http://147.83.7.158:5432/publication";
+} else {
+  // Cargar variables de entorno desde .env.local
+  API_URL = "http://localhost:5432/publication";
+}
 
 
 export class PublicationService {
