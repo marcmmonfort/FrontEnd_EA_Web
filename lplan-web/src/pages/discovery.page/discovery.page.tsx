@@ -78,19 +78,17 @@ const Discovery = () => {
             {userList.map((user: User) => (
               <li key={user.uuid}>
                 {currentUser === user.uuid ? (
-                  <div className="user">
-                    <Link to={`/profile`} className="user-link">
-                      <div className="user">
-                        {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
-                          <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
-                        )}
-                        <div className="user__info">
+                  <Link to={`/profile`} className="user-link">
+                    <div className="user">
+                      {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+                      )}
+                      <div className="user__info">
                         <p className="user__name">{user.nameUser} {user.surnameUser}</p>
                         <p className="user__username">@{user.appUser}</p>
-                        </div>
                       </div>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                   ) : (
                   <Link to={`/user/${user.uuid}`} className="user-link">
                     <div className="user">

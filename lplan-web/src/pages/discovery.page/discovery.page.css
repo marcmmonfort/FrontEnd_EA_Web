@@ -6,13 +6,11 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-    .user {
+    .user_block {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      border-radius: 80px;
       height: 80px;
-      border: 1px solid #fff;
       margin-top:-32px;
       margin-left:-40px;
     }
@@ -25,7 +23,6 @@
       margin-left: 8px;
     }
 
-    
     .user__info {
     flex: 2;
     font-size: 18px;
