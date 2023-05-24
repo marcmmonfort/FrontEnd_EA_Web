@@ -41,7 +41,7 @@ const UserProfile = () => {
         console.log("Obtenemos los datos del otro usuario:", userId);
         try {
             const response = await UserService.getPerson(userId ?? 'NoID');
-            setCurrentUser(response.data.response);
+            setCurrentUser(response.data);
             console.log("Obtenemos los datos del otro usuario: exito");
         } catch (error) {
             navigate("*");

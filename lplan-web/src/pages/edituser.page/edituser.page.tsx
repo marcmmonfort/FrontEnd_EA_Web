@@ -40,7 +40,7 @@ const EditUser = () => {
           .then(response => {
             console.log(response);
             console.log(response.data);
-            setUser(response.data.response);
+            setUser(response.data);
           })
           .catch(error => {
             navigate("*");

@@ -33,7 +33,7 @@ const UsersList = () => {
   const loadUser = async () => {
     try {
       const response = await UserService.getPerson(userId ?? 'NoID');
-      setCurrentUser(response.data.response);
+      setCurrentUser(response.data);
       console.log("Obtenemos los datos del otro usuario: exito");
     } catch (error) {
       navigate("*");
@@ -103,11 +103,29 @@ const UsersList = () => {
         ) : (
           <h1 className="usersnotfound">User Not Found</h1>
         )}
-        {currentUser?.followersUser?.length !== undefined && currentUser.followersUser.length > numPage * 2 ? (
-          <button className="btnLoadMore" onClick={handleLoadMore}>Load More</button>
-        ):(
-          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled >Load More</button>
-        )}
+        {isFollowersMode ? (
+        currentUser?.followersUser?.length !== undefined &&
+        currentUser.followersUser.length > numPage * 2 ? (
+          <button className="btnLoadMore" onClick={handleLoadMore}>
+            Load More
+          </button>
+        ) : (
+          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
+            Load More
+          </button>
+        )
+      ) : (
+        currentUser?.followedUser?.length !== undefined &&
+        currentUser.followedUser.length > numPage * 2 ? (
+          <button className="btnLoadMore" onClick={handleLoadMore}>
+            Load More
+          </button>
+        ) : (
+          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
+            Load More
+          </button>
+        )
+      )}
       </div>
       <Footer />
     </div>

@@ -32,7 +32,7 @@ const Profile = () => {
         .then(response => {
           console.log(response);
           console.log(response.data);
-          setCurrentUser(response.data.response);
+          setCurrentUser(response.data);
         })
         .catch(error => {
           navigate('*');
