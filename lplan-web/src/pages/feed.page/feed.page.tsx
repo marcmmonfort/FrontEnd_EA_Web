@@ -24,6 +24,7 @@ const Feed = () => {
   const [showCommentForm, setShowCommentForm] = useState<{[key: string]: boolean; }>({});
   const [commentText, setCommentText] = useState<{ [key: string]: string }>({});
   const [recargar, setRecargar] = useState<string>('');
+  const [numPublications, setNumPublications] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -91,6 +92,16 @@ const Feed = () => {
           setCommentText(initialCommentText);
 
           setListPublications(response.data);
+      })
+      .catch(error => {
+        navigate("*");
+      });
+
+      PublicationService.numPublicationsFollowing(userId)
+      .then((response) => {
+        console.log(response);
+        console.log(response.data);
+        setNumPublications(response.data);
       })
       .catch(error => {
         navigate("*");
@@ -352,7 +363,7 @@ const Feed = () => {
           </div>
         ))}
         <div className="load-more">
-          {listPublications.length > numPagePublication * 3 ? (
+          {numPublications > numPagePublication * 3 ? (
             <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
           ) : (
             <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
