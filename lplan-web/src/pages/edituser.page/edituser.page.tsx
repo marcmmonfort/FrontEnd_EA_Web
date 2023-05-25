@@ -30,6 +30,7 @@ const EditUser = () => {
     privacyUser: false,
     deletedUser: false,
   });
+  //const [confirmDelete, setConfirmDelete] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -125,6 +126,38 @@ const EditUser = () => {
         });
       });
   };
+
+  /*
+  const deleteUser  = () => {
+    if (confirmDelete) {
+      setUser(prevUser => ({ ...prevUser, deletedUser: true }));
+    } else {
+      setConfirmDelete(true);
+    }
+
+    handleSubmit();
+  };
+
+  
+  <div>
+                    {confirmDelete ? (
+                      <div>
+                        <p>Are you sure that you want to delete?</p>
+                        <button className="buttonConfirm" onClick={deleteUser}>
+                          Confirmar
+                        </button>
+                        <button className="buttonCancel" onClick={() => setConfirmDelete(false)}>
+                          Cancelar
+                        </button>
+                      </div>
+                    ) : (
+                      <button className="buttonDelete" onClick={deleteUser}>
+                        Eliminar
+                      </button>
+                    )}
+                  </div>
+  */
+
   return (
     <div>
       <Navbar/>
