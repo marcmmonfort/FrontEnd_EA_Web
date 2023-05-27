@@ -249,4 +249,18 @@
     background-color: #00000078;
     cursor: not-allowed;
   }
+
+  .likes-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .likes-info span {
+    margin-right: 5px;
+  }
+  
+  .likes-info .liked {
+    color: red;
+  }
+  
   

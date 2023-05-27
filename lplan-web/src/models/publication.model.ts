@@ -10,3 +10,14 @@ export interface Publication {
     createdAt:string;
     updatedAt:string;
 }
+
+export interface PublicationLikes {
+    uuid:string;
+    idUser:User;
+    likesPublication?:[User];
+    textPublication?:string;
+    photoPublication:[string];
+    commentsPublication?:[string];
+    createdAt:string;
+    updatedAt:string;
+}

@@ -12,7 +12,7 @@ import { CommentService } from "../../services/comment.service";
 import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate } from "react-router-dom";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaHeart } from "react-icons/fa";
 
 const Feed = () => {
   const [listPublications, setListPublications] = useState<Publication[]>([]);
@@ -25,6 +25,7 @@ const Feed = () => {
   const [commentText, setCommentText] = useState<{ [key: string]: string }>({});
   const [recargar, setRecargar] = useState<string>('');
   const [numPublications, setNumPublications] = useState<number>(0);
+  const [hasLiked, setHasLiked] = useState<{[key: string]: boolean; }>({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,6 +91,15 @@ const Feed = () => {
             {}
           );
           setCommentText(initialCommentText);
+
+          const initialShowLikes = response.data.reduce(
+            (acc: { [key: string]: boolean }, publication: Publication) => {
+              acc[publication.uuid] = false;
+              return acc;
+            },
+            {}
+          );
+          setHasLiked(initialShowLikes);
 
           setListPublications(response.data);
       })
@@ -250,6 +260,28 @@ const Feed = () => {
       [idPublication]: prevCommentText[idPublication] = "",
     }));
   };
+
+  const handleLike = ( idPublication:string) => {
+
+    console.log("Handle Like" + idPublication);
+    console.log("Handle Like" + hasLiked[idPublication]);
+    if(hasLiked[idPublication]){
+
+      setHasLiked((prevLikes) => ({
+        ...prevLikes,
+        [idPublication]: !prevLikes[idPublication],
+      }));
+      console.log("Handle Like" + hasLiked[idPublication]);
+
+    }else{
+      setHasLiked((prevLikes) => ({
+        ...prevLikes,
+        [idPublication]: !prevLikes[idPublication],
+      }));
+      console.log("Handle Like" + hasLiked[idPublication]);
+    }
+
+  }
   
 
   return (
@@ -301,6 +333,12 @@ const Feed = () => {
                   <button type="submit">Send Comment</button>
                 </form>
               )}
+              </div>
+              <div className="likes-info" onClick={() => {handleLike(publication.uuid.toString());}}>
+                <span className={hasLiked[publication.uuid] ? "liked" : ""}>
+                  {publication.likesPublication?.length}
+                </span>
+                <FaHeart className={hasLiked[publication.uuid] ? "liked" : ""} />
               </div>
               {commentsVisibility[publication.uuid] && (
                 <div>
