@@ -4,7 +4,7 @@ import { User } from "../models/user.model";
 import axios from "axios";
 
 
-const API_URL = "http://localhost:5432/auth";
+const API_URL = "http://localhost:5432/user";
 
 
 export class AuthService {
