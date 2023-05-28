@@ -10,12 +10,14 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import _debounce from 'lodash/debounce';
 import './discovery.page.css';
-import { Link } from "react-router-dom";
+import { AuthService } from "../../services/auth.service";
+import { Link, useNavigate } from "react-router-dom";
 
 const Discovery = () => {
 
   const [userList, setUserList] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const navigate = useNavigate();
 
   console.log("global:" + searchQuery);
 
@@ -28,7 +30,7 @@ const Discovery = () => {
         setUserList(response.data);
       })
       .catch(error => {
-        window.location.href = '*';
+        navigate("*");
       });
   }, []);
 
@@ -56,6 +58,9 @@ const Discovery = () => {
 
   const debouncedSearch = _debounce(handleSearch, 500);
 
+  const currentUser = AuthService.getCurrentUser();
+  console.log("usuario", currentUser);
+
   return (
     <div>
       <Navbar />
@@ -71,18 +76,32 @@ const Discovery = () => {
         {userList.length > 0 ? (
           <ul>
             {userList.map((user: User) => (
-              <li key={user._id}>
-                <Link to={`/user/${user._id}`} className="user-link">
-                  <div className="user">
-                    {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
-                      <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
-                    )}
-                    <div className="user__info">
-                      <p className="user__name">{user.nameUser} {user.surnameUser}</p>
-                      <p className="user__username">@{user.appUser}</p>
+              <li key={user.uuid}>
+                {currentUser === user.uuid ? (
+                  <Link to={`/profile`} className="user-link">
+                    <div className="user">
+                      {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+                      )}
+                      <div className="user__info">
+                        <p className="user__name">{user.nameUser} {user.surnameUser}</p>
+                        <p className="user__username">@{user.appUser}</p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                  ) : (
+                  <Link to={`/user/${user.uuid}`} className="user-link">
+                    <div className="user">
+                      {user.photoUser ? (<img src={user.photoUser} alt={user.nameUser} className="user__profile-img" />) : (
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
+                      )}
+                      <div className="user__info">
+                        <p className="user__name">{user.nameUser} {user.surnameUser}</p>
+                        <p className="user__username">@{user.appUser}</p>
+                      </div>
+                    </div>
+                  </Link>
+                )}              
               </li>
             ))}
           </ul>

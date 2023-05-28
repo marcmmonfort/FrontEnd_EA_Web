@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User } from "../../models/user.model";
+import { UserAuthEntity } from "../../models/user.model";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
 import Swal from 'sweetalert2';
@@ -13,10 +13,10 @@ import Footer from "../../components/footer/footer";
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_1.jpg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface RegisterProps {
-  onSubmit: (data: User) => void;
+  onSubmit: (data: UserAuthEntity) => void;
 }
 
 const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
@@ -25,7 +25,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
   }, []);
 
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<UserAuthEntity>({
     appUser: '',
     nameUser: '',
     surnameUser: '',
@@ -40,6 +40,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     privacyUser: false,
     deletedUser: false,
   });
+  const navigate = useNavigate();
   
 
   // Handle para input tipo checkbox
@@ -86,33 +87,58 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             iconColor: '#000',
             background: '#66fcf1',
             backdrop: `rgba(0,0,0,0.8)`
-          }).then(() => {
-            window.location.href = '/login';    
+          })
+          .then(() => {
+            navigate("/login");    
           });
+        }
+        else if (response.status === 403){
+          Swal.fire({
+            position: 'center',
+            icon: 'info',
+            customClass: {
+              icon: 'swal-icon-color',
+              title: 'swal-title-font',
+              popup: 'swal-popup-width'
+            },
+            title: 'This User already exists!',
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 1000,
+            iconColor: '#000',
+            background: '#66fcf1',
+            backdrop: `rgba(0,0,0,0.8)`
+          }).then(() => {
+            navigate("/login");    
+          });  
         }
       })
       .catch((error: any) => {
-        console.error(error);
-        console.log(error.response)
-        Swal.fire({
-          position: 'center',
-          icon: 'info',
-          customClass: {
-            icon: 'swal-icon-color',
-            title: 'swal-title-font',
-            popup: 'swal-popup-width'
-          },
-          title: 'This User already exists!',
-          showConfirmButton: false,
-          timerProgressBar: true,
-          timer: 1000,
-          iconColor: '#000',
-          background: '#66fcf1',
-          backdrop: `rgba(0,0,0,0.8)`
-        }).then(() => {
-          window.location.href = '/login';    
-        });
-          
+        console.error("error: " + error);
+        console.log("error.response: " + error.response)
+        switch (error.response.status) {
+          case 403:
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              customClass: {
+                icon: 'swal-icon-color',
+                title: 'swal-title-font',
+                popup: 'swal-popup-width'
+              },
+              title: 'Email Already Exists!',
+              showConfirmButton: false,
+              timerProgressBar: true,
+              timer: 1000,
+              iconColor: '#000',
+              background: '#66fcf1',
+              backdrop: `rgba(0,0,0,0.8)`
+            }).then(() => {
+              navigate("/login");    
+            });
+            break;
+        }
+         
     });
       
   };  

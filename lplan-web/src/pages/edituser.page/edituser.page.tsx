@@ -5,7 +5,7 @@ import "./edituser.page.css";
 // Fondo de pantalla personalizado ...
 import backgroundImage from "../../assets/images/background_7.jpg";
 import { AuthService } from "../../services/auth.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
 import Swal from "sweetalert2";
@@ -16,11 +16,11 @@ document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const EditUser = () => {
   const [user, setUser] = useState<User>({
+    uuid:"",
     appUser: "",
+    mailUser:"",
     nameUser: "",
     surnameUser: "",
-    mailUser: "",
-    passwordUser: "",
     photoUser: "photo.jpg",
     birthdateUser: new Date(),
     genderUser: "male",
@@ -30,6 +30,8 @@ const EditUser = () => {
     privacyUser: false,
     deletedUser: false,
   });
+  //const [confirmDelete, setConfirmDelete] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -42,7 +44,7 @@ const EditUser = () => {
             setUser(response.data);
           })
           .catch(error => {
-            window.location.href = '*';
+            navigate("*");
           });
       }
     };
@@ -79,7 +81,7 @@ const EditUser = () => {
         console.log(user);
         console.log(response);
         console.log(response.status);
-        if (response.status === 200) {
+        if (response.request.status === 200) {
           Swal.fire({
             position: "center",
             icon: "success",
@@ -97,7 +99,7 @@ const EditUser = () => {
             backdrop: `rgba(0,0,0,0.8)`,
           }).then(() => {
             console.log(response.data);
-            window.location.href = '/profile';
+            navigate("/profile");
           });
         }
       })
@@ -120,10 +122,42 @@ const EditUser = () => {
           background: "#66fcf1",
           backdrop: `rgba(0,0,0,0.8)`,
         }).then(() => {
-          window.location.href = "/profile";
+          navigate("/profile");
         });
       });
   };
+
+  /*
+  const deleteUser  = () => {
+    if (confirmDelete) {
+      setUser(prevUser => ({ ...prevUser, deletedUser: true }));
+    } else {
+      setConfirmDelete(true);
+    }
+
+    handleSubmit();
+  };
+
+  
+  <div>
+                    {confirmDelete ? (
+                      <div>
+                        <p>Are you sure that you want to delete?</p>
+                        <button className="buttonConfirm" onClick={deleteUser}>
+                          Confirmar
+                        </button>
+                        <button className="buttonCancel" onClick={() => setConfirmDelete(false)}>
+                          Cancelar
+                        </button>
+                      </div>
+                    ) : (
+                      <button className="buttonDelete" onClick={deleteUser}>
+                        Eliminar
+                      </button>
+                    )}
+                  </div>
+  */
+
   return (
     <div>
       <Navbar/>
@@ -165,15 +199,6 @@ const EditUser = () => {
                       name="surnameUser"
                       type="text"
                       value={user.surnameUser}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Input
-                      label="Email"
-                      name="mailUser"
-                      type="email"
-                      readOnly={true} 
-                      value={user.mailUser}
                       onChange={handleChange}
                       required
                     />

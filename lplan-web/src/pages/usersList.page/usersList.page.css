@@ -6,77 +6,106 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
-    .user {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      border-radius: 80px;
-      height: 80px;
-      border: 1px solid #fff;
-      margin-top:-32px;
-      margin-left:-40px;
-    }
+  .user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 80px;
+    height: 80px;
+    border: 1px solid #fff;
+    margin-top:-32px;
+    margin-left:-40px;
+  }
 
-    .user__profile-img {
-      width: 66px;
-      height: 66px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-left: 8px;
-    }
+  .user__profile-img {
+    width: 66px;
+    height: 66px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
 
-    
-    .user__info {
-    flex: 2;
-    font-size: 18px;
-    text-align: left;
-    color: #fff; 
+
+  .user__info {
+  flex: 2;
+  font-size: 18px;
+  text-align: left;
+  color: #fff; 
+  font-family: "SFNS", sans-serif;
+  margin-top:0px;
+  margin-left:8px;
+  margin-bottom:2px;
+  }
+
+  .user__username {
+    margin-top:-18px;
+    font-size: 14px;
+    color: #66fcf1;
+  }
+
+  ul {
+    list-style: none;
+    width: 360px;
+    margin-top: 42px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:68px;
+  }
+
+  input[type="text"] {
     font-family: "SFNS", sans-serif;
-    margin-top:0px;
-    margin-left:8px;
-    margin-bottom:2px;
-    }
-    
-    .user__username {
-      margin-top:-18px;
-      font-size: 14px;
-      color: #66fcf1;
-    }
-    
-    ul {
-      list-style: none;
-      width: 360px;
-      margin-top: 42px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top:68px;
-    }
-    
-    input[type="text"] {
-      font-family: "SFNS", sans-serif;
-      font-size: 14px;
-      display: block;
-      width: 300px;
-      margin-bottom: 0.5rem; 
-      padding: 4px;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
-      line-height: 1.5;
-      background-color: #66fcf1;
-      color: #000;
-      text-align: left;
-      margin-top: 0px;
-      margin: 0 auto;
-    }
+    font-size: 14px;
+    display: block;
+    width: 300px;
+    margin-bottom: 0.5rem; 
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    line-height: 1.5;
+    background-color: #66fcf1;
+    color: #000;
+    text-align: left;
+    margin-top: 0px;
+    margin: 0 auto;
+  }
 
-    .usersnotfound{
-      font-size: 14px;
-      margin-top: 54px;
-      color: #66fcf1;
-      font-family: "SFNS", sans-serif;
-    }
-    .usersTitle {
-      color: white;
-    }
-    
+  .usersnotfound{
+    font-size: 14px;
+    margin-top: 54px;
+    color: #66fcf1;
+    font-family: "SFNS", sans-serif;
+  }
+  .usersTitle {
+    color: white;
+  }
+
+  .btnLoadMore{
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    background-color: #66fcf1;
+    border: none;
+    border-radius: 20px;
+    color: #000000;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    margin-top: -4px;
+    margin-bottom: 10px;
+  }
+
+  .btnLoadMoreD{
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    background-color: #539b96;
+    border: none;
+    border-radius: 20px;
+    color: #000000;
+    font-size: 14px;
+    width: 100px;
+    cursor: pointer;
+    margin-top: -4px;
+    margin-bottom: 10px;
+  }
