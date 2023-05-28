@@ -36,4 +36,26 @@ export class PublicationService {
     }
   }
 
+  static async updateLike( uuid: string, uuidUser:string) {
+    try {
+      const response = await axios.put(API_URL + "/parameter/like",{ uuid: uuid, uuidUser: uuidUser}, { headers: authHeader() });
+      //console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during load feed:', error);
+      throw error;
+    }
+  }
+
+  static async deleteLike( uuid: string, uuidUser:string) {
+    try {
+      const response = await axios.put(API_URL + "/delete/like",{ uuid: uuid, uuidUser: uuidUser}, { headers: authHeader() });
+      //console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during load feed:', error);
+      throw error;
+    }
+  }
+
 }

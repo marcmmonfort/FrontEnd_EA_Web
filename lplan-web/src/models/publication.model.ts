@@ -13,7 +13,7 @@ export interface Publication {
 
 export interface PublicationLikes {
     uuid:string;
-    idUser:User;
+    idUser:string;
     likesPublication?:[User];
     textPublication?:string;
     photoPublication:[string];

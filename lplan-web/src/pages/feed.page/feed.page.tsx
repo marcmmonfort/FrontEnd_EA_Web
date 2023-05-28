@@ -13,6 +13,8 @@ import { Comment } from "../../models/comment.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate } from "react-router-dom";
 import { FaComment, FaHeart } from "react-icons/fa";
+import { useSpring, animated } from 'react-spring';
+
 
 const Feed = () => {
   const [listPublications, setListPublications] = useState<Publication[]>([]);
@@ -26,6 +28,7 @@ const Feed = () => {
   const [recargar, setRecargar] = useState<string>('');
   const [numPublications, setNumPublications] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<{[key: string]: boolean; }>({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -94,12 +97,14 @@ const Feed = () => {
 
           const initialShowLikes = response.data.reduce(
             (acc: { [key: string]: boolean }, publication: Publication) => {
-              acc[publication.uuid] = false;
+              const hasLiked = publication.likesPublication?.includes(userId) || false;
+              acc[publication.uuid] = hasLiked;
               return acc;
             },
             {}
           );
           setHasLiked(initialShowLikes);
+          
 
           setListPublications(response.data);
       })
@@ -261,27 +266,58 @@ const Feed = () => {
     }));
   };
 
-  const handleLike = ( idPublication:string) => {
+  const handleLike = (idPublication:string) => {
 
     console.log("Handle Like" + idPublication);
     console.log("Handle Like" + hasLiked[idPublication]);
-    if(hasLiked[idPublication]){
+    const userId = AuthService.getCurrentUser();
+    if(userId){
+      if(hasLiked[idPublication]){
 
-      setHasLiked((prevLikes) => ({
-        ...prevLikes,
-        [idPublication]: !prevLikes[idPublication],
-      }));
-      console.log("Handle Like" + hasLiked[idPublication]);
+        setHasLiked((prevLikes) => ({
+          ...prevLikes,
+          [idPublication]: !prevLikes[idPublication],
+        }));
+        console.log("Handle Like True: " + hasLiked[idPublication]);
+        PublicationService.deleteLike(idPublication, userId)
+        .then((response) => {
+          console.log(response);
+          console.log(response.data);
+          setRecargar("recargate");
+          console.log("Se ha recargado");
+        })
+        .catch(error => {
+          navigate("*");
+        });
+  
+      }else{
+        setHasLiked((prevLikes) => ({
+          ...prevLikes,
+          [idPublication]: !prevLikes[idPublication],
+        }));
+        console.log("Handle Like False: " + hasLiked[idPublication]);
 
-    }else{
-      setHasLiked((prevLikes) => ({
-        ...prevLikes,
-        [idPublication]: !prevLikes[idPublication],
-      }));
-      console.log("Handle Like" + hasLiked[idPublication]);
+        
+        PublicationService.updateLike(idPublication, userId)
+        .then((response) => {
+          console.log(response);
+          console.log(response.data);
+          setRecargar("recargate");
+          console.log("Se ha recargado");
+        })
+        .catch(error => {
+          navigate("*");
+        });
+      }
     }
 
   }
+
+  const heartAnimation = useSpring({
+    from: { opacity: 0, y: 0 },
+    to: { opacity: hasLiked ? 1 : 0, y: hasLiked ? -100 : 0 },
+  });
+
   
 
   return (
