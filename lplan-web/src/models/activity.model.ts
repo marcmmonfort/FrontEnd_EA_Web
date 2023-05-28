@@ -1,13 +1,13 @@
-export interface Activity{
-    uuid:string;
+export interface ActivityEntity{
+    uuid?:string;
     nameActivity: string;
     creatorActivity: string;
-    participantsActivity?: [string];
+    participantsActivity?: string[] | undefined;
     publicationActivity?: string;
     dateActivity: Date;
-    hoursActivity: [string];
+    hoursActivity: string[];
     idLocation?: string;
     descriptionActivity?: string;
     privacyActivity: boolean;
-    roleActivity: "verificado" | "common" | "empresa" ;
+    roleActivity: string ;
 }

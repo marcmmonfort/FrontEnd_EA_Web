@@ -1,1 +1,18 @@
+.fc-toolbar .fc-prev-button, 
+.fc-toolbar .fc-next-button {
+  display: none;
+} /*Modificardepende de si nos interesa o no mostrar estos botones, Ponerlos cuando tengamos implementado el ver más semanas*/
 
+
+/*Poner las horas en blanco*/
+.fc-timegrid-slot.fc-timegrid-slot-label {
+    color: white;
+}
+
+/*Esto deberia cambiar el color del all day pero no lo hace*/
+.fc-timegrid-axis.fc-timegrid-axis-allday .fc-timegrid-axis-frame {
+    color: white !important;
+}
+  
+  
+  
