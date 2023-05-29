@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/input.component";
 import Footer from "../../components/footer/footer";
 import "./createActivity.page.css";
+import { setDate } from "date-fns";
 
 const CreateActivity = () => {
   const [activity, setActivity] = useState<ActivityEntity>({
@@ -23,6 +24,11 @@ const CreateActivity = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+  
+    
+    
+    
   
     if (name === "creatorActivity") {
       setActivity((prevActivity) => ({
@@ -36,7 +42,12 @@ const CreateActivity = () => {
         ...prevActivity,
         hoursActivity: [startHour, endHour],
       }));
-    } else {
+    } else if (name === "dateActivity"){
+      const dateValue =  new Date(value);
+      setActivity((prevActivity) => ({ ...prevActivity, [name]: dateValue }));
+    }
+    
+    else {
       setActivity((prevActivity) => ({
         ...prevActivity,
         [name]: value,
@@ -51,7 +62,16 @@ const CreateActivity = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const dateActivity = new Date(activity.dateActivity);
 
+    if (isNaN(dateActivity.getTime())) {
+      console.error("Fecha de actividad inválida");
+      return;
+    }
+    setActivity((prevActivity) => ({
+      ...prevActivity,
+      dateActivity,
+    }));
     console.log(activity);
 
     ActivityService.createActivity(activity)
@@ -63,6 +83,7 @@ const CreateActivity = () => {
         console.error(error);
         navigate("*");
       });
+      
   };
 
   return (
@@ -87,7 +108,7 @@ const CreateActivity = () => {
           label="Fecha de la actividad"
           name="dateActivity"
           type="date"
-          value={activity.dateActivity.toISOString().split("T")[0]}
+          value={new Date(activity.dateActivity).toISOString().substr(0, 10)} //new Date(user.birthdateUser).toISOString().substr(0, 10)
           onChange={handleInputChange}
         />
        <Input

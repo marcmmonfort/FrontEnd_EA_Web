@@ -17,6 +17,8 @@ interface CalendarProps {
   showDayButton: boolean;
   showMonthButton: boolean;
   showWeekChangeButtons: boolean;
+  selectedTimetable:string;
+  editable:boolean;
 }
 
 
@@ -26,6 +28,8 @@ const Calendar: React.FC<CalendarProps> = ({
   showDayButton,
   showMonthButton,
   showWeekChangeButtons,
+  selectedTimetable,
+
 }) => {
   const [selectedActivity, setSelectedActivity] = useState<ActivityEntity | null>(null);
 
@@ -47,17 +51,29 @@ const Calendar: React.FC<CalendarProps> = ({
     return `${hour}:00`;
   };
 
+  const adjustedActivities = activities.map((activity) => {
+    const startHour = activity.hoursActivity[0];
+    const endHour = activity.hoursActivity[1];
+    const startDate = new Date(activity.dateActivity);
+    startDate.setHours(parseInt(startHour), 0, 0);
+    const endDate = new Date(activity.dateActivity);
+    endDate.setHours(parseInt(endHour), 0, 0);
+    
+    return {
+      id: activity.uuid,
+      title: activity.nameActivity,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+      allDay: false,
+    };
+  });
+
   return (
-    <div>
+    <div className="calendar-container">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
-        events={activities.map((activity) => ({
-          id: activity.uuid,
-          title: activity.nameActivity,
-          start: activity.dateActivity,
-          allDay: true,
-        }))}
+        events={adjustedActivities}
         eventClick={handleEventClick}
         customButtons={{}}
         headerToolbar={{
@@ -71,7 +87,6 @@ const Calendar: React.FC<CalendarProps> = ({
           console.log(arg.date);
         }}
         weekends={true}
-        editable={true}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
@@ -79,6 +94,7 @@ const Calendar: React.FC<CalendarProps> = ({
         firstDay={1} // Establecer el inicio de la semana en lunes
         weekNumbers={showWeekChangeButtons} // Mostrar u ocultar los números de semana y los botones de cambio de semana
         slotLabelContent={getSlotLabelContent}
+        editable={selectedTimetable === "My Timetable"}
       />
       {selectedActivity && (
         <ActivityDetailsModal activity={selectedActivity} onClose={closeActivityDetails} />

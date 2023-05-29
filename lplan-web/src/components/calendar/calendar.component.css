@@ -13,6 +13,14 @@
 .fc-timegrid-axis.fc-timegrid-axis-allday .fc-timegrid-axis-frame {
     color: white !important;
 }
+
+.calendar-container .fc-header-toolbar {
+  color: white; 
+}
+.fc-timegrid-axis.fc-widget-header .fc-col-header-cell {
+  color: white !important;
+}
+
   
   
   
