@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { ActivityEntity } from "../../models/activity.model";
 import { EventClickArg } from "@fullcalendar/core";
 import ActivityDetailsModal from "../activityDetails/activity.component";
+import { SlotLabelContentArg } from "@fullcalendar/core";
 
 import "./calendar.component.css";
 
@@ -17,6 +18,7 @@ interface CalendarProps {
   showMonthButton: boolean;
   showWeekChangeButtons: boolean;
 }
+
 
 const Calendar: React.FC<CalendarProps> = ({
   activities,
@@ -38,6 +40,11 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const closeActivityDetails = () => {
     setSelectedActivity(null);
+  };
+
+  const getSlotLabelContent = (slotInfo: SlotLabelContentArg) => {
+    const hour = slotInfo.date.getHours();
+    return `${hour}:00`;
   };
 
   return (
@@ -71,6 +78,7 @@ const Calendar: React.FC<CalendarProps> = ({
         expandRows={true}
         firstDay={1} // Establecer el inicio de la semana en lunes
         weekNumbers={showWeekChangeButtons} // Mostrar u ocultar los números de semana y los botones de cambio de semana
+        slotLabelContent={getSlotLabelContent}
       />
       {selectedActivity && (
         <ActivityDetailsModal activity={selectedActivity} onClose={closeActivityDetails} />

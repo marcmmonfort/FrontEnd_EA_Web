@@ -4,7 +4,7 @@ import Footer from "../../components/footer/footer";
 import Calendar from "../../components/calendar/calendar.component";
 import { ActivityEntity } from "../../models/activity.model";
 import { ActivityService } from "../../services/activity.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa"; 
 import { AuthService } from "../../services/auth.service";
 
@@ -17,6 +17,7 @@ const CalendarEvents = () => {
   const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
   const [uuid, setUuid] = useState<string>("");
   const [selectedTimetable, setSelectedTimetable] = useState("My Timetable");
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -24,14 +25,14 @@ const CalendarEvents = () => {
 
     const userId = AuthService.getCurrentUser();
     setUuid(userId);
-    const semana = "1";
+    const currentDate = new Date;
+    currentDate.setHours(0, 0, 0, 0);
+    console.log(currentDate);
+    const date = currentDate.toString();
+    console.log("currentDate", date);
     if(selectedTimetable === "My Timetable"){
       console.log("My horario");
-    }else{
-      console.log("Feed de horaarios de seguidores");
-    }
-    /*
-    ActivityService.getMySchedule(userId, semana)
+      ActivityService.getMySchedule(userId, date)
       .then(response => {
         console.log(response);
         console.log(response.data);
@@ -40,7 +41,20 @@ const CalendarEvents = () => {
       .catch(error => {
         navigate("*");
       });
-      */
+    }else{
+      console.log("Feed de horarios de seguidores");
+      const numPage = 1;
+      const page = numPage.toString()
+      ActivityService.getOtherSchedule(userId, page ,date)
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setListActivities(response.data.activities);
+      })
+      .catch(error => {
+        navigate("*");
+      });
+    }
 
   }, [selectedTimetable]);
 

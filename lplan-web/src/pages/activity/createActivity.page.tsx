@@ -11,7 +11,7 @@ const CreateActivity = () => {
     nameActivity: "",
     creatorActivity: "",
     participantsActivity: [],
-    publicationActivity: "",
+    publicationActivity: [],
     dateActivity: new Date(),
     hoursActivity: [],
     descriptionActivity: "",
@@ -81,13 +81,6 @@ const CreateActivity = () => {
           name="creatorActivity"
           type="text"
           value={activity.creatorActivity}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Publicación de la actividad"
-          name="publicationActivity"
-          type="text"
-          value={activity.publicationActivity}
           onChange={handleInputChange}
         />
         <Input
