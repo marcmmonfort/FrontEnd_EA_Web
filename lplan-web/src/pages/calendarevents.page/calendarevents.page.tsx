@@ -7,6 +7,7 @@ import { ActivityService } from "../../services/activity.service";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa"; 
 import { AuthService } from "../../services/auth.service";
+import "./calendarevents.page.css"
 
 
 // Fondo de pantalla personalizado ...
@@ -19,6 +20,7 @@ const CalendarEvents = () => {
   const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
   const [uuid, setUuid] = useState<string>("");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [otherUser, setOtherUser] = useState<User | null>(null);
   const [selectedTimetable, setSelectedTimetable] = useState("My Timetable");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -57,6 +59,9 @@ const CalendarEvents = () => {
           console.log(otherScheduleResponse);
           console.log(otherScheduleResponse.data);
           setListActivities(otherScheduleResponse.data.activities);
+          const response = await UserService.getPerson(otherScheduleResponse.data.uuid);
+          const user = response.data;
+          setOtherUser(user);
         }
       } catch (error) {
         navigate("*");
@@ -96,16 +101,63 @@ const CalendarEvents = () => {
           >
             Friends Plan
           </button>
-          {currentUser && currentUser.followedUser &&selectedTimetable === "Timetable Feed" && currentUser.followedUser?.length > currentPage &&(
-            <button
-            className="nextPlan"
-            onClick={() => handlePageChange(1)}
-            >
-              Next Plan
-            </button>
-
-          )}
         </div>
+        <div className="buttonsCalendar">
+        {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentPage > 1  &&(
+            <button className="nextPlanButton" onClick={() => handlePageChange(-1)} > Previous Plan </button>
+        )}
+        {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentUser.followedUser?.length > currentPage &&(
+            <button className="nextPlanButton" onClick={() => handlePageChange(1)} > Next Plan </button>
+        )}
+        </div>
+        {selectedTimetable === "My Timetable" && currentUser && (
+          <div className="userCalendarContainer">
+            <Link to={`/profile`} className="userLink">
+              <div className="user">
+                {currentUser.photoUser ? (
+                  <img
+                    src={currentUser.photoUser}
+                    alt={currentUser.nameUser}
+                    className="user_profile-img"
+                  />
+                ) : (
+                  <img
+                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    alt="profile-img"
+                    className="user_profile-img"
+                  />
+                )}
+                <div className="user__info">
+                  <p className="user__commentname">@{currentUser.appUser}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}{selectedTimetable === "Timetable Feed" && otherUser && (
+          <div className="userCalendarContainer">
+            <Link to={`/user/${otherUser?.uuid}`} className="userLink">
+              <div className="user">
+                {otherUser.photoUser ? (
+                  <img
+                    src={otherUser.photoUser}
+                    alt={otherUser.nameUser}
+                    className="user_profile-img"
+                  />
+                ) : (
+                  <img
+                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    alt="profile-img"
+                    className="user_profile-img"
+                  />
+                )}
+                <div className="user__info">
+                  <p className="user__commentname">@{otherUser?.appUser}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )};
+        
         <Calendar 
           activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable}/>
       </div>

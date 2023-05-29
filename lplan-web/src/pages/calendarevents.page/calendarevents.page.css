@@ -2,4 +2,81 @@
     color: #fff;
     font-size: 24px; 
   }
+
+.nextPlanButton{
+  font-family: "SFNS", sans-serif;
+  margin: 6px;
+  padding: 6px 6px;
+  background-color: #000000;
+  border: none;
+  border-radius: 20px;
+  color: #66fcf1;
+  font-size: 14px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+.buttonsCalendar {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.userCalendarContainer{
+  display: flex;
+    flex-direction: column;
+    height: flex;
+    justify-content: flex-start;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.userCalendarContainer {
+  display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: none;
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    border-radius: 40px;
+    border: 1px solid #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.user{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: none;
+  height: 50px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  border-radius: 40px;
+  border: 1px solid #fff;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.userLink {
+  display: flex;
+  align-items: center;
+}
+
+.user_profile-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+
+
   
