@@ -22,6 +22,7 @@ const Navbar = () => {
                 <Link to="/messages">Messages</Link>
                 <Link to="/calendarevents">Calendar and Events</Link>
                 <Link to="/profile">Profile</Link>
+                <Link to="/map">Map</Link>
                 <Link to="/" onClick={handleLogout} className="logout-link">LogOut</Link>
 			</nav>
 		</header>
