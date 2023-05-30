@@ -21,6 +21,12 @@
   color: white !important;
 }
 
+.calendar-container{
+  height: 400px;
+  margin-bottom: 300px;
+  align-items: center;
+  padding-bottom: 10px;
+}
   
   
   

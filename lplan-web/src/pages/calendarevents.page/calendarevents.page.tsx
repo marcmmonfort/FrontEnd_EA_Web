@@ -85,9 +85,11 @@ const CalendarEvents = () => {
       <Navbar/>
       <div className="titleContainer">
         <h1 className="titleSection">Calendar + Events</h1>
-        <Link to="/createActivity" className="create-activity-link">
-          <FaPlus />
-        </Link>
+        {selectedTimetable === "My Timetable" &&(
+          <Link to="/createActivity" className="create-activity-link">
+            <FaPlus />
+          </Link>
+        )}
         <div className="schedule-buttons">
           <button
             className={selectedTimetable === "My Timetable" ? "active" : ""}
@@ -157,10 +159,12 @@ const CalendarEvents = () => {
             </Link>
           </div>
         )};
-        
+        <div className="calendar">
         <Calendar 
           activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable}/>
-      </div>
+     
+        </div>
+         </div>
       <Footer/>
     </div>
   );

@@ -32,13 +32,15 @@ const Calendar: React.FC<CalendarProps> = ({
 
 }) => {
   const [selectedActivity, setSelectedActivity] = useState<ActivityEntity | null>(null);
+  
 
   const handleEventClick = (event: EventClickArg) => {
     const clickedActivity = activities.find(
-      (activity) => activity.uuid === event.event.extendedProps.id
+      (activity) => activity.uuid === event.event.id
     );
     if (clickedActivity) {
       setSelectedActivity(clickedActivity);
+      console.log("clickedActivity", clickedActivity)
     }
   };
 
@@ -70,7 +72,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="calendar-container">
-      <FullCalendar
+      <FullCalendar 
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
         events={adjustedActivities}
