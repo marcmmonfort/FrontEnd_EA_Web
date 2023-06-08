@@ -85,7 +85,6 @@
     margin-top: 32px; /* Aumentar este valor para separar más los enlaces */
   }
   
-
   /* LÍNEAS */
   
   .profile-stats::before,
@@ -129,4 +128,23 @@
     font-family: "SFNS", sans-serif;
     color: #fff;
     margin-bottom: 12px;
+  }
+
+  .post_image_shown{
+    margin-top: 16px;
+    width: 160px !important;
+    height: 160px !important;
+    object-fit: cover;
+    border-radius: 10% !important;
+  }
+
+  .profile-album {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .album-item {
+    display: flex;
+    align-items: center;
   }

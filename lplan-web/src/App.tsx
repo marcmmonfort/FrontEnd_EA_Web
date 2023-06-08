@@ -49,7 +49,6 @@ function App() {
           <Route path="/map" element={<MapPage/>}></Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );

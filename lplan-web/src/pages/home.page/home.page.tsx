@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../../components/navbar/navbar";
-import Footer from "../../components/footer/footer";
+import Credits from "../../components/credits/credits";
 // @ts-ignore
 import video from "../../assets/images/homebackground.mp4";
 
@@ -22,7 +22,7 @@ const Home = () => {
           <source src={video} type="video/mp4" />
         </video>
       </div>
-      <Footer/>
+      <Credits/>
     </div>
   )
 };
