@@ -18,10 +18,11 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userId, setUserId] = useState<string>("hola");
   const navigate = useNavigate();
-  const [listPublications, setListPublications] = useState<Publication[]>([]);
+  const [listOwnPublications, setListOwnPublications] = useState<Publication[]>([]);
   const [numPagePublication, setNumPagePublication] = useState<number>(1);
-  const [numPublications, setNumPublications] = useState<number>(0);
+  const [numOwnPublications, setNumOwnPublications] = useState<number>(0);
   const [recargar, setRecargar] = useState<string>('');
+  const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
 
   useEffect(() => {
     const getUser = async () => {
@@ -45,50 +46,46 @@ const Profile = () => {
     getUser();
   }, []);
 
-  const handleLoadMore = () => {
-    console.log("Has pulsado el btn");
-    setNumPagePublication((prevPage) => prevPage + 1);
-    const userId = AuthService.getCurrentUser();
-    console.log("HandleLoadMore:" + numPagePublication);
-    if(userId){
-      PublicationService.feed((numPagePublication).toString(), userId)
-      .then(response => {
-        console.log(response);
-        console.log(response.data);
-        setListPublications(prevPublications => [...prevPublications, ...response.data]);
-      })
-      .catch(error => {
-        navigate("*");
-      });
-    }
-  };
-
   useEffect(() => {
-    console.log("Iniciamos");
     const userId = AuthService.getCurrentUser();
     if (userId) {
-      PublicationService.feed(numPagePublication.toString(), userId)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data);          
-
-          setListPublications(response.data);
-      })
-      .catch(error => {
-        navigate("*");
-      });
-
-      PublicationService.numPublicationsFollowing(userId)
-      .then((response) => {
-        console.log(response);
-        console.log(response.data);
-        setNumPublications(response.data);
+      PublicationService.obtainOwnPosts(userId)
+        .then((response) => {      
+          setListOwnPublications(response.data);
+          setNumOwnPublications(listOwnPublications.length);
       })
       .catch(error => {
         navigate("*");
       });
     }
   }, [numPagePublication, recargar]);
+
+  const handleNextPublication = () => {
+    setCurrentPublicationIndex((prevIndex) => {
+      const newIndex = prevIndex + 1;
+      if (newIndex >= numOwnPublications-1) {
+        return prevIndex;
+      } else {
+        return newIndex; // Se incrementa el índice
+      }
+    });
+  };
+  
+  const handlePreviousPublication = () => {
+    setCurrentPublicationIndex((prevIndex) => {
+      const newIndex = prevIndex - 1;
+      if (newIndex < 1) {
+        return prevIndex; // No se excede, se mantiene el índice actual
+      } else {
+        return newIndex; // Se decrementa el índice
+      }
+    });
+  };
+  
+
+  const currentPublication = listOwnPublications[currentPublicationIndex];
+  const previousPublication = listOwnPublications[currentPublicationIndex-1];
+  const nextPublication = listOwnPublications[currentPublicationIndex+1];
 
   return (
     <div>
@@ -123,20 +120,24 @@ const Profile = () => {
               </div>
               <div className="profile-album">
                 <div className="feed">
-                  {listPublications.map((publication) => (
-                    <div className="post" key={publication.uuid}>
-                      <div className="post__body">
-                        {publication.photoPublication.map((photo) => (<img className="post__image" key={photo} src={photo} alt="Post"/>))}
-                        <p className="post__text">{new Date(publication.createdAt).toLocaleString()}</p>
-                      </div>
+                  <div className="profile_post">
+                    <div className="new_profile_post">
+                      {currentPublication && (
+                        <div>
+                          <div className="row_pictures">
+                            <button className="new_button" onClick={handlePreviousPublication} disabled={currentPublicationIndex === 0}>
+                              <img className="new_profile_post_image_L" src={previousPublication.photoPublication[0]} />
+                            </button>
+                            <img className="new_profile_post_image" src={currentPublication.photoPublication[0]} />
+                            <button className="new_button" onClick={handleNextPublication} disabled={currentPublicationIndex === listOwnPublications.length - 1}>
+                              <img className="new_profile_post_image_R" src={nextPublication.photoPublication[0]} />
+                            </button>
+                          </div>
+                          <p className="new_profile_post_text">{currentPublication.textPublication}</p>
+                          <p className="new_profile_post_time">{new Date(currentPublication.createdAt).toLocaleString()}</p>
+                        </div>
+                        )}
                     </div>
-                  ))}
-                  <div className="load-more">
-                    {numPublications > numPagePublication * 3 ? (
-                      <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
-                    ) : (
-                      <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
-                    )}
                   </div>
                 </div>
               </div>
