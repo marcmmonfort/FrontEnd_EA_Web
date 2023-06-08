@@ -139,7 +139,7 @@ const CalendarEvents = () => {
           </div>
         )};
         <div className="calendar">
-        <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false}/>
+          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false}/>
         </div>
       </div>
       <Footer/>

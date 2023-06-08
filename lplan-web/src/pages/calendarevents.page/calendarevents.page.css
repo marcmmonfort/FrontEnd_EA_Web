@@ -16,9 +16,6 @@
   margin-top: 42px;
 }
 
-.calendar .rbc-allday-row .rbc-allday-cell {
-  display: none;
-}
 
 button {
   padding: 6px;
@@ -28,7 +25,7 @@ button {
   cursor: pointer;
   margin-right: 10px;
   font-size: 14px;
-  width: 100px;
+  width: 160px;
   font-family: "SFNS", sans-serif;
   color: black;
 }
@@ -40,7 +37,7 @@ button.active {
 
 .nextPlanButton{
   font-family: "SFNS", sans-serif;
-  margin: 6px;
+  margin-top: 6px;
   padding: 6px 6px;
   background-color: transparent;
   border: none;
@@ -85,12 +82,18 @@ button.active {
 .user_calendar{
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   border: none;
   height: 50px;
   margin-top: -20px;
   margin-bottom: 0px;
 }
+
+.calendar{
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 70px;
+}
+
 
 .userLink {
   display: flex;

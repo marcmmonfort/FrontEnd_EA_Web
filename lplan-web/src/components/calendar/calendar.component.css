@@ -1,32 +1,30 @@
 .fc-toolbar .fc-prev-button, 
 .fc-toolbar .fc-next-button {
   display: none;
-} /*Modificardepende de si nos interesa o no mostrar estos botones, Ponerlos cuando tengamos implementado el ver más semanas*/
-
-
-/*Poner las horas en blanco*/
-.fc-timegrid-slot.fc-timegrid-slot-label {
-    color: white;
 }
 
-/*Esto deberia cambiar el color del all day pero no lo hace*/
-.fc-timegrid-axis.fc-timegrid-axis-allday .fc-timegrid-axis-frame {
-    color: white !important;
+.fc-timegrid-slot.fc-timegrid-slot-label {
+  color: white;
+  font-family: "SFNS", sans-serif;
+  font-size: 12px;
+}
+
+.calendar-container {
+  color: white;
+  font-family: "SFNS_Light", sans-serif;
+  font-size: 12px;
 }
 
 .calendar-container .fc-header-toolbar {
-  color: white; 
-}
-.fc-timegrid-axis.fc-widget-header .fc-col-header-cell {
-  color: white !important;
+  color: #66fcf1;
+  font-family: "SFNS_Light", sans-serif;
+  font-size: 10px;
 }
 
-.calendar-container{
-  height: 400px;
-  margin-bottom: 300px;
-  align-items: center;
-  padding-bottom: 10px;
+.calendar-container .rbc-allday-row {
+  display: none;
 }
-  
-  
-  
+
+.calendar-container .fc-today-button {
+  display: none;
+}

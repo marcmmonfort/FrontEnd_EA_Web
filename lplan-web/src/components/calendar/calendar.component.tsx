@@ -48,7 +48,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   const getSlotLabelContent = (arg: any) => {
     if (!showAllDay && arg.isAllDay) {
-      return ""; // Si showAllDay es false y el intervalo es "All-day", no se muestra ningún contenido
+      return "";
     }
     const hour = arg.date.getHours();
     return `${hour}:00`;
