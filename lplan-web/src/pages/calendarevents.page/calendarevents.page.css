@@ -1,67 +1,95 @@
 .create-activity-link {
     color: #fff;
-    font-size: 24px; 
+    font-size: 18px;
+    margin-top: 10px;
   }
+
+.contentContainer {
+  margin-top: 0px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.titleContainer_Calendar{
+  margin-bottom: 0px;
+  margin-top: 42px;
+}
+
+.calendar .rbc-allday-row .rbc-allday-cell {
+  display: none;
+}
+
+button {
+  padding: 6px;
+  background-color: #66fcf1;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px;
+  width: 100px;
+  font-family: "SFNS", sans-serif;
+  color: black;
+}
+
+button.active {
+  background-color: black;
+  color: #66fcf1;
+}
 
 .nextPlanButton{
   font-family: "SFNS", sans-serif;
   margin: 6px;
   padding: 6px 6px;
-  background-color: #000000;
+  background-color: transparent;
   border: none;
   border-radius: 20px;
-  color: #66fcf1;
+  color: yellow;
   font-size: 14px;
-  width: 100px;
   cursor: pointer;
   text-align: center;
   align-self: center;
   margin-bottom: 10px;
 }
 
-.buttonsCalendar {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 20px;
+.new{
+  margin-top: 6px;
+  margin-bottom: 1.5px;
+  color: yellow;
 }
 
-.userCalendarContainer{
+.buttonsCalendar {
   display: flex;
-    flex-direction: column;
-    height: flex;
-    justify-content: flex-start;
-    margin-top: 0px;
-    margin-bottom: 10px;
+  justify-content: center;
 }
 
 .userCalendarContainer {
   display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border: none;
-    height: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 0px;
-    border-radius: 40px;
-    border: 1px solid #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  height: 60px;
+  border-radius: 40px;
+  display: flex;
 }
 
-.user{
+.user_profile-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 0px;
+}
+
+.user_calendar{
   display: flex;
   align-items: center;
   justify-content: flex-start;
   border: none;
   height: 50px;
-  margin-top: 0px;
+  margin-top: -20px;
   margin-bottom: 0px;
-  margin-left: 0px;
-  border-radius: 40px;
-  border: 1px solid #fff;
-  padding-top: 7px;
-  padding-bottom: 7px;
 }
 
 .userLink {
@@ -69,14 +97,21 @@
   align-items: center;
 }
 
-.user_profile-img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-left: 8px;
+.user__ns {
+  font-family: "SFNS", sans-serif;
+  color: white;
+  font-size: 16px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
+.user__un {
+  font-family: "SFNS", sans-serif;
+  color: #66fcf1;
+  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
 
 

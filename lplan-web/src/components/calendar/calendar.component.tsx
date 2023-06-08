@@ -6,7 +6,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { ActivityEntity } from "../../models/activity.model";
 import { EventClickArg } from "@fullcalendar/core";
 import ActivityDetailsModal from "../activityDetails/activity.component";
-import { SlotLabelContentArg } from "@fullcalendar/core";
 
 import "./calendar.component.css";
 
@@ -17,10 +16,10 @@ interface CalendarProps {
   showDayButton: boolean;
   showMonthButton: boolean;
   showWeekChangeButtons: boolean;
-  selectedTimetable:string;
-  editable:boolean;
+  selectedTimetable: string;
+  editable: boolean;
+  showAllDay: boolean;
 }
-
 
 const Calendar: React.FC<CalendarProps> = ({
   activities,
@@ -29,10 +28,9 @@ const Calendar: React.FC<CalendarProps> = ({
   showMonthButton,
   showWeekChangeButtons,
   selectedTimetable,
-
+  showAllDay,
 }) => {
   const [selectedActivity, setSelectedActivity] = useState<ActivityEntity | null>(null);
-  
 
   const handleEventClick = (event: EventClickArg) => {
     const clickedActivity = activities.find(
@@ -40,7 +38,7 @@ const Calendar: React.FC<CalendarProps> = ({
     );
     if (clickedActivity) {
       setSelectedActivity(clickedActivity);
-      console.log("clickedActivity", clickedActivity)
+      console.log("clickedActivity", clickedActivity);
     }
   };
 
@@ -48,8 +46,11 @@ const Calendar: React.FC<CalendarProps> = ({
     setSelectedActivity(null);
   };
 
-  const getSlotLabelContent = (slotInfo: SlotLabelContentArg) => {
-    const hour = slotInfo.date.getHours();
+  const getSlotLabelContent = (arg: any) => {
+    if (!showAllDay && arg.isAllDay) {
+      return ""; // Si showAllDay es false y el intervalo es "All-day", no se muestra ningún contenido
+    }
+    const hour = arg.date.getHours();
     return `${hour}:00`;
   };
 
@@ -60,7 +61,7 @@ const Calendar: React.FC<CalendarProps> = ({
     startDate.setHours(parseInt(startHour), 0, 0);
     const endDate = new Date(activity.dateActivity);
     endDate.setHours(parseInt(endHour), 0, 0);
-    
+
     return {
       id: activity.uuid,
       title: activity.nameActivity,
@@ -72,7 +73,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="calendar-container">
-      <FullCalendar 
+      <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
         events={adjustedActivities}
@@ -81,9 +82,9 @@ const Calendar: React.FC<CalendarProps> = ({
         headerToolbar={{
           left: "prev,next today",
           center: "title",
-          right: `${showMonthButton ? "dayGridMonth," : ""}${
-            showWeekButton ? "timeGridWeek," : ""
-          }${showDayButton ? "timeGridDay," : ""}`.slice(0, -1),
+          right: `${showMonthButton ? "dayGridMonth," : ""}${showWeekButton ? "timeGridWeek," : ""}${
+            showDayButton ? "timeGridDay," : ""
+          }`.slice(0, -1),
         }}
         dateClick={(arg) => {
           console.log(arg.date);
