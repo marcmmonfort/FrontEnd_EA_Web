@@ -70,15 +70,12 @@
   }
   
   .post__text {
-    text-align: left;
-  }
-  
-  .post__text {
     font-size: 18px;
     font-family: "SFNS", sans-serif;
     color: #ffffff;
-    margin-top:10px;
+    margin-top: 8px;
     margin-bottom:0px;
+    text-align: left;
   }
 
   .load-more {
@@ -107,6 +104,22 @@
     margin-bottom: 60px;
   }
 
+  .submit-comment{
+    font-family: "SFNS", sans-serif;
+    margin: 6px;
+    padding: 6px 6px;
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
+    color: #66fcf1;
+    font-size: 14px;
+    width: 200px;
+    cursor: pointer;
+    text-align: center;
+    align-self: center;
+    margin-bottom: 0px;
+  }
+
   .user_2 {
     display: flex;
     align-items: center;
@@ -130,6 +143,17 @@
     justify-content: flex-start;
     margin-top: 0px;
     margin-bottom: 10px;
+  }
+
+  .comment-icon {
+    color: #66fcf1;
+    margin-bottom: 6px;
+  }
+
+  .input-comment {
+    margin-left: 5px;
+    width:282px;
+    margin-bottom: 0px;
   }
 
   .post__username{
@@ -253,10 +277,15 @@
   .likes-info {
     display: flex;
     align-items: center;
+    color: #66fcf1;
+    margin-top: 8px;
   }
   
   .likes-info span {
     margin-right: 5px;
+    color: #66fcf1;
+    font-family: "SFNS", sans-serif;
+    font-size: 16px;
   }
   
   .likes-info .liked {

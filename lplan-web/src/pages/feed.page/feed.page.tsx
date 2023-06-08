@@ -61,7 +61,7 @@ const Feed = () => {
 
           const initialCommentButton = response.data.reduce(
             (acc: { [key: string]: string }, publication: Publication) => {
-              acc[publication.uuid] = "Show comments";
+              acc[publication.uuid] = "Show Comments";
               return acc;
             },
             {}
@@ -339,57 +339,39 @@ const Feed = () => {
               </div>
             </Link>
             <div className="post__body">
-              {publication.photoPublication.map((photo) => (
-                <img
-                  className="post__image"
-                  key={photo}
-                  src={photo}
-                  alt="Post"
-                />
-              ))}
-              
-              <p className="post__text">{publication.textPublication}</p>
-              <div style={{ textAlign: "center" }}>
-                <button
-                  className="show__comments"
-                  onClick={() => {
-                    getComments(publication.uuid.toString());
-                  }}
-                >
-                  {commentsVisibility[publication.uuid]}{" "}
-                  {commentButton[publication.uuid]}{" "}
-                  {publication.commentsPublication?.length}
-                </button>
-                <div className="comment-icon" onClick={() => {handleToggleCommentForm(publication.uuid.toString());}}>
-                <FaComment></FaComment>
-              </div>
-              {showCommentForm[publication.uuid] && (
-                <form onSubmit={(event) => {handleSubmit(event, publication.uuid.toString());}}>
-                  <input type="text" value={commentText[publication.uuid]} onChange={(event) => {handleInputChange(event, publication.uuid.toString());}}/>
-                  <button type="submit">Send Comment</button>
-                </form>
-              )}
-              </div>
+              {publication.photoPublication.map((photo) => (<img className="post__image" key={photo} src={photo} alt="Post"/>))}
               <div className="likes-info" onClick={() => {handleLike(publication.uuid.toString());}}>
                 <span className={hasLiked[publication.uuid] ? "liked" : ""}>
                   {publication.likesPublication?.length}
                 </span>
                 <FaHeart className={hasLiked[publication.uuid] ? "liked" : ""} />
               </div>
+              <p className="post__text">{publication.textPublication}</p>
+              <div style={{ textAlign: "center" }}>
+                <button className="show__comments" onClick={() => {getComments(publication.uuid.toString());}}>
+                  {commentsVisibility[publication.uuid]}{" "} 
+                  {commentButton[publication.uuid]}{" "}
+                  {publication.commentsPublication?.length}
+                </button>
+                <div className="comment-icon" onClick={() => {handleToggleCommentForm(publication.uuid.toString());}}>
+                  <FaComment className="comment-logo"></FaComment>
+                </div>
+              {showCommentForm[publication.uuid] && (
+                <form onSubmit={(event) => {handleSubmit(event, publication.uuid.toString());}}>
+                  <input className="input-comment"  value={commentText[publication.uuid]} onChange={(event) => {handleInputChange(event, publication.uuid.toString());}}/>
+                  <button className="submit-comment" type="submit">Send Comment</button>
+                </form>
+              )}
+              </div>
               {commentsVisibility[publication.uuid] && (
                 <div>
                   {" "}
                   {listCommentsPublication[publication.uuid].map((comment) => (
                     <div className="commentContainer_2" key={comment.uuid}>
-                      <Link
-                        to={`/user/${comment.idUserComment.uuid}`}
-                        className="user-link"
-                      >
+                      <Link to={`/user/${comment.idUserComment.uuid}`} className="user-link">
                         <div className="user_2">
                           {comment.idUserComment.photoUser ? (
-                            <img
-                              src={comment.idUserComment.photoUser}
-                              alt={comment.idUserComment.nameUser}
+                            <img src={comment.idUserComment.photoUser} alt={comment.idUserComment.nameUser}
                               className="user__profile-img_2"
                             />
                           ) : (
