@@ -87,9 +87,9 @@
   
   .profile-stat-count {
     font-family: "SFNS", sans-serif;
-    color: #fff;
+    color: white !important;
     font-size: 22px;
-    margin-top: 32px; /* Aumentar este valor para separar más los enlaces */
+    margin-top: 18px;
   }
   
   /* LÍNEAS */
@@ -123,6 +123,15 @@
     font-family: "SFNS_Light", sans-serif;
     color: #66fcf1;
     font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: -16px;
+  }
+
+  .profileTitleFollowers {
+    font-family: "SFNS_Light", sans-serif;
+    color: #66fcf1;
+    font-size: 12px;
+    margin-top: 18px;
     margin-bottom: -16px;
   }
   
@@ -204,6 +213,19 @@
     margin-top: 10px;
   }
 
+  .new_profile_post::before {
+    content: "";
+    display: block;
+    width: 152px;
+    height: 0.5px;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .new_profile_post_image {
     z-index: 2;
 
@@ -253,7 +275,7 @@
     font-family: "SFNS", sans-serif;
     color: white;
     font-size: 14px;
-    margin-top: 4px;
+    margin-top: 8px;
     margin-bottom: 0px;
     margin-left: 0px;
     margin-right: 0px;
@@ -262,14 +284,22 @@
   .new_profile_post_time{
     font-family: "SFNS_Light", sans-serif;
     color: yellow;
-    font-size: 12px;
-    margin-top: 4px;
-    margin-bottom: 0px;
+    font-size: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
     margin-left: 0px;
     margin-right: 0px;
   }
 
   .row_pictures{
     display: flex;
+  }
+
+  .album_title{
+    font-family: "Stussy", sans-serif;
+    color: white;
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 8px;
   }
   

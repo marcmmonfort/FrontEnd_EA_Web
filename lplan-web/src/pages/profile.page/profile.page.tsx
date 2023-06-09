@@ -66,7 +66,7 @@ const Profile = () => {
       if (newIndex >= numOwnPublications-1) {
         return prevIndex;
       } else {
-        return newIndex; // Se incrementa el índice
+        return newIndex;
       }
     });
   };
@@ -75,13 +75,12 @@ const Profile = () => {
     setCurrentPublicationIndex((prevIndex) => {
       const newIndex = prevIndex - 1;
       if (newIndex < 1) {
-        return prevIndex; // No se excede, se mantiene el índice actual
+        return prevIndex;
       } else {
-        return newIndex; // Se decrementa el índice
+        return newIndex;
       }
     });
   };
-  
 
   const currentPublication = listOwnPublications[currentPublicationIndex];
   const previousPublication = listOwnPublications[currentPublicationIndex-1];
@@ -107,9 +106,9 @@ const Profile = () => {
                 {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
               </div>
               <div className="profile-stats">
-                <h1 className="profileTitle">Followers:{" "}</h1>
+                <h1 className="profileTitleFollowers">Followers</h1>
                 <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/followers`}>{currentUser.followersUser?.length}</Link></h1>
-                <h1 className="profileTitle">Following:{" "}</h1>
+                <h1 className="profileTitle">Following</h1>
                 <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/following`}>{currentUser.followedUser?.length}</Link></h1>
               </div>
               <div className="profile-bio">
@@ -124,6 +123,7 @@ const Profile = () => {
                     <div className="new_profile_post">
                       {currentPublication && (
                         <div>
+                          <p className="album_title">Memories</p>
                           <div className="row_pictures">
                             <button className="new_button" onClick={handlePreviousPublication} disabled={currentPublicationIndex === 0}>
                               <img className="new_profile_post_image_L" src={previousPublication.photoPublication[0]} />
