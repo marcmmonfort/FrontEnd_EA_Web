@@ -51,8 +51,25 @@ const Profile = () => {
     if (userId) {
       PublicationService.obtainOwnPosts(userId)
         .then((response) => {      
-          setListOwnPublications(response.data);
-          setNumOwnPublications(listOwnPublications.length);
+          const publications = response.data;
+
+          if (publications.length != 0){
+            const firstTransparentPublication = {
+              ...publications[0],
+              photoPublication: ["https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734"],
+            };
+            const lastTransparentPublication = {
+              ...publications[0],
+              photoPublication: ["https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734"],
+            };
+            // Publicación transparente al principio ...
+            publications.unshift(firstTransparentPublication);
+            // Publicación transparente al final ...
+            publications.push(lastTransparentPublication);
+          }    
+                    
+          setListOwnPublications(publications);
+          setNumOwnPublications(publications.length);
       })
       .catch(error => {
         navigate("*");
@@ -123,13 +140,12 @@ const Profile = () => {
                     <div className="new_profile_post">
                       {currentPublication && (
                         <div>
-                          <p className="album_title">Memories</p>
                           <div className="row_pictures">
-                            <button className="new_button" onClick={handlePreviousPublication} disabled={currentPublicationIndex === 0}>
+                            <button className="new_button" onClick={handlePreviousPublication} disabled={currentPublicationIndex === 1}>
                               <img className="new_profile_post_image_L" src={previousPublication.photoPublication[0]} />
                             </button>
                             <img className="new_profile_post_image" src={currentPublication.photoPublication[0]} />
-                            <button className="new_button" onClick={handleNextPublication} disabled={currentPublicationIndex === listOwnPublications.length - 1}>
+                            <button className="new_button" onClick={handleNextPublication} disabled={currentPublicationIndex === listOwnPublications.length - 2}>
                               <img className="new_profile_post_image_R" src={nextPublication.photoPublication[0]} />
                             </button>
                           </div>
@@ -151,3 +167,5 @@ const Profile = () => {
 };
 
 export default Profile;
+
+// <p className="album_title">Memories</p>

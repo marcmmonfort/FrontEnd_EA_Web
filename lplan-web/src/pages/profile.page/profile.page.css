@@ -241,7 +241,7 @@
 
   .new_profile_post_image_L {
     margin-top: 50px;
-    margin-right: -34px;
+    margin-right: -100px; 
     z-index: 1;
 
     width: 80px !important;
@@ -257,7 +257,7 @@
 
   .new_profile_post_image_R {
     margin-top: 50px;
-    margin-left: -34px;
+    margin-left: -100px;
     z-index: 1;
 
     width: 80px !important;
