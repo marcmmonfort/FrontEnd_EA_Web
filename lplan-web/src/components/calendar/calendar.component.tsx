@@ -40,6 +40,9 @@ const Calendar: React.FC<CalendarProps> = ({
       setSelectedActivity(clickedActivity);
       console.log("clickedActivity", clickedActivity);
     }
+    else{
+      setSelectedActivity(null);
+    }
   };
 
   const closeActivityDetails = () => {
@@ -99,7 +102,7 @@ const Calendar: React.FC<CalendarProps> = ({
         slotLabelContent={getSlotLabelContent}
         editable={selectedTimetable === "My Timetable"}
       />
-      {selectedActivity && (
+      {selectedActivity &&  (
         <ActivityDetailsModal activity={selectedActivity} onClose={closeActivityDetails} />
       )}
     </div>
