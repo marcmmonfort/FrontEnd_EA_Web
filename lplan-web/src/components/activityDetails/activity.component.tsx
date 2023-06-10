@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { ActivityEntity } from "../../models/activity.model";
 import "./activity.component.css"
 
 interface ActivityDetailsModalProps {
   activity: ActivityEntity;
   onClose: () => void;
+  onAddToActivity: (isJoining: boolean) => void;
+  userId: string;
 }
 console.log("Entro al modal");
 const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
     activity,    
     onClose,
+    onAddToActivity,
+    userId,
   }) => {
+    const [participants, setParticipants] = useState(activity.participantsActivity || []);
+    const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(participants.includes(userId));
+    const [isCreatorOfActivity, setIsCreatorOfActivity] = useState(activity.creatorActivity.includes(userId));
+    
+    const handleAddToActivity = (isJoining: boolean) => {
+      setIsCurrentUserParticipant(!isCurrentUserParticipant);
+      onAddToActivity(isJoining);
+    };
+
+    const showJoinButton = !isCreatorOfActivity;
+
+    
+
     return (
       <div className="modal">
         <div className="modal-content">
@@ -21,6 +38,11 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
           <p>Creador: {activity.creatorActivity}</p>
           <p>Participantes: {activity.participantsActivity?.join(", ")}</p>
           <button onClick={onClose}>Cerrar</button>
+          {showJoinButton && (
+          <button onClick={() => handleAddToActivity(!isCurrentUserParticipant)}>
+            {isCurrentUserParticipant ? "Leave Activity" : "Join Activity"}
+          </button>
+        )}
         </div>
       </div>
     );

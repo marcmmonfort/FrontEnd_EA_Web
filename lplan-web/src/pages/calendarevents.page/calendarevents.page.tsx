@@ -26,6 +26,7 @@ const CalendarEvents = () => {
   const [otherUser, setOtherUser] = useState<User | null>(null);
   const [selectedTimetable, setSelectedTimetable] = useState("My Timetable");
   const [currentPage, setCurrentPage] = useState(1);
+  const [recargar, setRecargar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,7 +72,7 @@ const CalendarEvents = () => {
   
     fetchData();
 
-  }, [selectedTimetable, currentPage]);
+  }, [selectedTimetable, currentPage, recargar]);
 
   const handleTimetableChange = (timetable: string) => {
     setSelectedTimetable(timetable);
@@ -139,7 +140,7 @@ const CalendarEvents = () => {
           </div>
         )};
         <div className="calendar">
-          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false}/>
+          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false} userId={currentUser?.uuid || ""} recargar={recargar} setRecargar={setRecargar}/>
         </div>
       </div>
       <Footer/>
