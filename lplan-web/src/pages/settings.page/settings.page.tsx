@@ -16,6 +16,10 @@ const SettingsPage = () => {
       <Navbar/>
         <div className="titleContainer">
           <h1 className="titleSection">Settings</h1>
+          <div className="LanguageButtons">
+            <a href="/es/" className="LanguageButtonESP"> Spanish</a>
+            <a href="/en/" className="LanguageButtonENG">English</a>
+          </div>
         </div>
         <Footer/>
     </div>

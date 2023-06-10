@@ -14,6 +14,7 @@ import { UserService } from "../../services/user.service";
 import { Link, useNavigate } from "react-router-dom";
 import { FaComment, FaHeart } from "react-icons/fa";
 import { useSpring, animated } from 'react-spring';
+import i18n from "../../i18n";
 
 
 const Feed = () => {
@@ -359,7 +360,7 @@ const Feed = () => {
               {showCommentForm[publication.uuid] && (
                 <form onSubmit={(event) => {handleSubmit(event, publication.uuid.toString());}}>
                   <input className="input-comment"  value={commentText[publication.uuid]} onChange={(event) => {handleInputChange(event, publication.uuid.toString());}}/>
-                  <button className="submit-comment" type="submit">Send Comment</button>
+                  <button className="submit-comment" type="submit">{i18n.t('SendComment')}</button>
                 </form>
               )}
               </div>

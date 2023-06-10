@@ -1,5 +1,5 @@
 import React from "react";
-
+import i18n from '../../i18n'
 import { Link } from "react-router-dom";
 
 import Navbar from "../../components/navbar/navbar";
@@ -15,8 +15,8 @@ const Home = () => {
       <div className="container">
         <h1 className="title">Lplan</h1>
         <div className="button-container">
-          <Link to="/login" className="button">LogIn</Link>
-          <Link to="/register" className="button">Register</Link>
+          <Link to="/login" className="button">{i18n.t('Login')}</Link>
+          <Link to="/register" className="button">{i18n.t('Register')}</Link>
         </div>
         <video autoPlay loop muted className="fullscreen-bg__video">
           <source src={video} type="video/mp4" />
