@@ -115,6 +115,44 @@ button.active {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+.user__profile-img-Calendar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.user__info-Calendar {
+flex: 2;
+font-size: 14px;
+text-align: left;
+color: #fff; 
+font-family: "SFNS", sans-serif;
+margin-top:0px;
+margin-left:8px;
+margin-bottom:2px;
+}
+
+.user__username-Calendar {
+  margin-top:-18px;
+  font-size: 14px;
+  color: #66fcf1;
+}
+.usersnotfound-Calendar {
+  font-size: 14px;
+  margin-top: 54px;
+  color: #66fcf1;
+  font-family: "SFNS", sans-serif;
+}
+.user__info-Calendar {
+  display: flex;
+  flex-direction: column;
+  height: flex;
+  justify-content: flex-start;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
 
 
 
