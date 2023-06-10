@@ -27,11 +27,11 @@ const Home = () => {
           <Link to="/register" className="button">
             Register
           </Link>
-          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </div>
         <video autoPlay loop muted className="fullscreen-bg__video">
           <source src={video} type="video/mp4" />
         </video>
+        <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
       </div>
       <Credits />
     </div>
