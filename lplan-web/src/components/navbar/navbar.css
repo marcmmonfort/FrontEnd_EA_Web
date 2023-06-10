@@ -15,7 +15,13 @@ title { font-family: "Raffaella", sans-serif; }
 /* - - - - - Fuentes - - - - - */
 
 .logout-link {
-  color: #ffff00;
+  color: yellow;
+}
+
+.profile-link {
+  color: white;
+  height: 24px;
+  animation: rotate 3s infinite;
 }
 
 header {

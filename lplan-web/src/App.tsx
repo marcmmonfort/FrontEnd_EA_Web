@@ -15,13 +15,12 @@ import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
 import SettingsPage from './pages/settings.page/settings.page';
 import EditUserPage from './pages/edituser.page/edituser.page';
 import UsersList from './pages/usersList.page/usersList.page';
+import MapPage from './pages/map.page/map.page';
 import CreateActivity from './pages/activity/createActivity.page';
-
 // Import of Components ...
 import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
 import './App.css';
-
 
 
 
@@ -45,14 +44,13 @@ function App() {
           <Route path="/profile/userList/:userId/:mode" element={<UsersList />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/calendarevents" element={<CalendarEvents />} />
-          <Route path="/createActivity" element={<CreateActivity />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/settings" element={<SettingsPage/>}></Route>
           <Route path="/profile/edituser" element={<EditUserPage/>}></Route>
-
+          <Route path="/map" element={<MapPage/>}></Route>
+          <Route path="/createActivity" element={<CreateActivity/>}></Route>          
           <Route path='*' element={<PageNotFound />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );

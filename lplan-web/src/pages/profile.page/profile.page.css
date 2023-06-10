@@ -25,6 +25,13 @@
     z-index: 1;
  }
 
+ .new_button {
+  background-color: transparent !important;
+  margin: 0px;
+  padding: 0px;
+  margin-top: -50px;
+}
+
   .profile-container {
     display: flex;
     flex-direction: column;
@@ -80,12 +87,11 @@
   
   .profile-stat-count {
     font-family: "SFNS", sans-serif;
-    color: #fff;
+    color: white !important;
     font-size: 22px;
-    margin-top: 32px; /* Aumentar este valor para separar más los enlaces */
+    margin-top: 18px;
   }
   
-
   /* LÍNEAS */
   
   .profile-stats::before,
@@ -117,6 +123,15 @@
     font-family: "SFNS_Light", sans-serif;
     color: #66fcf1;
     font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: -16px;
+  }
+
+  .profileTitleFollowers {
+    font-family: "SFNS_Light", sans-serif;
+    color: #66fcf1;
+    font-size: 12px;
+    margin-top: 18px;
     margin-bottom: -16px;
   }
   
@@ -130,3 +145,161 @@
     color: #fff;
     margin-bottom: 12px;
   }
+
+  .post_image_shown{
+    margin-top: 16px;
+    width: 160px !important;
+    height: 160px !important;
+    object-fit: cover;
+    border-radius: 10% !important;
+  }
+  
+  .album-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .album-container {
+    display: flex;
+    max-width: 600px;
+  }
+  
+  .album-stack {
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: top right;
+    width: 300px; /* Ajusta el ancho según tus necesidades */
+  }
+  
+  .album-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    transform-origin: top right;
+  }
+  
+  .album-cover__image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+  
+  .album-viewer {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+  }
+  
+  .album-slide {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    transform-origin: top left;
+  }
+  
+  .album-slide__image {
+    width: 100%;
+    height: auto;
+  }
+
+  .new_profile_post {
+    margin-top: 10px;
+  }
+
+  .new_profile_post::before {
+    content: "";
+    display: block;
+    width: 152px;
+    height: 0.5px;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .new_profile_post_image {
+    z-index: 2;
+
+    width: 180px !important;
+    height: 180px !important;
+    object-fit: cover;
+    border-radius: 6% !important;
+
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .new_profile_post_image_L {
+    margin-top: 50px;
+    margin-right: -100px; 
+    z-index: 1;
+
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border-radius: 6% !important;
+
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+    filter: brightness(0.6);
+  }
+
+  .new_profile_post_image_R {
+    margin-top: 50px;
+    margin-left: -100px;
+    z-index: 1;
+
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border-radius: 6% !important;
+
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+    filter: brightness(0.6);
+  }
+
+  .new_profile_post_text{
+    font-family: "SFNS", sans-serif;
+    color: white;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  .new_profile_post_time{
+    font-family: "SFNS_Light", sans-serif;
+    color: yellow;
+    font-size: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .row_pictures{
+    display: flex;
+  }
+
+  .album_title{
+    font-family: "Stussy", sans-serif;
+    color: white;
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+  

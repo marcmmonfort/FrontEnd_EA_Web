@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import Calendar from "../../components/calendar/calendar.component";
+import { SlotLabelContentArg } from "@fullcalendar/core";
 import { ActivityEntity } from "../../models/activity.model";
 import { ActivityService } from "../../services/activity.service";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa"; 
 import { AuthService } from "../../services/auth.service";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faSignOutAlt, faBell, faPlusCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import "./calendarevents.page.css"
 
 
@@ -25,11 +28,9 @@ const CalendarEvents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
 
-    
     const userId = AuthService.getCurrentUser();
     setUuid(userId);
 
@@ -83,52 +84,39 @@ const CalendarEvents = () => {
   return (
     <div>
       <Navbar/>
-      <div className="titleContainer">
-        <h1 className="titleSection">Calendar + Events</h1>
-        <Link to="/createActivity" className="create-activity-link">
-          <FaPlus />
-        </Link>
+      <div className="titleContainer_Calendar">
+        <h1 className="titleSection">Calendar</h1>
+      </div>
+      <div className="contentContainer">
         <div className="schedule-buttons">
-          <button
-            className={selectedTimetable === "My Timetable" ? "active" : ""}
-            onClick={() => handleTimetableChange("My Timetable")}
-          >
-            My Plan
-          </button>
-          <button
-            className={selectedTimetable === "Timetable Feed" ? "active" : ""}
-            onClick={() => handleTimetableChange("Timetable Feed")}
-          >
-            Friends Plan
-          </button>
+          <button className={selectedTimetable === "My Timetable" ? "active" : ""} onClick={() => handleTimetableChange("My Timetable")}>Own</button>
+          <button className={selectedTimetable === "Timetable Feed" ? "active" : ""} onClick={() => handleTimetableChange("Timetable Feed")}>Friends</button>
         </div>
         <div className="buttonsCalendar">
-        {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentPage > 1  &&(
-            <button className="nextPlanButton" onClick={() => handlePageChange(-1)} > Previous Plan </button>
-        )}
-        {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentUser.followedUser?.length > currentPage &&(
-            <button className="nextPlanButton" onClick={() => handlePageChange(1)} > Next Plan </button>
-        )}
+          {selectedTimetable === "My Timetable" &&(
+            <Link to="/createActivity" className="new">
+              <FontAwesomeIcon icon={faPlus} />
+            </Link>
+          )}
+          {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentPage > 1  &&(
+              <button className="nextPlanButton" onClick={() => handlePageChange(-1)}>Previous</button>
+          )}
+          {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentUser.followedUser?.length > currentPage &&(
+              <button className="nextPlanButton" onClick={() => handlePageChange(1)}>Next</button>
+          )}
         </div>
         {selectedTimetable === "My Timetable" && currentUser && (
           <div className="userCalendarContainer">
             <Link to={`/profile`} className="userLink">
-              <div className="user">
+              <div className="user_calendar">
                 {currentUser.photoUser ? (
-                  <img
-                    src={currentUser.photoUser}
-                    alt={currentUser.nameUser}
-                    className="user_profile-img"
-                  />
+                  <img src={currentUser.photoUser} alt={currentUser.nameUser} className="user_profile-img"/>
                 ) : (
-                  <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="user_profile-img"
-                  />
+                  <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="user_profile-img"/>
                 )}
                 <div className="user__info">
-                  <p className="user__commentname">@{currentUser.appUser}</p>
+                  <p className="user__ns">{currentUser.nameUser} {currentUser.surnameUser}</p>
+                  <p className="user__un">@{currentUser.appUser}</p>
                 </div>
               </div>
             </Link>
@@ -136,30 +124,23 @@ const CalendarEvents = () => {
         )}{selectedTimetable === "Timetable Feed" && otherUser && (
           <div className="userCalendarContainer">
             <Link to={`/user/${otherUser?.uuid}`} className="userLink">
-              <div className="user">
+              <div className="user_calendar">
                 {otherUser.photoUser ? (
-                  <img
-                    src={otherUser.photoUser}
-                    alt={otherUser.nameUser}
-                    className="user_profile-img"
-                  />
+                  <img src={otherUser.photoUser} alt={otherUser.nameUser} className="user_profile-img"/>
                 ) : (
-                  <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="user_profile-img"
-                  />
+                  <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="user_profile-img"/>
                 )}
                 <div className="user__info">
-                  <p className="user__commentname">@{otherUser?.appUser}</p>
+                  <p className="user__ns">{otherUser.nameUser} {otherUser.surnameUser}</p>
+                  <p className="user__un">@{otherUser.appUser}</p>
                 </div>
               </div>
             </Link>
           </div>
         )};
-        
-        <Calendar 
-          activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable}/>
+        <div className="calendar">
+          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false}/>
+        </div>
       </div>
       <Footer/>
     </div>
