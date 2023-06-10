@@ -8,23 +8,40 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
 import './usersList.page.css';
+import { PublicationService } from "../../services/publication.service";
+import { PublicationLikes } from "../../models/publication.model";
 
 const UsersList = () => {
   const { userId, mode } = useParams();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentPublication, setcurrentPublication] = useState<PublicationLikes | null>(null);
   const [userList, setUserList] = useState<User[]>([]);
-  const [numPage, setNumPage] = useState(1); // Variable para el número de página
+  const [numPage, setNumPage] = useState(1);
   const navigate = useNavigate();
 
   const isFollowersMode = mode === "followers";
-  const title = isFollowersMode ? "Followers" : "Following";
+  const isFollowingMode = mode === "following";
+  const isLikesMode = mode === "likes";
+
+  console.log(isFollowersMode);
+  console.log(isFollowingMode);
+  console.log(isLikesMode);
+  const title = isFollowersMode ? "Followers" : isFollowingMode ? "Following" : "Likes";
+
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
     if(userId){
-        loadUserList();       
+      
+      if(isFollowersMode || isFollowingMode){
+        console.log("Entro donde no tenia que entrar");
         loadUser();
-        
+      }else{
+        console.log("Entra la publicación");
+        loadPublication();
+      }
+
+      loadUserList(); 
     } // Cargar la lista de usuarios al inicializar
 
     // Actualizar la lista de usuarios cuando cambie la página
@@ -42,30 +59,50 @@ const UsersList = () => {
     }
   };
 
+  const loadPublication = async () => {
+    try {
+      const response = await PublicationService.getPublication(userId ?? 'NoID');
+      setcurrentPublication(response.data);
+      console.log("Obtenemos los datos del otro usuario: exito");
+    } catch (error) {
+      navigate("*");
+      console.log("Obtenemos los datos del otro usuario: mal");
+      console.error(error);
+    }
+  };
+
 
   const loadUserList = () => {
-    // Obtener la lista de usuarios según el modo y el número de página
     if (isFollowersMode) {
-
       UserService.getFollowers(userId, numPage.toString())
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          setUserList(prevUserList => [...prevUserList, ...response.data]);
-        })
-        .catch(error => {
-            navigate("*");
-        });
-    } else {
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setUserList(prevUserList => [...prevUserList, ...response.data]);
+      })
+      .catch(error => {
+        navigate("*");
+      });
+    } else if (isFollowingMode) {
       UserService.getFollowed(userId, numPage.toString())
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          setUserList(prevUserList => [...prevUserList, ...response.data]);
-          })
-        .catch(error => {
-          navigate("*");
-        });
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setUserList(prevUserList => [...prevUserList, ...response.data]);
+      })
+      .catch(error => {
+        navigate("*");
+      });
+    } else if (isLikesMode) {
+      PublicationService.getListLikes(userId, numPage.toString())
+      .then(response => {
+        console.log(response);
+        console.log(response.data.likesPublication);
+        setUserList(prevUserList => [...prevUserList, ...response.data.likesPublication]);
+      })
+      .catch(error => {
+        navigate("*");
+      });
     }
   };
 
@@ -104,28 +141,39 @@ const UsersList = () => {
           <h1 className="usersnotfound">User Not Found</h1>
         )}
         {isFollowersMode ? (
-        currentUser?.followersUser?.length !== undefined &&
-        currentUser.followersUser.length > numPage * 2 ? (
-          <button className="btnLoadMore" onClick={handleLoadMore}>
-            Load More
-          </button>
+          currentUser?.followersUser?.length !== undefined &&
+          currentUser.followersUser.length > numPage * 2 ? (
+            <button className="btnLoadMore" onClick={handleLoadMore}>
+              Load More
+            </button>
+          ) : (
+            <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
+              Load More
+            </button>
+          )
+        ) : isLikesMode ? (
+          currentPublication?.likesPublication?.length !== undefined &&
+          currentPublication.likesPublication.length > numPage * 2 ? (
+            <button className="btnLoadMore" onClick={handleLoadMore}>
+              Load More
+            </button>
+          ) : (
+            <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
+              Load More
+            </button>
+          )
         ) : (
-          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-            Load More
-          </button>
-        )
-      ) : (
-        currentUser?.followedUser?.length !== undefined &&
-        currentUser.followedUser.length > numPage * 2 ? (
-          <button className="btnLoadMore" onClick={handleLoadMore}>
-            Load More
-          </button>
-        ) : (
-          <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-            Load More
-          </button>
-        )
-      )}
+          currentUser?.followedUser?.length !== undefined &&
+          currentUser.followedUser.length > numPage * 2 ? (
+            <button className="btnLoadMore" onClick={handleLoadMore}>
+              Load More
+            </button>
+          ) : (
+            <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
+              Load More
+            </button>
+          )
+        )}
       </div>
       <Footer />
     </div>

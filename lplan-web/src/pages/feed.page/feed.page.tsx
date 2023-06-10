@@ -370,11 +370,9 @@ const Feed = () => {
                 </form>
               )}
               </div>
-              <div className="likes-info" onClick={() => {handleLike(publication.uuid.toString());}}>
-                <span className={hasLiked[publication.uuid] ? "liked" : ""}>
-                  {publication.likesPublication?.length}
-                </span>
-                <FaHeart className={hasLiked[publication.uuid] ? "liked" : ""} />
+              <div className="likes-info">
+                <span className={hasLiked[publication.uuid] ? "liked" : ""}><Link  to={`/profile/userList/${publication.uuid}/likes`}>{publication.likesPublication?.length}</Link></span>
+                <FaHeart onClick={() => {handleLike(publication.uuid.toString());}} className={hasLiked[publication.uuid] ? "liked" : ""} />
               </div>
               {commentsVisibility[publication.uuid] && (
                 <div>
