@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
+import { useTranslation } from 'react-i18next';
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
@@ -18,6 +19,7 @@ const Discovery = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   console.log("global:" + searchQuery);
 
@@ -65,7 +67,7 @@ const Discovery = () => {
     <div>
       <Navbar />
       <div className="titleContainer">
-        <h1 className="titleSection">Discovery</h1>
+        <h1 className="titleSection">{t("Discovery")}</h1>
         <input type="text" placeholder="Search Users" value={searchQuery} onChange={(event) => {
             setSearchQuery(event.target.value);
             debouncedSearch(event);
@@ -106,7 +108,7 @@ const Discovery = () => {
             ))}
           </ul>
         ) : (
-          <h1 className="usersnotfound">User Not Found</h1>
+          <h1 className="usersnotfound">{t("UNF")}</h1>
         )}
       </div>
       <Footer />

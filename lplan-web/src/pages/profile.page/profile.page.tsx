@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import './profile.page.css';
+import { useTranslation } from 'react-i18next';
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_7.jpg';
 import { AuthService } from "../../services/auth.service";
@@ -18,6 +19,7 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userId, setUserId] = useState<string>("hola");
   const navigate = useNavigate();
+  const {t} = useTranslation();
   const [listOwnPublications, setListOwnPublications] = useState<Publication[]>([]);
   const [numPagePublication, setNumPagePublication] = useState<number>(1);
   const [numOwnPublications, setNumOwnPublications] = useState<number>(0);
@@ -107,7 +109,7 @@ const Profile = () => {
     <div>
       <Navbar/>
       <div className="titleContainer">
-        <h1 className="titleSection">Profile</h1>
+        <h1 className="titleSection">{t("Profile")}</h1>
       </div>
       <div className="profileContour">
         {currentUser && (
@@ -118,20 +120,20 @@ const Profile = () => {
                 <img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />
               </div>
               <div className="profile-user-buttons">
-                <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
-                <Link to="/profile/settings" className="buttonProfile">Settings</Link>
+                <Link to="/profile/edituser" className="buttonProfile">{t("EditProfile")}</Link>
+                <Link to="/profile/settings" className="buttonProfile">{t("Settings")}</Link>
                 {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
               </div>
               <div className="profile-stats">
-                <h1 className="profileTitleFollowers">Followers</h1>
+                <h1 className="profileTitleFollowers">{t("Followers")}</h1>
                 <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/followers`}>{currentUser.followersUser?.length}</Link></h1>
-                <h1 className="profileTitle">Following</h1>
+                <h1 className="profileTitle">{t("Following")}</h1>
                 <h1 className="profile-stat-count"><Link  to={`/profile/userList/${userId}/following`}>{currentUser.followedUser?.length}</Link></h1>
               </div>
               <div className="profile-bio">
-                <h1 className="profileTitle">Name</h1>
+                <h1 className="profileTitle">{t("Name")}</h1>
                 <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
-                <h1 className="profileTitle">Description</h1>
+                <h1 className="profileTitle">{t("Description")}</h1>
                 <p>{currentUser.descriptionUser}</p>
               </div>
               <div className="profile-album">

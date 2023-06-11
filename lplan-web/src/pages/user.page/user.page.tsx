@@ -8,6 +8,7 @@ import { UserService } from "../../services/user.service";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthService } from "../../services/auth.service";
 import { Link } from "react-router-dom";
+import {useTranslation} from "react-i18next"
 import './user.page.css';
 
 const UserProfile = () => {
@@ -17,6 +18,7 @@ const UserProfile = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [myId, setMyId] = useState("1234");
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
       document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -121,20 +123,20 @@ const UserProfile = () => {
                                 {isFollowing ? "Following" : "Follow"}
                             </button>
                         <div className="profile-stats">
-                            <h1 className="profileTitle">Followers</h1>
+                            <h1 className="profileTitle">{t("Followers")}</h1>
                             <h1 className="profile-stat-count"><Link  to={`/profile/userList/${currentUser.uuid}/followers`}>{currentUser.followersUser?.length}</Link></h1>
-                            <h1 className="profileTitle">Following</h1>
+                            <h1 className="profileTitle">{t("Following")}</h1>
                             <h1 className="profile-stat-count"><Link  to={`/profile/userList/${currentUser.uuid}/following`}>{currentUser.followedUser?.length}</Link></h1>
                         </div>
                         <div className="profile-bio">
-                            <h1 className="profileTitle">Name</h1>
+                            <h1 className="profileTitle">{t("Name")}</h1>
                             <p><span className="profile-real-name">{currentUser.nameUser}</span></p>
-                            <h1 className="profileTitle">Description</h1>
+                            <h1 className="profileTitle">{t("Description")}</h1>
                             <p>{currentUser.descriptionUser}</p>
                         </div>
                     </div>
                 ) : (
-                    <p>Loading ...</p>
+                    <p>{t("Loading")}</p>
                 )}
             </div>
             <Footer/>

@@ -4,6 +4,7 @@ import Footer from "../../components/footer/footer";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {useTranslation} from "react-i18next"
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
@@ -15,6 +16,7 @@ const UsersList = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [numPage, setNumPage] = useState(1); // Variable para el número de página
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const isFollowersMode = mode === "followers";
   const title = isFollowersMode ? "Followers" : "Following";
@@ -101,28 +103,28 @@ const UsersList = () => {
             ))}
           </ul>
         ) : (
-          <h1 className="usersnotfound">User Not Found</h1>
+          <h1 className="usersnotfound">{t("UNF")}</h1>
         )}
         {isFollowersMode ? (
         currentUser?.followersUser?.length !== undefined &&
         currentUser.followersUser.length > numPage * 2 ? (
           <button className="btnLoadMore" onClick={handleLoadMore}>
-            Load More
+            {t("LoadMore")}
           </button>
         ) : (
           <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-            Load More
+            {t("LoadMore")}
           </button>
         )
       ) : (
         currentUser?.followedUser?.length !== undefined &&
         currentUser.followedUser.length > numPage * 2 ? (
           <button className="btnLoadMore" onClick={handleLoadMore}>
-            Load More
+            {t("LoadMore")}
           </button>
         ) : (
           <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-            Load More
+            {t("LoadMore")}
           </button>
         )
       )}

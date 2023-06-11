@@ -11,6 +11,7 @@ import { User } from "../../models/user.model";
 import Swal from "sweetalert2";
 import Input from "../../components/input/input.component";
 import Select from "../../components/select/select.component";
+import { useTranslation } from 'react-i18next';
 import {UserService} from "../../services/user.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
@@ -32,6 +33,7 @@ const EditUser = () => {
   });
   //const [confirmDelete, setConfirmDelete] = useState(false);
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
     const getUser = async () => {
@@ -162,7 +164,7 @@ const EditUser = () => {
     <div>
       <Navbar/>
         <div className="titleContainer">
-          <h1 className="titleSection">Edit User</h1>
+          <h1 className="titleSection">{t("EditUser")}</h1>
         </div>
       <div className="col-md-12">
         {user && (
@@ -175,7 +177,7 @@ const EditUser = () => {
                   className="profile-img-card-edit"
                 />
               </div>
-              <Link to="/profile" className="button">Back</Link>
+              <Link to="/profile" className="button">{t("Back")}</Link>
               <div className="profile-bio">
                 <div className="card-container">
                   <form className="editForm" onSubmit={handleSubmit}>
@@ -246,7 +248,7 @@ const EditUser = () => {
                       checked={user.privacyUser}
                       onChange={handleChange}
                     />
-                    <button className="buttonSave" type="submit">Save </button>
+                    <button className="buttonSave" type="submit">{t("Save")}</button>
                   </form>
                 </div>
               </div>

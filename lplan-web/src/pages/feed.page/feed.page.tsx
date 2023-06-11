@@ -4,7 +4,7 @@ import Footer from "../../components/footer/footer";
 import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import { AuthService } from "../../services/auth.service";
-
+import { useTranslation } from 'react-i18next';
 // Fondo de pantalla personalizado ...
 import backgroundImage from "../../assets/images/background_3.jpg";
 import "./feed.page.css";
@@ -31,6 +31,7 @@ const Feed = () => {
   const [hasLiked, setHasLiked] = useState<{[key: string]: boolean; }>({});
 
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -325,7 +326,7 @@ const Feed = () => {
     <div>
       <Navbar />
       <div className="titleContainer">
-        <h1 className="titleSection">Feed</h1>
+        <h1 className="titleSection">{t("Feed")}</h1>
       </div>
       <div className="feed">
         {listPublications.map((publication) => (
@@ -421,9 +422,9 @@ const Feed = () => {
         ))}
         <div className="load-more">
           {numPublications > numPagePublication * 3 ? (
-            <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
+            <button className="buttonLoadMore" onClick={handleLoadMore}> {t("LoadMore")} </button>
           ) : (
-            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
+            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> {t("LoadMore")}</button>
           )}
         </div>
       </div>
