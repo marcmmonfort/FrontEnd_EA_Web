@@ -5,6 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import translationEN from "../src/languages/en/translation.json"
 import translationES from "../src/languages/es/translation.json"
 import translationPT from "../src/languages/pt/translation.json"
+import translationDE from "../src/languages/de/translation.json"
 
 /**/
 
@@ -24,7 +25,11 @@ i18next
         },
         pt:{
           translation:translationPT,
+        },
+        de:{
+          translation:translationDE,
         }
+
     }
     
   });

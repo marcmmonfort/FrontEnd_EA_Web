@@ -29,5 +29,9 @@
     "Following": "Seguidos",
     "Name": "Nombre",
     "Description": "Descripción",
-    "Loading": "Cargando ..."
+    "Loading": "Cargando ...",
+    "ActivityDetails": "Detalles de la actividad",
+    "Close": "Cerrar",
+    "Credits": "Créditos a Brain Farm y © Dave / Neighborhood Recordings 2019",
+    "Locations": "Ubicaciones"
   }

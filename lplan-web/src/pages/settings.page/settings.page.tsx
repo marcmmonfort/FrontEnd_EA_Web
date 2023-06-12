@@ -8,17 +8,19 @@ import { AuthService } from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
-const lngs:any= {
+const lngs: any = {
   en: { nativeName: "English" },
   es: { nativeName: "Español" },
+  pt: { nativeName: "Português" },
+  de: { nativeName: "Deutsch" },
 };
 
 const SettingsPage = () => {
-  const {t,i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div>
       <Navbar />

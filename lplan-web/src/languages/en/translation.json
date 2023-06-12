@@ -29,6 +29,10 @@
     "Following": "Following",
     "Name":"Name",
     "Description":"Description",
-    "Loading":"Loading ..." 
+    "Loading":"Loading ...",
+    "ActivityDetails":"Activity details",
+    "Close":"Close",
+    "Credits":"Credits to Brain Farm and © Dave / Neighbourhood Recordings 2019",
+    "Locations":"Locations" 
 }
   
