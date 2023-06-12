@@ -122,7 +122,7 @@ const MapPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div>
         <div>
           <input

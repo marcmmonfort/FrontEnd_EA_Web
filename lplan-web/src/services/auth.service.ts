@@ -60,5 +60,31 @@ export class AuthService {
     localStorage.removeItem("uuid");
     localStorage.removeItem("token");
   }
+
+  static setAudioDescription(isAudioDescription:string) {
+    console.log(isAudioDescription);
+    localStorage.setItem("AudioDescription",isAudioDescription);
+  }
+
+  static getAudioDescription() {
+    const AudioDescription = localStorage.getItem("AudioDescription");
+    console.log(AudioDescription);
+    if(AudioDescription){
+      return AudioDescription;
+    }
+  }
+
+  static setVoiceControl(isAudioDescription:string) {
+    console.log(isAudioDescription);
+    localStorage.setItem("voiceRecognitionEnabled",isAudioDescription);
+  }
+
+  static getVoiceControl() {
+    const AudioDescription = localStorage.getItem("voiceRecognitionEnabled");
+    console.log(AudioDescription);
+    if(AudioDescription){
+      return AudioDescription;
+    }
+  }
 }
 

@@ -114,7 +114,7 @@ const UsersList = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="cardsUsers">
         <h1 className="usersTitle">{title}</h1>
         {userList.length > 0 ? (

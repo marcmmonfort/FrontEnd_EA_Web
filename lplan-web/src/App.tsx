@@ -21,6 +21,7 @@ import CreateActivity from './pages/activity/createActivity.page';
 import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
 import './App.css';
+import Navbar from './components/navbar/navbar';
 
 
 
@@ -41,12 +42,12 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/discovery" element={<Discovery />} />
           <Route path="/user/:userId" element={<UserProfile />} />
-          <Route path="/profile/userList/:userId/:mode" element={<UsersList />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/userList/:userId/:mode" element={<UsersList />} />
           <Route path="/profile/settings" element={<SettingsPage/>}></Route>
           <Route path="/profile/edituser" element={<EditUserPage/>}></Route>
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/map" element={<MapPage/>}></Route>
           <Route path="/createActivity" element={<CreateActivity/>}></Route>          
           <Route path='*' element={<PageNotFound />} />

@@ -14,7 +14,6 @@ import { PublicationService } from "../../services/publication.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const Profile = () => {
-    
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [userId, setUserId] = useState<string>("hola");
   const navigate = useNavigate();
@@ -24,23 +23,44 @@ const Profile = () => {
   const [recargar, setRecargar] = useState<string>('');
   const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
 
-
   useEffect(() => {
-
     const id = AuthService.getCurrentUser();
-      console.log(id);
-      if(id){
-        setUserId(id);
-        UserService.getPerson(id)
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          setCurrentUser(response.data);
-        })
-        .catch(error => {
-          navigate('*');
-        });
-      }
+    console.log(id);
+    if(id){
+      setUserId(id);
+      UserService.getPerson(id)
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+        setCurrentUser(response.data);
+
+        const audioDescription = AuthService.getAudioDescription();
+        // Leer el texto del usuario actual en voz alta al cargar la página
+        if (audioDescription === "si") {
+          const appUserToSpeech = `appUser: ${response.data.appUser}`;
+          speakText(appUserToSpeech);
+          setTimeout(() => {
+            const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
+            speakText(followersUserToSpeech);
+          }, 500);
+          setTimeout(() => {
+            const followingUserToSpeech = `followed by: ${response.data.followedUser.length}`;
+            speakText(followingUserToSpeech);
+          }, 500);
+          setTimeout(() => {
+            const followingUserToSpeech = `user name: ${response.data.nameUser}`;
+            speakText(followingUserToSpeech);
+          }, 500);
+          setTimeout(() => {
+            const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
+            speakText(descriptionToSpeech);
+          }, 500);
+        }
+      })
+      .catch(error => {
+        navigate('*');
+      });
+    }
     document.body.style.backgroundImage = `url(${backgroundImage})`;
     console.log(id);
     if (userId) {
@@ -70,7 +90,15 @@ const Profile = () => {
         navigate("*");
       });
     }
+
   }, [numPagePublication, recargar]);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleNextPublication = () => {
     setCurrentPublicationIndex((prevIndex) => {
@@ -115,7 +143,6 @@ const Profile = () => {
               <div className="profile-user-buttons">
                 <Link to="/profile/edituser" className="buttonProfile">Edit Profile</Link>
                 <Link to="/profile/settings" className="buttonProfile">Settings</Link>
-                {/* <Link to="/profile/settings" className="btn_profile-settings-btn" aria-label="profile settings">Settings<i className="fas fa-cog" aria-hidden="true"></i></Link> */}
               </div>
               <div className="profile-stats">
                 <h1 className="profileTitleFollowers">Followers</h1>
@@ -147,20 +174,18 @@ const Profile = () => {
                           <p className="new_profile_post_text">{currentPublication.textPublication}</p>
                           <p className="new_profile_post_time">{new Date(currentPublication.createdAt).toLocaleString()}</p>
                         </div>
-                        )}
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-        </div>        
-      )}
+          </div>
+        )}
+      </div>
+      <Footer/>
     </div>
-    <Footer/>
-  </div>
   );
 };
 
 export default Profile;
-
-// <p className="album_title">Memories</p>

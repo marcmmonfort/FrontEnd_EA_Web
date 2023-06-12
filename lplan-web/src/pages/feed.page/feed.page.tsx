@@ -393,7 +393,7 @@ const Feed = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="titleContainer">
         <h1 className="titleSection">Feed</h1>
       </div>

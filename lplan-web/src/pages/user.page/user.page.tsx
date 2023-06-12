@@ -108,7 +108,7 @@ const UserProfile = () => {
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <div className="user-profile">
                 {currentUser ? (
                     <div className="profile">

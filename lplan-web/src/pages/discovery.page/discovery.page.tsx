@@ -63,7 +63,7 @@ const Discovery = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="titleContainer">
         <h1 className="titleSection">Discovery</h1>
         <input type="text" placeholder="Search Users" value={searchQuery} onChange={(event) => {
