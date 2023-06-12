@@ -34,13 +34,13 @@
     "Close":"Close",
     "Credits":"Credits to Brain Farm and © Dave / Neighbourhood Recordings 2019",
     "Locations":"Locations",
-    "Date": "Fecha",
-    "Creator": "Creador",
-    "AudioDescription": "Audiodescripción",
-    "Enaudiodescription1": "Habilitar descripción de audio para lectores de pantalla:",
-    "Enaudiodescription2": "Habilitar descripción de audio",
-    "Vcontrol": "Control de voz",
-    "EVcontrolforNavigation": "Habilite el control de voz para la navegación:",
-    "EVcontrol": "Habilitar control de voz" 
+    "Date": "Date",
+    "Creator": "Creator",
+    "AudioDescription": "Audio Description",
+    "Enaudiodescription1": "Habilitate audio desciption for screen readers:",
+    "Enaudiodescription2": "Habilitate audio description",
+    "Vcontrol": "Voice control",
+    "EVcontrolforNavigation": "Habilitate voice control for navigation:",
+    "EVcontrol": "Habilitate voice control" 
 }
   

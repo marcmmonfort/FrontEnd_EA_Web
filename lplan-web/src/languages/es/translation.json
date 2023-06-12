@@ -33,5 +33,13 @@
     "ActivityDetails": "Detalles de la actividad",
     "Close": "Cerrar",
     "Credits": "Créditos a Brain Farm y © Dave / Neighborhood Recordings 2019",
-    "Locations": "Ubicaciones"
+    "Locations": "Ubicaciones",
+    "Date": "Fecha",
+    "Creator": "Creador",
+    "AudioDescription": "Audio descripción",
+    "Enaudiodescription1": "Habilitar descripción de audio para lectores de pantalla:",
+    "Enaudiodescription2": "Habilitar descripción de audio",
+    "Vcontrol": "Control de voz",
+    "EVcontrolforNavigation": "Habilite el control de voz para la navegación:",
+    "EVcontrol": "Habilitar control de voz" 
   }
