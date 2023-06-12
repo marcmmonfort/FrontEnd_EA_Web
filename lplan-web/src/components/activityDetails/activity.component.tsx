@@ -53,15 +53,15 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
       <div className="modal">
         <div className="modal-content">
           <h2>{t("ActivityDetails")}</h2>
-          <p>Nombre: {activity.nameActivity}</p>
-          <p>Fecha: {new Date(activity.dateActivity).toISOString().substr(0, 10)}</p>
-          <p>Descripción: {activity.descriptionActivity}</p>
+          <p>{t("Name")}: {activity.nameActivity}</p>
+          <p>{t("Date")}: {new Date(activity.dateActivity).toISOString().substr(0, 10)}</p>
+          <p>{t("Description")}: {activity.descriptionActivity}</p>
           {creatorUser && (
             <Link to={`/user/${creatorUser.uuid}`} className="user-link">
               <div className="post__header">
                 <img className="post__profile-img" src={`${creatorUser.photoUser}`} alt="Profile"/>
                   <div className="post__info">
-                    <p className="post__username_header">Creador: {creatorAppName}</p>
+                    <p className="post__username_header">{t("Creator")}: {creatorAppName}</p>
                   </div>
               </div>
             </Link>

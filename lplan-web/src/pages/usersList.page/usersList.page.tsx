@@ -146,33 +146,33 @@ const UsersList = () => {
           currentUser?.followersUser?.length !== undefined &&
           currentUser.followersUser.length > numPage * 2 ? (
             <button className="btnLoadMore" onClick={handleLoadMore}>
-              Load More
+              {t("LoadMore")}
             </button>
           ) : (
             <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-              Load More
+              {t("LoadMore")}
             </button>
           )
         ) : isLikesMode ? (
           currentPublication?.likesPublication?.length !== undefined &&
           currentPublication.likesPublication.length > numPage * 2 ? (
             <button className="btnLoadMore" onClick={handleLoadMore}>
-              Load More
+              {t("LoadMore")}
             </button>
           ) : (
             <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-              Load More
+              {t("LoadMore")}
             </button>
           )
         ) : (
           currentUser?.followedUser?.length !== undefined &&
           currentUser.followedUser.length > numPage * 2 ? (
             <button className="btnLoadMore" onClick={handleLoadMore}>
-              Load More
+              {t("LoadMore")}
             </button>
           ) : (
             <button className="btnLoadMoreD" onClick={handleLoadMore} disabled>
-              Load More
+              {t("LoadMore")}
             </button>
           )
         )}

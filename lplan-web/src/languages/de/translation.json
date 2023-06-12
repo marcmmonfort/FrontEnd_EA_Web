@@ -33,5 +33,13 @@
     "ActivityDetails": "Aktivitätsdetails",
     "Close": "Schließen",
     "Credits": "Dank an Brain Farm und © Dave / Neighborhood Recordings 2019",
-    "Locations": "Standorte"
+    "Locations": "Standorte",
+    "Date": "Datum",
+    "Creator": "Schöpfer",
+    "AudioDescription": "Audiobeschreibung",
+    "Enaudiodescription1": "Audiobeschreibung für Screenreader aktivieren:",
+    "Enaudiodescription2": "Audiobeschreibung aktivieren",
+    "Vcontrol": "Stimmenkontrolle",
+    "EVcontrolforNavigation": "Sprachsteuerung für Navigation aktivieren:",
+    "EVcontrol": "Sprachsteuerung aktivieren"
   }

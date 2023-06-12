@@ -69,32 +69,28 @@ const SettingsPage = () => {
           ))}
         </div>
       </div>
-      
-      <div className="titleContainer">
-        <h1 className="titleSection">Settings</h1>
-      </div>
       <div className="settingsContainer">
-        <h2>Audio Description</h2>
-        <p>Enable audio description for screen readers:</p>
+        <h2>{t("AudioDescription")}</h2>
+        <p>{t("Enaudiodescription1")}</p>
         <label>
           <input
             type="checkbox"
             checked={audioDescriptionEnabled}
             onChange={handleToggleAudioDescription}
           />
-          Enable Audio Description
+          {t("Enaudiodescription2")}
         </label>
       </div>
       <div className="settingsContainer">
-        <h2>Voice Control</h2>
-        <p>Enable voice control for navigation:</p>
+        <h2>{t("Vcontrol")}</h2>
+        <p>{t("EVcontrolforNavigation")}</p>
         <label>
           <input
             type="checkbox"
             checked={voiceControlEnabled}
             onChange={handleToggleVoiceControl}
           />
-          Enable Voice Control
+          {t("EVcontrol")}
         </label>
       </div>
       <Footer />
