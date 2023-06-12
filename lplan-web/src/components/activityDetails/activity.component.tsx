@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ActivityEntity } from "../../models/activity.model";
+import { useTranslation } from "react-i18next";
 import "./activity.component.css"
 import { UserService } from "../../services/user.service";
 import { User } from "../../models/user.model";
@@ -18,6 +19,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
     onAddToActivity,
     userId,
   }) => {
+    const { t } = useTranslation();
     const [participants, setParticipants] = useState(activity.participantsActivity || []);
     const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(participants.includes(userId));
     const [isCreatorOfActivity, setIsCreatorOfActivity] = useState(activity.creatorActivity.includes(userId));
@@ -50,7 +52,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
     return (
       <div className="modal">
         <div className="modal-content">
-          <h2>Detalles de la actividad</h2>
+          <h2>{t("ActivityDetails")}</h2>
           <p>Nombre: {activity.nameActivity}</p>
           <p>Fecha: {new Date(activity.dateActivity).toISOString().substr(0, 10)}</p>
           <p>Descripción: {activity.descriptionActivity}</p>
@@ -67,7 +69,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
           }
 
           <p>Participantes: {activity.participantsActivity?.join(", ")}</p>
-          <button onClick={onClose}>Cerrar</button>
+          <button onClick={onClose}>{t("Close")}</button>
           {showJoinButton && (
           <button onClick={() => handleAddToActivity(!isCurrentUserParticipant)}>
             {isCurrentUserParticipant ? "Leave Activity" : "Join Activity"}

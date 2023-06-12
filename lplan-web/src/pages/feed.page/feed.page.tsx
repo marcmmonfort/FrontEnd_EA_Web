@@ -4,7 +4,7 @@ import Footer from "../../components/footer/footer";
 import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import { AuthService } from "../../services/auth.service";
-
+import { useTranslation } from 'react-i18next';
 // Fondo de pantalla personalizado ...
 import backgroundImage from "../../assets/images/background_3.jpg";
 import "./feed.page.css";
@@ -14,6 +14,7 @@ import { UserService } from "../../services/user.service";
 import { Link, useNavigate } from "react-router-dom";
 import { FaComment, FaHeart } from "react-icons/fa";
 import { useSpring, animated } from 'react-spring';
+import i18n from "../../i18n";
 
 
 const Feed = () => {
@@ -31,6 +32,7 @@ const Feed = () => {
   const [reloadPublication, setReloadPublication] = useState<string>('');
 
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -395,7 +397,7 @@ const Feed = () => {
     <div>
       <Navbar/>
       <div className="titleContainer">
-        <h1 className="titleSection">Feed</h1>
+        <h1 className="titleSection">{t("Feed")}</h1>
       </div>
       <div className="feed">
         {listPublications.map((publication) => (
@@ -428,7 +430,7 @@ const Feed = () => {
               {showCommentForm[publication.uuid] && (
                 <form onSubmit={(event) => {handleSubmit(event, publication.uuid.toString());}}>
                   <input className="input-comment"  value={commentText[publication.uuid]} onChange={(event) => {handleInputChange(event, publication.uuid.toString());}}/>
-                  <button className="submit-comment" type="submit">Send Comment</button>
+                  <button className="submit-comment" type="submit">{i18n.t('SendComment')}</button>
                 </form>
               )}
               </div>
@@ -489,9 +491,9 @@ const Feed = () => {
         ))}
         <div className="load-more">
           {numPublications > numPagePublication * 3 ? (
-            <button className="buttonLoadMore" onClick={handleLoadMore}> Load More </button>
+            <button className="buttonLoadMore" onClick={handleLoadMore}> {t("LoadMore")} </button>
           ) : (
-            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> Load More</button>
+            <button className="buttonLoadMoreD" onClick={handleLoadMore} disabled> {t("LoadMore")}</button>
           )}
         </div>
       </div>

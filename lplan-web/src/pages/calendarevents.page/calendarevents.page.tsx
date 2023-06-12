@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
+import { useTranslation } from 'react-i18next';
 import Calendar from "../../components/calendar/calendar.component";
 import { SlotLabelContentArg } from "@fullcalendar/core";
 import { ActivityEntity } from "../../models/activity.model";
@@ -31,6 +32,7 @@ const CalendarEvents = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const {t}=useTranslation();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -38,7 +40,7 @@ const CalendarEvents = () => {
     const userId = AuthService.getCurrentUser();
     setUuid(userId);
 
-    const currentDate = new Date;
+    const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
     console.log(currentDate);
     const date = currentDate.toString();
@@ -110,14 +112,13 @@ const CalendarEvents = () => {
     <div>
       <Navbar/>
       <div className="titleContainer_Calendar">
-        <h1 className="titleSection">Calendar</h1>
-        
+        <h1 className="titleSection">{t("Calendar")}</h1>
       </div>
       
       <div className="contentContainer">
         <div className="schedule-buttons">
-          <button className={selectedTimetable === "My Timetable" ? "active" : ""} onClick={() => {handleTimetableChange("My Timetable"); setSelectedUser(null);}}>Own</button>
-          <button className={selectedTimetable === "Timetable Feed" ? "active" : ""} onClick={() => {handleTimetableChange("Timetable Feed"); setSelectedUser(null);}}>Friends</button>
+          <button className={selectedTimetable === "My Timetable" ? "active" : ""} onClick={() => {handleTimetableChange("My Timetable"); setSelectedUser(null);}}>{t("Own")}</button>
+          <button className={selectedTimetable === "Timetable Feed" ? "active" : ""} onClick={() => {handleTimetableChange("Timetable Feed"); setSelectedUser(null);}}>{t("Friends")}</button>
         </div>
         <div className="buttonsCalendar">
           {selectedTimetable === "My Timetable" &&(
@@ -126,10 +127,10 @@ const CalendarEvents = () => {
             </Link>
           )}
           {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentPage > 1  &&(
-              <button className="nextPlanButton" onClick={() => {handlePageChange(-1); setSelectedUser(null);} }>Previous</button>
+              <button className="nextPlanButton" onClick={() => {handlePageChange(-1); setSelectedUser(null);} }>{t("Previous")}</button>
           )}
           {currentUser && currentUser.followedUser && selectedTimetable === "Timetable Feed" && currentUser.followedUser?.length > currentPage &&(
-              <button className="nextPlanButton" onClick={() => {handlePageChange(1); setSelectedUser(null);} }>Next</button>
+              <button className="nextPlanButton" onClick={() => {handlePageChange(1); setSelectedUser(null);} }>{t("Next")}</button>
           )}
         </div>
         {selectedTimetable === "My Timetable" && currentUser && (

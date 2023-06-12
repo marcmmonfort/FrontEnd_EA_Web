@@ -4,6 +4,7 @@ import Footer from "../../components/footer/footer";
 import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {useTranslation} from "react-i18next"
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
@@ -18,6 +19,7 @@ const UsersList = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [numPage, setNumPage] = useState(1);
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const isFollowersMode = mode === "followers";
   const isFollowingMode = mode === "following";
@@ -138,7 +140,7 @@ const UsersList = () => {
             ))}
           </ul>
         ) : (
-          <h1 className="usersnotfound">User Not Found</h1>
+          <h1 className="usersnotfound">{t("UNF")}</h1>
         )}
         {isFollowersMode ? (
           currentUser?.followersUser?.length !== undefined &&

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt, faBell } from "@fortawesome/free-solid-svg-icons";
 import icon from "../../assets/images/logo_lp_1.png";
 import { AuthService } from "../../services/auth.service";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const recognitionRef = useRef<any>(null);
@@ -94,34 +95,36 @@ const Navbar = () => {
     }
   };
 
-  const handleLogout = () => {
-    AuthService.logOut();
-  };
+    const handleLogout = () => {
+        AuthService.logOut();
 
-  return (
-    <header>
-      <img className="logo" src={icon} alt="Logo" />
-      <nav className={showMenu ? "open" : ""}>
-        <Link to="/messages" className="logout-link">
-          <FontAwesomeIcon className="logout-link" icon={faBell} />
-        </Link>
-        <Link to="/feed">Feed</Link>
-        <Link to="/discovery">Discovery</Link>
-        <Link to="/messages">Messages</Link>
-        <Link to="/calendarevents">Calendar</Link>
-        <Link to="/map">Locations</Link>
-        <Link to="/profile">
-          <FontAwesomeIcon className="profile-link" icon={faUser} />
-        </Link>
-        <Link to="/" onClick={handleLogout} className="logout-link">
-          <FontAwesomeIcon className="logout-link" icon={faSignOutAlt} />
-        </Link>
-      </nav>
-      <button className="voice-recognition" onClick={toggleVoiceRecognition}>
+    }
+    const { t } = useTranslation();
+
+    return (
+        <header>
+          <img className="logo" src={icon} alt="Logo" />
+          <nav className={showMenu ? "open" : ""}>
+            <Link to="/messages" className="logout-link">
+              <FontAwesomeIcon className="logout-link" icon={faBell} />
+            </Link>
+            <Link to="/feed">{t("Feed")}</Link>
+            <Link to="/discovery">{t("Discovery")}</Link>
+            <Link to="/messages">{t("Messages")}</Link>
+            <Link to="/calendarevents">{t("Calendar")}</Link>
+            <Link to="/map">{t("Locations")}</Link>
+            <Link to="/profile">
+              <FontAwesomeIcon className="profile-link" icon={faUser} />
+            </Link>
+            <Link to="/" onClick={handleLogout} className="logout-link">
+              <FontAwesomeIcon className="logout-link" icon={faSignOutAlt} />
+            </Link>
+          </nav>
+          <button className="voice-recognition" onClick={toggleVoiceRecognition}>
         {isListening ? "Detener" : "Escuchar"}
       </button>
-    </header>
-  );
+        </header>
+      );
 };
 
 export default Navbar;

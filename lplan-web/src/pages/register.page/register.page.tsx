@@ -5,7 +5,7 @@ import Select from "../../components/select/select.component";
 import Swal from 'sweetalert2';
 import PasswordForm from "../../components/password/password.component";
 import { AuthService } from "../../services/auth.service";
-
+import { useTranslation } from 'react-i18next';
 import './register.page.css';
 
 import Navbar from "../../components/navbar/navbar";
@@ -41,6 +41,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     deletedUser: false,
   });
   const navigate = useNavigate();
+  const {t} = useTranslation();
   
 
   // Handle para input tipo checkbox
@@ -146,10 +147,10 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
   return (
     <div className="col-md-12">
       <div className="titleContainer">
-          <h1 className="titleSection">Register</h1>
+          <h1 className="titleSection">{t("Register")}</h1>
         </div>
       <div className="button-container-back">
-        <Link to="/" className="buttonBack">Back</Link>
+        <Link to="/" className="buttonBack">{t("Back")}</Link>
       </div>
       <div className="card-container">
         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
@@ -167,7 +168,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
               { value: "female", label: "Female" },
             ]} />
           <Input label="Privacy" name="privacyUser" type="checkbox" checked={user.privacyUser} onChange={handleChange}/>
-          <button className="buttonBack" type="submit">Register</button>
+          <button className="buttonBack" type="submit">{t("Register")}</button>
         </form>
       </div>
       <Footer/>
