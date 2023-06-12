@@ -11,6 +11,8 @@ import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
+import Filter from 'bad-words';
+
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const Profile = () => {
@@ -32,7 +34,20 @@ const Profile = () => {
       .then(response => {
         console.log(response);
         console.log(response.data);
-        setCurrentUser(response.data);
+        if (response.data && response.data.descriptionUser) {
+          
+          const customFilter = new Filter({regex: /\*|\.|$/gi});
+          customFilter.addWords('idiota', 'retrasado');
+
+          const filteredDescription = customFilter.clean(response.data.descriptionUser);
+          console.log(filteredDescription);
+        
+          response.data.descriptionUser = filteredDescription;
+          setCurrentUser(response.data);
+        }
+        
+        
+
 
         const audioDescription = AuthService.getAudioDescription();
         // Leer el texto del usuario actual en voz alta al cargar la página
