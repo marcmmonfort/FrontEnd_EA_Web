@@ -51,4 +51,15 @@ export class ActivityService {
     }
   }
 
+  static async updateActivity(uuid: string, activity: ActivityEntity) {
+    try {
+      const response = await axios.put(API_URL + "/" + uuid, activity, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
 }

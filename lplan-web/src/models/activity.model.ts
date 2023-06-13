@@ -2,7 +2,7 @@ export interface ActivityEntity{
     uuid?:string;
     nameActivity: string;
     creatorActivity: string;
-    participantsActivity?: string[] | undefined;
+    participantsActivity: string[];
     publicationActivity?: string[];
     dateActivity: Date;
     hoursActivity: string[];

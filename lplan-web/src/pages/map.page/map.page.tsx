@@ -19,6 +19,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from "../../services/location.service";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../models/location.model";
+import { useTranslation } from 'react-i18next';
 
 const customIcon = L.icon({
   iconUrl: markerIcon,
@@ -35,6 +36,7 @@ const MapPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   useEffect(() => {
     const getLocations = async () => {
@@ -122,7 +124,7 @@ const MapPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div>
         <div>
           <input
@@ -131,7 +133,7 @@ const MapPage = () => {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button onClick={handleSearch}>Buscar</button>
+          <button onClick={handleSearch}>{t("Search")}</button>
         </div>
         <MapContainer
           center={[41.3807, 2.1158]}

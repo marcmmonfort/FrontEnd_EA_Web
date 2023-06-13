@@ -6,6 +6,7 @@ import Input from "../../components/input/input.component";
 import Footer from "../../components/footer/footer";
 import "./createActivity.page.css";
 import { setDate } from "date-fns";
+import { useTranslation } from 'react-i18next';
 
 const CreateActivity = () => {
   const [activity, setActivity] = useState<ActivityEntity>({
@@ -21,6 +22,7 @@ const CreateActivity = () => {
   });
 
   const navigate = useNavigate();
+  const {t}=useTranslation();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -88,7 +90,7 @@ const CreateActivity = () => {
 
   return (
     <div>
-      <h1>Create Activity</h1>
+      <h1>{t("CreateActivity")}</h1>
       <form onSubmit={handleSubmit} className="scroll-container">
         <Input
           label="Nombre de la actividad"
@@ -139,7 +141,7 @@ const CreateActivity = () => {
           value={activity.roleActivity}
           onChange={handleInputChange}
         />
-        <button type="submit">Create</button>
+        <button type="submit">{t("Create")}</button>
       </form>
       <Footer/>
     </div>

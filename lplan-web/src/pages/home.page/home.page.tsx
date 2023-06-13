@@ -1,17 +1,19 @@
 import React, { useEffect ,useState} from "react";
-
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import i18next from "i18next";
 import Navbar from "../../components/navbar/navbar";
 import Credits from "../../components/credits/credits";
+
 // @ts-ignore
 import video from "../../assets/images/homebackground.mp4";
 
 import "./home.page.css";
 
-
 const Home = () => {
+  const {t} = useTranslation();
   const [user, setUser] = useState<any>(null);
 
   
@@ -37,12 +39,8 @@ const Home = () => {
       <div className="container">
         <h1 className="title">Lplan</h1>
         <div className="button-container">
-          <Link to="/login" className="button">
-            LogIn
-          </Link>
-          <Link to="/register" className="button">
-            Register
-          </Link>
+          <Link to="/login" className="button">{t("Login")}</Link>
+          <Link to="/register" className="button">{t("Register")}</Link>
         </div>
         <video autoPlay loop muted className="fullscreen-bg__video">
           <source src={video} type="video/mp4" />

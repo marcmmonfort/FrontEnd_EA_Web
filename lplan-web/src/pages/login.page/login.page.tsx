@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Auth } from '../../models/auth.model';
 import { AuthService } from '../../services/auth.service';
@@ -28,6 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<Auth>({ mailUser: '', passwordUser: '' });
   const [errors, setErrors] = useState<Partial<Auth>>({});
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -132,22 +133,22 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
       <div className="loginForm">
         <div className="titleContainer">
-          <h1 className="titleSection">Login</h1>
+          <h1 className="titleSection">{t("Login")}</h1>
         </div>
         <div className="button-container-back">
-          <Link to="/" className="buttonBack">Back</Link>
+          <Link to="/" className="buttonBack">{t("Back")}</Link>
         </div>
         <div className="emailEntry">
-          <label htmlFor="mailUser">Email</label>
+          <label htmlFor="mailUser">{t("Email")}</label>
           <input id="mailUser" name="mailUser" type="email" value={formData.mailUser} onChange={handleInputChange} />
           {errors.mailUser && <span>{errors.mailUser}</span>}
         </div>
         <div className="passwordEntry">
-          <label htmlFor="passwordUser">Password</label>
+          <label htmlFor="passwordUser">{t("Password")}</label>
           <input id="passwordUser" name="passwordUser" type="password" value={formData.passwordUser} onChange={handleInputChange} />
           {errors.passwordUser && <span>{errors.passwordUser}</span>}
         </div>
-        <button className="loginRegisterButton" type="submit">LogIn</button>
+        <button className="loginRegisterButton" type="submit">{t("LogIn")}</button>
         <Footer/>
       </div>
     </form>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./authHeader.service";
 
-//const API_URL = "http://localhost:5432/publication";
+
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
@@ -68,5 +68,27 @@ export class PublicationService {
       throw error;
     }
   }
+
+  static async getListLikes( uuid: string|undefined, numPage:string) {
+    try {
+      const response = await axios.get(API_URL + "/likes/" + uuid + "/" + numPage, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error('Error during load feed:', error);
+      throw error;
+    }
+  }
+
+  static async getPublication( uuid: string|undefined) {
+    try {
+      const response = await axios.get(API_URL + "/"+ uuid, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error('Error during load feed:', error);
+      throw error;
+    }
+  }
+
+
 
 }

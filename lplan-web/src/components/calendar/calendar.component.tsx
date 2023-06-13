@@ -8,6 +8,7 @@ import { EventClickArg } from "@fullcalendar/core";
 import ActivityDetailsModal from "../activityDetails/activity.component";
 
 import "./calendar.component.css";
+import { ActivityService } from "../../services/activity.service";
 
 interface CalendarProps {
   activities: ActivityEntity[];
@@ -19,6 +20,9 @@ interface CalendarProps {
   selectedTimetable: string;
   editable: boolean;
   showAllDay: boolean;
+  userId: string; // ID del usuario actual
+  recargar: boolean // Pasa el estado recargar como prop
+  setRecargar: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -29,8 +33,13 @@ const Calendar: React.FC<CalendarProps> = ({
   showWeekChangeButtons,
   selectedTimetable,
   showAllDay,
+  userId,
+  recargar, 
+  setRecargar,
 }) => {
+  
   const [selectedActivity, setSelectedActivity] = useState<ActivityEntity | null>(null);
+  
 
   const handleEventClick = (event: EventClickArg) => {
     const clickedActivity = activities.find(
@@ -44,10 +53,37 @@ const Calendar: React.FC<CalendarProps> = ({
       setSelectedActivity(null);
     }
   };
+  
+  const handleAddToActivity = (isJoining: boolean) => {
+    console.log("handleAddToActivity");
+    if (selectedActivity) {
+      console.log(selectedActivity.uuid);
+      const activityIndex = activities.findIndex((activity) => activity.uuid === selectedActivity.uuid);
+      if (activityIndex !== -1 && selectedActivity.uuid) {
+        const updatedActivity = [...activities];
+        const activityToUpdate = updatedActivity[activityIndex];
+  
+        if (isJoining) {
+          activityToUpdate.participantsActivity = [...activityToUpdate.participantsActivity, userId];
+          console.log("Joined Activity");
+        } else {
+          activityToUpdate.participantsActivity = activityToUpdate.participantsActivity.filter(
+            (participantId) => participantId !== userId
+          );
+          console.log("Left Activity");
+        }
+  
+        setSelectedActivity(activityToUpdate);
+        ActivityService.updateActivity(selectedActivity.uuid, activityToUpdate);
+      }
+    }
+  };
 
   const closeActivityDetails = () => {
     setSelectedActivity(null);
+    setRecargar(prevState => !prevState);
   };
+
 
   const getSlotLabelContent = (arg: any) => {
     if (!showAllDay && arg.isAllDay) {
@@ -103,7 +139,10 @@ const Calendar: React.FC<CalendarProps> = ({
         editable={selectedTimetable === "My Timetable"}
       />
       {selectedActivity &&  (
-        <ActivityDetailsModal activity={selectedActivity} onClose={closeActivityDetails} />
+        <ActivityDetailsModal activity={selectedActivity} onClose={closeActivityDetails}
+        userId={userId}
+        onAddToActivity={handleAddToActivity} // Pasa la función handleAddToActivity como prop
+        />
       )}
     </div>
   );
