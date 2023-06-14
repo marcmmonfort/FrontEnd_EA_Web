@@ -24,6 +24,12 @@
   }
 }
 
+.google_container{
+  align-items: center;
+  margin-top: 6px !important;
+  z-index: 1;
+}
+
  .button { 
     font-family: "SFNS", sans-serif;
     margin: 4px;

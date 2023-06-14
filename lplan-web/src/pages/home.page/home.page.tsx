@@ -248,6 +248,7 @@ const Home = () => {
       }
     });
   };
+  
   return (
     <div>
       <div className="container">
@@ -260,18 +261,12 @@ const Home = () => {
             {t("Register")}
           </Link>
         </div>
+        <div className="google_container" id="signInButton"> 
+          <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={() => {console.log("Login Failed");}}/>
+        </div>
         <video autoPlay loop muted className="fullscreen-bg__video">
           <source src={video} type="video/mp4" />
         </video>
-        <div id="signInButton">
-          <GoogleLogin
-            onSuccess={handleGoogleLoginSuccess}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
-          ;
-        </div>
       </div>
       <Credits />
     </div>
