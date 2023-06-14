@@ -6,7 +6,7 @@ import {
   Popup,
   TileLayer,
   Tooltip,
-  useMap,
+  useMapEvents,
 } from "react-leaflet";
 
 import Navbar from "../../components/navbar/navbar";
@@ -19,7 +19,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { LocationService } from "../../services/location.service";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../models/location.model";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const customIcon = L.icon({
   iconUrl: markerIcon,
@@ -35,8 +35,10 @@ const MapPage = () => {
   const [locations, setLocationList] = useState<Location[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchOptions, setSearchOptions] = useState<any[]>([]);
+  const [selectedOption, setSelectedOption] = useState<any>(null);
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getLocations = async () => {
@@ -51,6 +53,12 @@ const MapPage = () => {
     getLocations();
   }, []);
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handleSearch = async () => {
     try {
       const response = await fetch(
@@ -58,13 +66,18 @@ const MapPage = () => {
       );
       const data = await response.json();
       setSearchResults(data);
+      setSearchOptions(data.slice(0, 5)); // Obtener las primeras 5 opciones de búsqueda
     } catch (error) {
       console.error("Error en la búsqueda:", error);
     }
   };
 
-  const MapComponent = () => {
-    const map = useMap();
+  const MapComponent = ({ selectedOption }: { selectedOption: any }) => {
+    const map = useMapEvents({
+      locationfound: (location) => {
+        map.flyTo(location.latlng, map.getZoom());
+      },
+    });
 
     const handleSearchResult = (result: {
       lat: any;
@@ -77,14 +90,14 @@ const MapPage = () => {
     };
 
     const calculateZoom = (importance: number) => {
-      return Math.floor(18 - Math.log2(importance));
+      return Math.floor(15 - Math.log2(importance));
     };
 
     useEffect(() => {
-      if (searchResults.length > 0) {
-        handleSearchResult(searchResults[0]);
+      if (selectedOption) {
+        handleSearchResult(selectedOption);
       }
-    }, [searchResults]);
+    }, [selectedOption]);
 
     return (
       <>
@@ -111,6 +124,7 @@ const MapPage = () => {
           <Marker
             key={index}
             position={[parseFloat(result.lat), parseFloat(result.lon)]}
+            icon={customIcon}
             eventHandlers={{
               click: () => handleSearchResult(result),
             }}
@@ -122,25 +136,66 @@ const MapPage = () => {
     );
   };
 
+  const getUserLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setSelectedOption({
+            lat: latitude,
+            lon: longitude,
+            importance: 2, // Puedes ajustar el valor de "importance" según tus necesidades
+          });
+        },
+        (error) => {
+          console.error("Error al obtener la ubicación del usuario:", error);
+        }
+      );
+    } else {
+      console.error("Geolocalización no es compatible en este navegador.");
+    }
+  };
+
+  useEffect(() => {
+    getUserLocation();
+  }, []);
+
   return (
-    <div>
-      <Navbar/>
+    <div className="map-page-container">
+      <Navbar />
       <div>
-        <div>
+        <div className="search-container">
           <input
             type="text"
             placeholder="Buscar lugares"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
           <button onClick={handleSearch}>{t("Search")}</button>
         </div>
+
+        {/* Mostrar las opciones de búsqueda */}
+        {searchOptions.length > 0 && (
+          <ul className="search-results">
+            {searchOptions.map((option, index) => (
+              <li
+                className="searchResults"
+                key={index}
+                onClick={() => setSelectedOption(option)}
+              >
+                {option.display_name}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <MapContainer
           center={[41.3807, 2.1158]}
-          zoom={13}
+          zoom={12}
           style={{ height: "800px", width: "100%" }}
         >
-          <MapComponent />
+          <MapComponent selectedOption={selectedOption} />
         </MapContainer>
       </div>
       <Footer />
