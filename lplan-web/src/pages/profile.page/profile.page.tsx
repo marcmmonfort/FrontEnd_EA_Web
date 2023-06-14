@@ -13,6 +13,7 @@ import { UserService } from "../../services/user.service";
 import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import Filter from 'bad-words';
+import ShareComponent from "../../components/share/share.component";
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
@@ -26,6 +27,7 @@ const Profile = () => {
   const [numOwnPublications, setNumOwnPublications] = useState<number>(0);
   const [recargar, setRecargar] = useState<string>('');
   const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
+  const [showSharePopup, setShowSharePopup] = useState(false);
 
   useEffect(() => {
     const id = AuthService.getCurrentUser();
@@ -117,6 +119,15 @@ const Profile = () => {
     window.speechSynthesis.speak(utterance);
   };
 
+  //Popup compartir
+  const handleShare = () => {
+    setShowSharePopup(true);
+  };
+
+  const handleCloseSharePopup = () => {
+    setShowSharePopup(false);
+  };
+
   const handleNextPublication = () => {
     setCurrentPublicationIndex((prevIndex) => {
       const newIndex = prevIndex + 1;
@@ -142,10 +153,18 @@ const Profile = () => {
   const currentPublication = listOwnPublications[currentPublicationIndex];
   const previousPublication = listOwnPublications[currentPublicationIndex-1];
   const nextPublication = listOwnPublications[currentPublicationIndex+1];
-
+  
   return (
     <div>
       <Navbar/>
+      {showSharePopup ? (
+        <>
+          <ShareComponent shareUrl={"http://147.83.7.158:5432/user/" + userId} handleShare={handleShare} />
+          <button onClick={handleCloseSharePopup}>Close</button>
+        </>
+      ) : (
+        <button onClick={handleShare}>Share</button>
+      )}
       <div className="titleContainer">
         <h1 className="titleSection">{t("Profile")}</h1>
       </div>
