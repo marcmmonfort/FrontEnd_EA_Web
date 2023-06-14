@@ -6,6 +6,7 @@ import {
   Popup,
   TileLayer,
   Tooltip,
+  useMap,
   useMapEvents,
 } from "react-leaflet";
 
@@ -37,6 +38,8 @@ const MapPage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchOptions, setSearchOptions] = useState<any[]>([]);
   const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [marker, setMarker] = useState<any>(null);
+  const [locationInfo, setLocationInfo] = useState<any>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -73,12 +76,29 @@ const MapPage = () => {
   };
 
   const MapComponent = ({ selectedOption }: { selectedOption: any }) => {
+    const mapInstance = useMap();
+  
+    const handleMapClick = async (e: any) => {
+      const { lat, lng } = e.latlng;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+      );
+      const data = await response.json();
+      setLocationInfo(data);
+      setMarker({ lat, lng });
+      setSelectedOption({
+        lat: lat,
+        lon: lng,
+        importance: 2, 
+      });
+    };
+  
     const map = useMapEvents({
       locationfound: (location) => {
-        map.flyTo(location.latlng, map.getZoom());
+        mapInstance.flyTo(location.latlng, mapInstance.getZoom());
       },
+      click: handleMapClick,
     });
-
     const handleSearchResult = (result: {
       lat: any;
       lon: any;
@@ -144,7 +164,7 @@ const MapPage = () => {
           setSelectedOption({
             lat: latitude,
             lon: longitude,
-            importance: 2, // Puedes ajustar el valor de "importance" según tus necesidades
+            importance: 2, 
           });
         },
         (error) => {
@@ -196,6 +216,21 @@ const MapPage = () => {
           style={{ height: "800px", width: "100%" }}
         >
           <MapComponent selectedOption={selectedOption} />
+          {marker && (
+            <Marker position={marker} icon={customIcon}>
+              <Popup>
+                <div>
+                  <strong>Direction:</strong> {locationInfo?.display_name}
+                </div>
+                <div>
+                  <strong>Latitude:</strong> {marker?.lat}
+                </div>
+                <div>
+                  <strong>Longitude:</strong> {marker?.lng}
+                </div>
+              </Popup>
+            </Marker>
+          )}
         </MapContainer>
       </div>
       <Footer />
