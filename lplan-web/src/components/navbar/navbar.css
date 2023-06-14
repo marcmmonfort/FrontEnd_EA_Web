@@ -28,9 +28,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.8rem;
     background-color: #000;
     color: #66fcf1;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
   }
   
   h3 {

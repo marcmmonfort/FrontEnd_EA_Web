@@ -162,17 +162,17 @@ const Profile = () => {
   return (
     <div>
       <Navbar/>
-      {showSharePopup ? (
-        <>
-          <ShareComponent shareUrl={"http://147.83.7.158:5432/user/" + userId} handleShare={handleShare} />
-          <button onClick={handleCloseSharePopup}>Close</button>
-        </>
-      ) : (
-        <button onClick={handleShare}>Share</button>
-      )}
       <div className="titleContainer">
         <h1 className="titleSection">{t("Profile")}</h1>
       </div>
+      {showSharePopup ? (
+        <>
+          <ShareComponent shareUrl={"http://147.83.7.158:5432/user/" + userId} handleShare={handleShare} />
+          <button className="share_show_button" onClick={handleCloseSharePopup}>Close</button>
+        </>
+      ) : (
+        <button className="share_show_button" onClick={handleShare}>Share</button>
+      )}
       <div className="profileContour">
         {currentUser && (
           <div className="profile-container">

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSignOutAlt, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSignOutAlt, faBell, faMicrophone, faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
 import icon from "../../assets/images/logo_lp_1.png";
 import { AuthService } from "../../services/auth.service";
 import { useTranslation } from "react-i18next";
@@ -119,10 +119,10 @@ const Navbar = () => {
             <Link to="/" onClick={handleLogout} className="logout-link">
               <FontAwesomeIcon className="logout-link" icon={faSignOutAlt} />
             </Link>
+            <button className="microphone_button" onClick={toggleVoiceRecognition}>
+              {isListening ? <FontAwesomeIcon icon={faMicrophone} /> : <FontAwesomeIcon icon={faMicrophoneSlash} />}
+            </button>
           </nav>
-          <button className="voice-recognition" onClick={toggleVoiceRecognition}>
-        {isListening ? "Detener" : "Escuchar"}
-      </button>
         </header>
       );
 };
