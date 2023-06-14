@@ -47,6 +47,15 @@ export class UserService {
       throw error;
     }
   }
+  static async getPersonByEmail(email: string) {
+    try {
+      const response = await axios.get(API_URL +"/google/check/" + email, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error("Error when obtaining person:", error);
+      throw error;
+    }
+  }
 
   //OK
   static async isFollowed(uuid:string, uuidFollowed: string) {

@@ -33,6 +33,15 @@ export class AuthService {
       throw error;
     }
   }
+  static async loginGoogle(auth: Auth) {
+    try {
+      const response = await axios.post(API_URL + "/loginfrontendgoogle", auth);
+      return response;
+    } catch (error) {
+      console.error('Error during login:', error);
+      throw error;
+    }
+  }
 
   static async register(user:User)  {
     try {
