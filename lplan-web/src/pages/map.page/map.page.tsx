@@ -40,6 +40,7 @@ const MapPage = () => {
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [locationInfo, setLocationInfo] = useState<any>(null);
+  const [clickedLocation, setClickedLocation] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -75,9 +76,18 @@ const MapPage = () => {
     }
   };
 
+  const handleGoToListActivities = (uuid: string) => {
+    if (clickedLocation.toString() === uuid?.toString()) {
+      setClickedLocation("");
+      navigate("/activityloclist", { state: { uuid } }); // UserScreen
+    } else {
+      setClickedLocation(uuid);
+    }
+  };
+
   const MapComponent = ({ selectedOption }: { selectedOption: any }) => {
     const mapInstance = useMap();
-  
+
     const handleMapClick = async (e: any) => {
       const { lat, lng } = e.latlng;
       const response = await fetch(
@@ -89,10 +99,10 @@ const MapPage = () => {
       setSelectedOption({
         lat: lat,
         lon: lng,
-        importance: 2, 
+        importance: 1,
       });
     };
-  
+
     const map = useMapEvents({
       locationfound: (location) => {
         mapInstance.flyTo(location.latlng, mapInstance.getZoom());
@@ -110,7 +120,7 @@ const MapPage = () => {
     };
 
     const calculateZoom = (importance: number) => {
-      return Math.floor(15 - Math.log2(importance));
+      return Math.floor(16 - Math.log2(importance));
     };
 
     useEffect(() => {
@@ -134,9 +144,14 @@ const MapPage = () => {
               parseFloat(location.lonLocation),
             ]}
             icon={customIcon}
+            eventHandlers={{
+              click: () => handleGoToListActivities(location.uuid!),
+            }}
           >
-            <Tooltip>{location.nameLocation}</Tooltip>
-            <Popup>{location.descriptionLocation}</Popup>
+            <Tooltip>
+              <p>{t('Name')}: {location.nameLocation}</p>
+              <p>{t('Description')}: {location.descriptionLocation}</p>
+            </Tooltip>
           </Marker>
         ))}
 
@@ -164,7 +179,7 @@ const MapPage = () => {
           setSelectedOption({
             lat: latitude,
             lon: longitude,
-            importance: 2, 
+            importance: 2,
           });
         },
         (error) => {

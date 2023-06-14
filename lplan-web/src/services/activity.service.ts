@@ -39,6 +39,15 @@ export class ActivityService {
       throw error;
     }
   }
+  static async getActivitiesOfALocation(uuid: string){
+    try{
+        const response=await axios.get(API_URL + "activities/bylocation/" + uuid,{headers: authHeader()});
+        return response;
+    } catch(error){
+        console.error('Error obtaining the activities of a location: '+error);
+        throw error;
+    }
+  }
 
   static async getOtherSchedule(uuid: string, numPage:string, date: string) {
     try {

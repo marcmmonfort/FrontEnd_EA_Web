@@ -17,6 +17,7 @@ import EditUserPage from './pages/edituser.page/edituser.page';
 import UsersList from './pages/usersList.page/usersList.page';
 import MapPage from './pages/map.page/map.page';
 import CreateActivity from './pages/activity/createActivity.page';
+import ActivitiesLocationList from './pages/listActivityByLocation/list.activity.page';
 // Import of Components ...
 import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
@@ -49,7 +50,8 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/map" element={<MapPage/>}></Route>
-          <Route path="/createActivity" element={<CreateActivity/>}></Route>          
+          <Route path="/createActivity" element={<CreateActivity/>}></Route> 
+          <Route path='/activityloclist' element={<ActivitiesLocationList/>}></Route>         
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>
