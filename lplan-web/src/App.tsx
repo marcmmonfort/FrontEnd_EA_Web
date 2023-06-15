@@ -17,11 +17,13 @@ import EditUserPage from './pages/edituser.page/edituser.page';
 import UsersList from './pages/usersList.page/usersList.page';
 import MapPage from './pages/map.page/map.page';
 import CreateActivity from './pages/activity/createActivity.page';
+import UserStats from './pages/stats/stats.page';
 // Import of Components ...
 import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
 import './App.css';
 import Navbar from './components/navbar/navbar';
+
 
 
 
@@ -50,6 +52,7 @@ function App() {
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/map" element={<MapPage/>}></Route>
           <Route path="/createActivity" element={<CreateActivity/>}></Route>          
+          <Route path="/stats" element={<UserStats/>}></Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>

@@ -173,6 +173,9 @@ const Profile = () => {
                 <Link to="/profile/settings" className="buttonProfile">
                   {t("Settings")}
                 </Link>
+                <Link to="/stats" className="buttonProfile">
+                  {t("Stats")}
+                </Link>
               </div>
               <div className="profile-stats">
                 <h1 className="profileTitleFollowers">{t("Followers")}</h1>

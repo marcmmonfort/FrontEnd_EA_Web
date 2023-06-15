@@ -62,4 +62,52 @@ export class ActivityService {
     }
   }
 
+  static async getAllActivitiesParticipatedByUser(uuid: string) {
+    try {
+      console.log(uuid);
+      const response = await axios.get(API_URL + "/all/" + uuid, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
+  static async getAllActivitiesCreatedByUser(uuid: string) {
+    try {
+      console.log(uuid);
+      const response = await axios.get(API_URL + "/all/created/" + uuid, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
+  static async getActivitiesLastMonthByUser(uuid: string, date:string) {
+    try {
+      console.log(uuid);
+      const response = await axios.get(API_URL + "/mymonth/" + uuid +"/" + date, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
+  static async getActivitiesLast6Weeks(uuid: string) {
+    try {
+      console.log(uuid);
+      const response = await axios.get(API_URL + "/last6weeks/" + uuid, { headers: authHeader() });
+      console.log("try response last 6" + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
 }
