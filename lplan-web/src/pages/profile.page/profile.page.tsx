@@ -167,7 +167,7 @@ const Profile = () => {
       </div>
       {showSharePopup ? (
         <>
-          <ShareComponent shareUrl={"http://147.83.7.158:5432/user/" + userId} handleShare={handleShare} />
+          <ShareComponent shareUrl={"http://147.83.7.158:5432/shared/profile/" + userId} handleShare={handleShare} />
           <button className="share_show_button" onClick={handleCloseSharePopup}>Close</button>
         </>
       ) : (

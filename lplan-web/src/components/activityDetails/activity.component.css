@@ -9,53 +9,34 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-}
-
-.rate_button {
-  background-color: #66fcf1 !important;
-  color: black !important;
-  margin-bottom: 30px !important;
-  width: 120px !important;
-  margin: 0px !important;
-  margin-bottom: 20px !important;
-}
-
-.rate_button_disabled {
-  background-color: transparent !important;
-  color: #66fcf1 !important;
-  margin: 0px !important;
-  margin-bottom: 20px !important;
-}
-
-.stars_amount{
-  margin-top: -12px !important;
-  margin-bottom: 4px !important;
-  color: yellow !important;
-}
-
-.stars_for_rating{
-  margin-top: -12px !important;
-  margin-bottom: 6px !important;
-  color: #66fcf1 !important;
-  font-size: 36px !important;
+  overflow: auto;
 }
 
 .modal-content {
   background-color: #000000;
+  margin-top: 100px !important;
   padding: 20px;
   border-radius: 4px;
   max-width: 400px;
   position: relative;
   z-index: 10000;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.modal-content.share-clicked {
+  padding-top: 200px !important;
 }
 
 .modal-content h2 {
   margin-top: 0;
+  color: #fff;
 }
 
 .modal-content p {
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .modal-content button {
@@ -64,12 +45,25 @@
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  align-items: center;
+  margin-bottom: 10px;
+  color: #000;
 }
 
 .modal-content button:hover {
   background-color: #999;
 }
 
+.share_show_button{
+  background-color: #ccc;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+
+.share_show_button:hover {
+  background-color: #999;
+}

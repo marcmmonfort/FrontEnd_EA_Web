@@ -18,6 +18,7 @@ import UsersList from './pages/usersList.page/usersList.page';
 import MapPage from './pages/map.page/map.page';
 import CreateActivity from './pages/activity/createActivity.page';
 import ActivitiesLocationList from './pages/listActivityByLocation/list.activity.page';
+import SharedContentPage from './pages/share.page/share.page';
 // Import of Components ...
 import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
@@ -39,6 +40,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {} } />} />
           <Route path='register' element={<RegisterForm onSubmit={handleRegister}/>} />
+          <Route path="shared/:type/:id" element={<SharedContentPage />} />
           
           <Route path="/feed" element={<Feed />} />
           <Route path="/discovery" element={<Discovery />} />

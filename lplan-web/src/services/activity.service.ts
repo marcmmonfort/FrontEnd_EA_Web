@@ -71,4 +71,15 @@ export class ActivityService {
     }
   }
 
+  static async getActivity(uuid: string) {
+    try {
+      const response = await axios.get(API_URL + "/" + uuid, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
 }

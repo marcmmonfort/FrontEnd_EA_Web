@@ -5,6 +5,7 @@ import "./activity.component.css"
 import { UserService } from "../../services/user.service";
 import { User } from "../../models/user.model";
 import { Link } from "react-router-dom";
+import ShareComponent from "../share/share.component";
 import { RatingsService } from "../../services/ratings.service";
 import { RatingsEntity } from "../../models/ratings.model";
 
@@ -24,6 +25,8 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
     const [isCreatorOfActivity, setIsCreatorOfActivity] = useState(activity.creatorActivity.includes(userId));
     const [creatorUser, setCreatorUser] = useState<User | null>(null);
     const [creatorAppName, setCreatorAppName] = useState<string>("");
+    const [showSharePopup, setShowSharePopup] = useState(false);
+  const [isShareClicked, setIsShareClicked] = useState(false);
 
   useEffect(() => {
     const fetchCreatorAppName = async (uuid: string) => {
@@ -46,6 +49,18 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
   };
 
   const showJoinButton = !isCreatorOfActivity;
+
+  //  - - - - - Mínimo 2 (by Victor) - - - - - 
+
+  const handleShare = () => {
+    setShowSharePopup(true);
+    setIsShareClicked(true); 
+  };
+
+  const handleCloseSharePopup = () => {
+    setShowSharePopup(false);
+    setIsShareClicked(false); 
+  };
 
   //  - - - - - Mínimo 2 (by Marc) - - - - - 
 
@@ -153,7 +168,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
 
   return (
     <div className="modal">
-      <div className="modal-content">
+      <div className={`modal-content${isShareClicked ? ' share-clicked' : ''}`}>
         <h2>{t("ActivityDetails")}</h2>
         <p>{t("Name")}: {activity.nameActivity}</p>
         <p>{t("Date")}: {new Date(activity.dateActivity).toISOString().substr(0, 10)}</p>
@@ -196,6 +211,19 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
         {showJoinButton && (
           <button onClick={() => handleAddToActivity(!isCurrentUserParticipant)}>
             {isCurrentUserParticipant ? "Leave Activity" : "Join Activity"}
+          </button>
+        )}
+
+        {showSharePopup ? (
+          <>
+            <ShareComponent shareUrl={`http://localhost:3001/shared/activity/${activity.uuid}`} handleShare={handleShare} />
+            <button onClick={handleCloseSharePopup}>
+              Cerrar
+            </button>
+          </>
+        ) : (
+          <button onClick={handleShare}>
+            Compartir
           </button>
         )}
       </div>
