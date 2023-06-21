@@ -127,13 +127,12 @@ const CreateActivity = () => {
           value={activity.descriptionActivity}
           onChange={handleInputChange}
         />
-        <Input
-          label="Privacidad de la actividad"
-          name="privacyActivity"
-          type="checkbox"
-          checked={activity.privacyActivity}
-          onChange={handleInputChange}
-        />
+        <input
+            type="checkbox"
+            name="privacyActivity"
+            checked={activity.privacyActivity}
+            onChange={handleInputChange}
+          />
         <Input
           label="Rol de la actividad"
           name="roleActivity"

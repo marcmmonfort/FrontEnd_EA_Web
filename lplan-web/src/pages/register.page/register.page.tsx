@@ -40,14 +40,20 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
     privacyUser: false,
     deletedUser: false,
   });
+  const [privacy, setPrivacy] = useState<boolean>(false);
   const navigate = useNavigate();
   const {t} = useTranslation();
   
 
+  const handlePrivacy = () => {
+    const newPrivacy = !privacy;
+    setPrivacy(newPrivacy);
+    setUser((prevUser) => ({ ...prevUser, privacyUser: newPrivacy }));
+  };
+  console.log(user);
   // Handle para input tipo checkbox
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: checked }));
+    const { name, value } = e.target;
 
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
@@ -167,7 +173,12 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
               { value: "male", label: "Male" },
               { value: "female", label: "Female" },
             ]} />
-          <Input label="Privacy" name="privacyUser" type="checkbox" checked={user.privacyUser} onChange={handleChange}/>
+          <input
+            type="checkbox"
+            name="privacyUser"
+            checked={privacy}
+            onChange={handlePrivacy}
+          />
           <button className="buttonBack" type="submit">{t("Register")}</button>
         </form>
       </div>

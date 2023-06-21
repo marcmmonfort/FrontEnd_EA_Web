@@ -31,6 +31,7 @@ const EditUser = () => {
     privacyUser: false,
     deletedUser: false,
   });
+  const [privacy, setPrivacy] = useState<boolean>(false);
   //const [confirmDelete, setConfirmDelete] = useState(false);
   const navigate = useNavigate();
   const {t} = useTranslation();
@@ -44,6 +45,7 @@ const EditUser = () => {
             console.log(response);
             console.log(response.data);
             setUser(response.data);
+            setPrivacy(response.data.privacyUser);
           })
           .catch(error => {
             navigate("*");
@@ -55,10 +57,17 @@ const EditUser = () => {
     getUser();
   }, []);
 
+  
+
+  const handlePrivacy = () => {
+    const newPrivacy = !privacy;
+    setPrivacy(newPrivacy);
+    setUser((prevUser) => ({ ...prevUser, privacyUser: newPrivacy }));
+  };
+
   // Handle para input tipo checkbox
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: checked }));
+    const { name, value } = e.target;
 
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
@@ -73,6 +82,8 @@ const EditUser = () => {
 
     setUser((prevUser) => ({ ...prevUser, [name]: dateValue }));
   };
+
+  console.log(user);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -241,13 +252,13 @@ const EditUser = () => {
                         { value: "female", label: "Female" },
                       ]}
                     />
-                    <Input
-                      label="Privacy"
-                      name="privacyUser"
+                    <input
                       type="checkbox"
-                      checked={user.privacyUser}
-                      onChange={handleChange}
+                      name="privacyUser"
+                      checked={privacy}
+                      onChange={handlePrivacy}
                     />
+                    
                     <button className="buttonSave" type="submit">{t("Save")}</button>
                   </form>
                 </div>
