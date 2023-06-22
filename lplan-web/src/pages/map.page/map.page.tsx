@@ -21,6 +21,7 @@ import { LocationService } from "../../services/location.service";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../models/location.model";
 import { useTranslation } from "react-i18next";
+import { CircleLoader } from "react-spinners";
 
 const customIcon = L.icon({
   iconUrl: markerIcon,
@@ -41,20 +42,25 @@ const MapPage = () => {
   const [marker, setMarker] = useState<any>(null);
   const [locationInfo, setLocationInfo] = useState<any>(null);
   const [clickedLocation, setClickedLocation] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   useEffect(() => {
-    const getLocations = async () => {
-      LocationService.getLocations()
-        .then((response) => {
-          setLocationList(response.data);
-        })
-        .catch((error) => {
-          navigate("*");
-        });
-    };
-    getLocations();
+    setTimeout(() => {
+      const getLocations = async () => {
+        LocationService.getLocations()
+          .then((response) => {
+            setLocationList(response.data);
+          })
+          .catch((error) => {
+            navigate("*");
+          });
+      };
+      getLocations();
+      setIsLoading(false);
+    }, 1000);
+    
   }, []);
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -196,8 +202,13 @@ const MapPage = () => {
   }, []);
 
   return (
-    <div className="map-page-container">
+    <div>
       <Navbar />
+      {isLoading ? (
+        <CircleLoader color="#123abc" loading={isLoading} />
+      ) : (
+        <div className="map-page-container">
+      
       <div>
         <div className="search-container">
           <input
@@ -248,8 +259,12 @@ const MapPage = () => {
           )}
         </MapContainer>
       </div>
+      
+    </div>
+      )}
       <Footer />
     </div>
+    
   );
 };
 

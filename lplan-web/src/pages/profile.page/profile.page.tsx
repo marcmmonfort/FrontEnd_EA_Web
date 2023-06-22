@@ -14,6 +14,8 @@ import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import Filter from 'bad-words';
 import ShareComponent from "../../components/share/share.component";
+import { CircleLoader } from "react-spinners";
+
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
@@ -30,95 +32,101 @@ const Profile = () => {
   const [recargar, setRecargar] = useState<string>("");
   const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
-    console.log("Estoy en el perfil");
-    const id = AuthService.getCurrentUser();
-    console.log(id);
-    if (id) {
-      setUserId(id);
-      UserService.getPerson(id)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data);
-          if (response.data && response.data.descriptionUser) {
-            const customFilter = new Filter({ regex: /\*|\.|$/gi });
-            customFilter.addWords("idiota", "retrasado");
-
-            const filteredDescription = customFilter.clean(
-              response.data.descriptionUser
-            );
-            console.log(filteredDescription);
-
-            response.data.descriptionUser = filteredDescription;
-            setCurrentUser(response.data);
-          }
-
-          const audioDescription = AuthService.getAudioDescription();
-          // Leer el texto del usuario actual en voz alta al cargar la página
-          if (audioDescription === "si") {
-            const pageToSpeech = "You are in your profile";
-            speakText(pageToSpeech);
-            setTimeout(() => {
-              const appUserToSpeech = `appUser: ${response.data.appUser}`;
-              speakText(appUserToSpeech);
-            }, 500);
-            setTimeout(() => {
-              const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
-              speakText(followersUserToSpeech);
-            }, 500);
-            setTimeout(() => {
-              const followingUserToSpeech = `following by: ${response.data.followedUser.length}`;
-              speakText(followingUserToSpeech);
-            }, 500);
-            setTimeout(() => {
-              const followingUserToSpeech = `user name: ${response.data.nameUser}`;
-              speakText(followingUserToSpeech);
-            }, 500);
-            setTimeout(() => {
-              const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
-              speakText(descriptionToSpeech);
-            }, 500);
-          }
-          console.log("Estoy saliendo del Audio");
-        })
-        .catch((error) => {
-          navigate("*");
-        });
-    }
     document.body.style.backgroundImage = `url(${backgroundImage})`;
-    console.log(id);
-    if (userId) {
-      PublicationService.obtainOwnPosts(id)
-        .then((response) => {
-          const publications = response.data;
-          console.log(response);
-          if (publications.length != 0) {
-            const firstTransparentPublication = {
-              ...publications[0],
-              photoPublication: [
-                "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-              ],
-            };
-            const lastTransparentPublication = {
-              ...publications[0],
-              photoPublication: [
-                "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-              ],
-            };
-            // Publicación transparente al principio ...
-            publications.unshift(firstTransparentPublication);
-            // Publicación transparente al final ...
-            publications.push(lastTransparentPublication);
-          }
+    setTimeout(()=>{
+      console.log("Estoy en el perfil");
+      const id = AuthService.getCurrentUser();
+      console.log(id);
+      if (id) {
+        setUserId(id);
+        UserService.getPerson(id)
+          .then((response) => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data && response.data.descriptionUser) {
+              const customFilter = new Filter({ regex: /\*|\.|$/gi });
+              customFilter.addWords("idiota", "retrasado");
 
-          setListOwnPublications(publications);
-          setNumOwnPublications(publications.length);
-        })
-        .catch((error) => {
-          navigate("*");
-        });
-    }
+              const filteredDescription = customFilter.clean(
+                response.data.descriptionUser
+              );
+              console.log(filteredDescription);
+
+              response.data.descriptionUser = filteredDescription;
+              setCurrentUser(response.data);
+            }
+
+            const audioDescription = AuthService.getAudioDescription();
+            // Leer el texto del usuario actual en voz alta al cargar la página
+            if (audioDescription === "si") {
+              const pageToSpeech = "You are in your profile";
+              speakText(pageToSpeech);
+              setTimeout(() => {
+                const appUserToSpeech = `appUser: ${response.data.appUser}`;
+                speakText(appUserToSpeech);
+              }, 500);
+              setTimeout(() => {
+                const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
+                speakText(followersUserToSpeech);
+              }, 500);
+              setTimeout(() => {
+                const followingUserToSpeech = `following by: ${response.data.followedUser.length}`;
+                speakText(followingUserToSpeech);
+              }, 500);
+              setTimeout(() => {
+                const followingUserToSpeech = `user name: ${response.data.nameUser}`;
+                speakText(followingUserToSpeech);
+              }, 500);
+              setTimeout(() => {
+                const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
+                speakText(descriptionToSpeech);
+              }, 500);
+            }
+            console.log("Estoy saliendo del Audio");
+          })
+          .catch((error) => {
+            navigate("*");
+          });
+      }
+      
+      console.log(id);
+      if (userId) {
+        PublicationService.obtainOwnPosts(id)
+          .then((response) => {
+            const publications = response.data;
+            console.log(response);
+            if (publications.length != 0) {
+              const firstTransparentPublication = {
+                ...publications[0],
+                photoPublication: [
+                  "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
+                ],
+              };
+              const lastTransparentPublication = {
+                ...publications[0],
+                photoPublication: [
+                  "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
+                ],
+              };
+              // Publicación transparente al principio ...
+              publications.unshift(firstTransparentPublication);
+              // Publicación transparente al final ...
+              publications.push(lastTransparentPublication);
+            }
+
+            setListOwnPublications(publications);
+            setNumOwnPublications(publications.length);
+          })
+          .catch((error) => {
+            navigate("*");
+          });
+      }
+      setIsLoading(false);
+    }, 1000);
   }, [numPagePublication, recargar]);
 
   // Función para leer el texto en voz alta
@@ -164,8 +172,14 @@ const Profile = () => {
   const nextPublication = listOwnPublications[currentPublicationIndex+1];
   
   return (
+    
     <div>
       <Navbar/>
+      {isLoading ? (
+        <CircleLoader color="#123abc" loading={isLoading} />
+      ) : (
+        <div>
+      
       <div className="titleContainer">
         <h1 className="titleSection">{t("Profile")}</h1>
       </div>
@@ -274,8 +288,12 @@ const Profile = () => {
           </div>
         )}
       </div>
+      
+    </div>
+      )}
       <Footer />
     </div>
+    
   );
 };
 

@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaComment, FaHeart } from "react-icons/fa";
 import { useSpring, animated } from 'react-spring';
 import i18n from "../../i18n";
+import { CircleLoader } from "react-spinners";
 
 
 const Feed = () => {
@@ -30,159 +31,163 @@ const Feed = () => {
   const [numPublications, setNumPublications] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<{[key: string]: boolean; }>({});
   const [reloadPublication, setReloadPublication] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const {t} = useTranslation();
 
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
-    console.log("Iniciamos");
-    const fetchData = async () => {
-      const userId = AuthService.getCurrentUser();
-      console.log(numPagePublication);
-      if (userId) {
-        PublicationService.feed(numPagePublication.toString(), userId)
+    setTimeout(() => {
+      console.log("Iniciamos");
+      const fetchData = async () => {
+        const userId = AuthService.getCurrentUser();
+        console.log(numPagePublication);
+        if (userId) {
+          PublicationService.feed(numPagePublication.toString(), userId)
+            .then((response) => {
+              console.log(response);
+              console.log(response.data);
+
+              const initialVisibility = response.data.reduce(
+                (acc: { [key: string]: boolean }, publication: Publication) => {
+                  acc[publication.uuid] = false;
+                  return acc;
+                },
+                {}
+              );
+              //setCommentsVisibility(initialVisibility);
+              //setCommentsVisibility((prevVisibility) => ({...prevVisibility, initialVisibility}));
+              setCommentsVisibility(prevVisibility => {
+                const updatedVisibility = Object.assign({}, prevVisibility, initialVisibility);
+                return updatedVisibility;
+              });
+
+              const initialPage = response.data.reduce(
+                (acc: { [key: string]: number }, publication: Publication) => {
+                  acc[publication.uuid] = 1;
+                  return acc;
+                },
+                {}
+              );
+              //setPageComments(initialPage);
+              //setPageComments((prevPageComments) => ({...prevPageComments,initialPage}));
+              setPageComments(prevPageComments => {
+                const updatedPageComments = Object.assign({}, prevPageComments, initialPage);
+                return updatedPageComments;
+              });
+
+              const initialCommentButton = response.data.reduce(
+                (acc: { [key: string]: string }, publication: Publication) => {
+                  acc[publication.uuid] = "Show Comments";
+                  return acc;
+                },
+                {}
+              );
+              //setCommentButton(initialCommentButton);
+              //setCommentButton((prevCommentButton) => ({...prevCommentButton,initialCommentButton}));
+              setCommentButton(prevCommentButton => {
+                const updatedCommentButton = Object.assign({}, prevCommentButton, initialCommentButton);
+                return updatedCommentButton;
+              });
+
+              const initialListComments = response.data.reduce(
+                (acc: { [key: string]: Comment[] }, publication: Publication) => {
+                  acc[publication.uuid] = [];
+                  return acc;
+                },
+                {}
+              );
+              //setListCommentsPublication(initialListComments);
+              //setListCommentsPublication((prevListCommentsPublication) => ({...prevListCommentsPublication,initialListComments}));
+              setListCommentsPublication(prevListCommentsPublication => {
+                const updatedListCommentsPublication = Object.assign({}, prevListCommentsPublication, initialListComments);
+                return updatedListCommentsPublication;
+              });
+
+              const initialShowCommentButton = response.data.reduce(
+                (acc: { [key: string]: boolean }, publication: Publication) => {
+                  acc[publication.uuid] = false;
+                  return acc;
+                },
+                {}
+              );
+              setShowCommentForm(prevInitialShowCommentButton => {
+                const updatedInitialShowCommentButton = Object.assign({}, prevInitialShowCommentButton, initialShowCommentButton);
+                return updatedInitialShowCommentButton;
+              });
+
+              const initialCommentText= response.data.reduce(
+                (acc: { [key: string]: string }, publication: Publication) => {
+                  acc[publication.uuid] = "";
+                  return acc;
+                },
+                {}
+              );
+              //setCommentText(initialCommentText);
+              //setCommentText((prevCommentButton) => ({...prevCommentButton,initialCommentText}));
+              setCommentText(prevCommentButton => {
+                const updatedCommentText = Object.assign({}, prevCommentButton, initialCommentText);
+                return updatedCommentText;
+              });
+
+              const initialShowLikes = response.data.reduce(
+                (acc: { [key: string]: boolean }, publication: Publication) => {
+                  const hasLiked = publication.likesPublication?.includes(userId) || false;
+                  acc[publication.uuid] = hasLiked;
+                  return acc;
+                },
+                {}
+              );
+              //setHasLiked(initialShowLikes);
+              //setHasLiked((prevHasLiked) => ({...prevHasLiked,initialShowLikes}));
+              setHasLiked(prevHasLiked => {
+                const updatedHasLiked = Object.assign({}, prevHasLiked, initialShowLikes);
+                return updatedHasLiked;
+              });
+              console.log(listPublications);
+
+              setListPublications(prevPublications => [...prevPublications, ...response.data]);
+          })
+          .catch(error => {
+            navigate("*");
+          });
+
+          PublicationService.numPublicationsFollowing(userId)
           .then((response) => {
             console.log(response);
             console.log(response.data);
-
-            const initialVisibility = response.data.reduce(
-              (acc: { [key: string]: boolean }, publication: Publication) => {
-                acc[publication.uuid] = false;
-                return acc;
-              },
-              {}
-            );
-            //setCommentsVisibility(initialVisibility);
-            //setCommentsVisibility((prevVisibility) => ({...prevVisibility, initialVisibility}));
-            setCommentsVisibility(prevVisibility => {
-              const updatedVisibility = Object.assign({}, prevVisibility, initialVisibility);
-              return updatedVisibility;
-            });
-
-            const initialPage = response.data.reduce(
-              (acc: { [key: string]: number }, publication: Publication) => {
-                acc[publication.uuid] = 1;
-                return acc;
-              },
-              {}
-            );
-            //setPageComments(initialPage);
-            //setPageComments((prevPageComments) => ({...prevPageComments,initialPage}));
-            setPageComments(prevPageComments => {
-              const updatedPageComments = Object.assign({}, prevPageComments, initialPage);
-              return updatedPageComments;
-            });
-
-            const initialCommentButton = response.data.reduce(
-              (acc: { [key: string]: string }, publication: Publication) => {
-                acc[publication.uuid] = "Show Comments";
-                return acc;
-              },
-              {}
-            );
-            //setCommentButton(initialCommentButton);
-            //setCommentButton((prevCommentButton) => ({...prevCommentButton,initialCommentButton}));
-            setCommentButton(prevCommentButton => {
-              const updatedCommentButton = Object.assign({}, prevCommentButton, initialCommentButton);
-              return updatedCommentButton;
-            });
-
-            const initialListComments = response.data.reduce(
-              (acc: { [key: string]: Comment[] }, publication: Publication) => {
-                acc[publication.uuid] = [];
-                return acc;
-              },
-              {}
-            );
-            //setListCommentsPublication(initialListComments);
-            //setListCommentsPublication((prevListCommentsPublication) => ({...prevListCommentsPublication,initialListComments}));
-            setListCommentsPublication(prevListCommentsPublication => {
-              const updatedListCommentsPublication = Object.assign({}, prevListCommentsPublication, initialListComments);
-              return updatedListCommentsPublication;
-            });
-
-            const initialShowCommentButton = response.data.reduce(
-              (acc: { [key: string]: boolean }, publication: Publication) => {
-                acc[publication.uuid] = false;
-                return acc;
-              },
-              {}
-            );
-            setShowCommentForm(prevInitialShowCommentButton => {
-              const updatedInitialShowCommentButton = Object.assign({}, prevInitialShowCommentButton, initialShowCommentButton);
-              return updatedInitialShowCommentButton;
-            });
-
-            const initialCommentText= response.data.reduce(
-              (acc: { [key: string]: string }, publication: Publication) => {
-                acc[publication.uuid] = "";
-                return acc;
-              },
-              {}
-            );
-            //setCommentText(initialCommentText);
-            //setCommentText((prevCommentButton) => ({...prevCommentButton,initialCommentText}));
-            setCommentText(prevCommentButton => {
-              const updatedCommentText = Object.assign({}, prevCommentButton, initialCommentText);
-              return updatedCommentText;
-            });
-
-            const initialShowLikes = response.data.reduce(
-              (acc: { [key: string]: boolean }, publication: Publication) => {
-                const hasLiked = publication.likesPublication?.includes(userId) || false;
-                acc[publication.uuid] = hasLiked;
-                return acc;
-              },
-              {}
-            );
-            //setHasLiked(initialShowLikes);
-            //setHasLiked((prevHasLiked) => ({...prevHasLiked,initialShowLikes}));
-            setHasLiked(prevHasLiked => {
-              const updatedHasLiked = Object.assign({}, prevHasLiked, initialShowLikes);
-              return updatedHasLiked;
-            });
-            console.log(listPublications);
-
-            setListPublications(prevPublications => [...prevPublications, ...response.data]);
-        })
-        .catch(error => {
-          navigate("*");
-        });
-
-        PublicationService.numPublicationsFollowing(userId)
+            setNumPublications(response.data);
+          })
+          .catch(error => {
+            navigate("*");
+          });
+        }
+      };
+      console.log(recargar);
+      if(recargar === "Inicio" || recargar === "More Publications" ){
+        console.log(numPagePublication);
+        fetchData();
+      }else if(recargar === "New Comment" || recargar === "Delete Like" || recargar === "Update Like"){
+        console.log(reloadPublication);
+        PublicationService.getPublication(reloadPublication)
         .then((response) => {
-          console.log(response);
           console.log(response.data);
-          setNumPublications(response.data);
+          const index = listPublications.findIndex((publication) => publication.uuid === reloadPublication);
+
+          if (index >= 0) {
+            listPublications.splice(index, 1, (response.data));
+            setListPublications([...listPublications]);
+          }
+
         })
         .catch(error => {
           navigate("*");
+          console.log(error)
         });
       }
-    };
-    console.log(recargar);
-    if(recargar === "Inicio" || recargar === "More Publications" ){
-      console.log(numPagePublication);
-      fetchData();
-    }else if(recargar === "New Comment" || recargar === "Delete Like" || recargar === "Update Like"){
-      console.log(reloadPublication);
-      PublicationService.getPublication(reloadPublication)
-      .then((response) => {
-        console.log(response.data);
-        const index = listPublications.findIndex((publication) => publication.uuid === reloadPublication);
-
-        if (index >= 0) {
-          listPublications.splice(index, 1, (response.data));
-          setListPublications([...listPublications]);
-        }
-
-      })
-      .catch(error => {
-        navigate("*");
-        console.log(error)
-      });
-    }
+      setIsLoading(false);
+    }, 500);
     
   }, [recargar]);
 
@@ -396,6 +401,11 @@ const Feed = () => {
   return (
     <div>
       <Navbar/>
+      {isLoading ? (
+        <CircleLoader color="#123abc" loading={isLoading} />
+      ) : (
+        <div>
+      
       <div className="titleContainer">
         <h1 className="titleSection">{t("Feed")}</h1>
       </div>
@@ -497,8 +507,12 @@ const Feed = () => {
           )}
         </div>
       </div>
+      
+    </div>
+      )}
       <Footer />
     </div>
+    
   );
 };
 
