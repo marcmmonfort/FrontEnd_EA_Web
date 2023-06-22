@@ -9,8 +9,8 @@ let API_URL_All="";
 
 if (process.env.NODE_ENV === "production") {
   // Cargar variables de entorno desde .env.production
-  API_URL = "http://147.83.7.158:5432/location";
-  API_URL_All="http://147.83.7.158:5432/locations";
+  API_URL = "https://api.lplan.es/location";
+  API_URL_All="https://api.lplan.es/locations";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/location";

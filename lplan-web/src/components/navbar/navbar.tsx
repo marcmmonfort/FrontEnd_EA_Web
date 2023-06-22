@@ -8,9 +8,9 @@ import { AuthService } from "../../services/auth.service";
 import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false);
   const recognitionRef = useRef<any>(null);
   const [isListening, setIsListening] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate(); // Hook useNavigate para realizar la navegación
 
   useEffect(() => {

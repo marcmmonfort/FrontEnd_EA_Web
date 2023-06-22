@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityEntity } from "../../models/activity.model";
 import { ActivityService } from "../../services/activity.service";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import Footer from "../../components/footer/footer";
 import "./createActivity.page.css";
 import { setDate } from "date-fns";
 import { useTranslation } from 'react-i18next';
+import { AuthService } from "../../services/auth.service";
 
 const CreateActivity = () => {
   const [activity, setActivity] = useState<ActivityEntity>({
@@ -24,21 +25,22 @@ const CreateActivity = () => {
   const navigate = useNavigate();
   const {t}=useTranslation();
 
+  useEffect(() => {
+
+    const value = AuthService.getCurrentUser();
+    setActivity((prevActivity) => ({
+      ...prevActivity,
+      creatorActivity: value,
+      participantsActivity: [value, ...(prevActivity.participantsActivity || [])],
+    }));
+    
+  }, []);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
-  
     
-    
-    
-  
-    if (name === "creatorActivity") {
-      setActivity((prevActivity) => ({
-        ...prevActivity,
-        creatorActivity: value,
-        participantsActivity: [value, ...(prevActivity.participantsActivity || [])],
-      }));
-    } else if (name === "hoursActivity") {
+    console.log("Lo que me interesa.....",value);
+    if (name === "hoursActivity") {
       const [startHour, endHour] = value.split(" - ");
       setActivity((prevActivity) => ({
         ...prevActivity,
@@ -56,10 +58,6 @@ const CreateActivity = () => {
       }));
     }
   };
-  
-
-  
-  
   
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -97,13 +95,6 @@ const CreateActivity = () => {
           name="nameActivity"
           type="text"
           value={activity.nameActivity}
-          onChange={handleInputChange}
-        />
-        <Input
-          label="Creador de la actividad"
-          name="creatorActivity"
-          type="text"
-          value={activity.creatorActivity}
           onChange={handleInputChange}
         />
         <Input

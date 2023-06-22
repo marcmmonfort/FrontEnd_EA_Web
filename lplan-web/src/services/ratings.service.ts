@@ -5,7 +5,7 @@ import { RatingsEntity } from "../models/ratings.model";
 let API_URL="";
 
 if (process.env.NODE_ENV === 'production') {
-    API_URL = "http://147.83.7.158:5432";
+    API_URL = "https://api.lplan.es";
 } else {
     API_URL = "http://localhost:5432";
 }

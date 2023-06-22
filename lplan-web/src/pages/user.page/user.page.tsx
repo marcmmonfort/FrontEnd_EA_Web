@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import backgroundImage from '../../assets/images/background_4.jpg';
 import Navbar from "../../components/navbar/navbar";
@@ -34,8 +34,6 @@ const UserProfile = () => {
         //Obtenemos si es seguidor o no.
         getRelation(myUserId);
       }
-
-      
     }, [userId]);
 
 
@@ -45,6 +43,30 @@ const UserProfile = () => {
             const response = await UserService.getPerson(userId ?? 'NoID');
             setCurrentUser(response.data);
             console.log("Obtenemos los datos del otro usuario: exito");
+            const audioDescription = AuthService.getAudioDescription();
+            if (audioDescription === "si") {
+                console.log("Entro a la audio descripción");
+                setTimeout(() => {
+                  const appUserToSpeech = `You are in the profile of ${response.data.appUser}`;
+                  speakText(appUserToSpeech);
+                }, 500);
+                setTimeout(() => {
+                  const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
+                  speakText(followersUserToSpeech);
+                }, 500);
+                setTimeout(() => {
+                  const followingUserToSpeech = `following by: ${response.data.followedUser.length}`;
+                  speakText(followingUserToSpeech);
+                }, 500);
+                setTimeout(() => {
+                  const followingUserToSpeech = `user name: ${response.data.nameUser}`;
+                  speakText(followingUserToSpeech);
+                }, 500);
+                setTimeout(() => {
+                  const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
+                  speakText(descriptionToSpeech);
+                }, 500);
+            }
         } catch (error) {
             navigate("*");
             console.log("Obtenemos los datos del otro usuario: mal");
@@ -52,6 +74,14 @@ const UserProfile = () => {
             
         }
     };
+
+    const speakText = (text: string) => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en";
+        window.speechSynthesis.speak(utterance);
+    };
+
+
 
     const getRelation = async (myUserId:string) => {
         

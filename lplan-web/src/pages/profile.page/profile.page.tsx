@@ -57,14 +57,18 @@ const Profile = () => {
           const audioDescription = AuthService.getAudioDescription();
           // Leer el texto del usuario actual en voz alta al cargar la página
           if (audioDescription === "si") {
-            const appUserToSpeech = `appUser: ${response.data.appUser}`;
-            speakText(appUserToSpeech);
+            const pageToSpeech = "You are in your profile";
+            speakText(pageToSpeech);
+            setTimeout(() => {
+              const appUserToSpeech = `appUser: ${response.data.appUser}`;
+              speakText(appUserToSpeech);
+            }, 500);
             setTimeout(() => {
               const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
               speakText(followersUserToSpeech);
             }, 500);
             setTimeout(() => {
-              const followingUserToSpeech = `followed by: ${response.data.followedUser.length}`;
+              const followingUserToSpeech = `following by: ${response.data.followedUser.length}`;
               speakText(followingUserToSpeech);
             }, 500);
             setTimeout(() => {

@@ -7,7 +7,7 @@ import { User } from "../models/user.model";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL ="http://147.83.7.158:5432/user";
+  API_URL ="https://api.lplan.es/user";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/user";
@@ -136,5 +136,17 @@ export class UserService {
         return axios.get(API_URL + 'admin', { headers: authHeader() });
       }
     */
+  }
+
+  static async disableUser(uuid: string | undefined) {
+    console.log("Entro en disableUser service");
+    try {
+      const response = await axios.put(API_URL + "/disable/this",{uuid:uuid} ,{ headers: authHeader() });
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error("Error getting followed:", error);
+      throw error;
+    }
   }
 }

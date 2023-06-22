@@ -9,7 +9,7 @@ import axios from "axios";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "http://147.83.7.158:5432/user";
+  API_URL = "https://api.lplan.es/user";
   console.log(API_URL);
 } else {
   // Cargar variables de entorno desde .env.local

@@ -4,11 +4,12 @@ import Footer from "../../components/footer/footer";
 import "./settings.page.css";
 import backgroundImage from "../../assets/images/background_7.jpg";
 import { AuthService } from "../../services/auth.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import { UserService } from "../../services/user.service";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const lngs: any = {
@@ -19,9 +20,14 @@ const lngs: any = {
 };
 
 const SettingsPage = () => {
+  
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [audioDescriptionEnabled, setAudioDescriptionEnabled] = useState(false);
   const [voiceControlEnabled, setVoiceControlEnabled] = useState(false);
+  const [disableAccountEnabled, setDisableAccountEnabled] = useState(false);
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+
 
   useEffect(() => {
     const isAudioDescription = AuthService.getAudioDescription();
@@ -50,6 +56,22 @@ const SettingsPage = () => {
     setVoiceControlEnabled(newVoiceControlEnabled);
     AuthService.setVoiceControl(newVoiceControlEnabled ? "si" : "no");
   };
+
+  const handleDisableAccount = () => {
+    setShowConfirmationPopup(true);
+  };
+
+  const confirmDisableAccount = () => {
+    setDisableAccountEnabled(true);
+    const id = AuthService.getCurrentUser();
+    console.log(id);
+    if(id){
+      UserService.disableUser(id);
+    }
+
+    setShowConfirmationPopup(false);
+  };
+  
 
   return (
     <div>
@@ -91,6 +113,24 @@ const SettingsPage = () => {
             onChange={handleToggleVoiceControl}
           />
           {t("EVcontrol")}
+        </label>
+      </div>
+      {showConfirmationPopup && (
+          <div className="confirmationPopup">
+            <p>¿Estás seguro de que quieres deshabilitar tu cuenta?</p>
+            <button onClick={confirmDisableAccount}>Sí</button>
+            <button onClick={() => {setShowConfirmationPopup(false); setDisableAccountEnabled(false);}}>No</button>
+          </div>
+        )}
+      <div className="settingsContainer">
+        <h2>Delete Account</h2>
+        <p>Do you want to disable your account?</p>
+        <label>
+          <input
+            type="checkbox"
+            checked={disableAccountEnabled}
+            onChange={handleDisableAccount}
+          />
         </label>
       </div>
       <Footer />
