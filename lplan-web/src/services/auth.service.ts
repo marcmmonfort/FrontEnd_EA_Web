@@ -4,12 +4,13 @@ import { User } from "../models/user.model";
 import axios from "axios";
 
 
+
 //const API_URL = "http://localhost:5432/user";
 //const API_URL = "http://localhost:5432/auth";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "https://api.lplan.es/user";
+  API_URL = "https://api.lplan.es:443/user";
   console.log(API_URL);
 } else {
   // Cargar variables de entorno desde .env.local

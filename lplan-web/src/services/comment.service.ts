@@ -6,7 +6,7 @@ import { Comment } from "../models/comment.model";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "https://api.lplan.es/comment";
+  API_URL = "https://api.lplan.es:443/comment";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/comment";

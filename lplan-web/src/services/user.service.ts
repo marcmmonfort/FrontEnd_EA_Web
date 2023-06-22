@@ -7,7 +7,7 @@ import { User } from "../models/user.model";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL ="https://api.lplan.es/user";
+  API_URL ="https://api.lplan.es:443/user";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/user";

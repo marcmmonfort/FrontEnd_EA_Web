@@ -5,7 +5,7 @@ import authHeader from "./authHeader.service";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "https://api.lplan.es/publication";
+  API_URL = "https://api.lplan.es:443/publication";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/publication";

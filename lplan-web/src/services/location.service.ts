@@ -2,15 +2,14 @@ import axios from "axios";
 
 import authHeader from "./authHeader.service";
 
-import { Location } from "../models/location.model";
 
 let API_URL = "";
 let API_URL_All="";
 
 if (process.env.NODE_ENV === "production") {
   // Cargar variables de entorno desde .env.production
-  API_URL = "https://api.lplan.es/location";
-  API_URL_All="https://api.lplan.es/locations";
+  API_URL = "https://api.lplan.es:443/location";
+  API_URL_All="https://api.lplan.es:443/locations";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/location";

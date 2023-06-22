@@ -1,17 +1,16 @@
-import axios from "axios";
 import authHeader from "./authHeader.service";
 import { ActivityEntity } from "../models/activity.model";
+import axios from "axios";
 
 
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "https://api.lplan.es/activity";
+  API_URL = "https://api.lplan.es:443/activity";
 } else {
   // Cargar variables de entorno desde .env.local
   API_URL = "http://localhost:5432/activity";
 }
-
 
 
 export class ActivityService {
