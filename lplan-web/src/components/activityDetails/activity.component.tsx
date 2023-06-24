@@ -26,7 +26,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
     const [creatorUser, setCreatorUser] = useState<User | null>(null);
     const [creatorAppName, setCreatorAppName] = useState<string>("");
     const [showSharePopup, setShowSharePopup] = useState(false);
-  const [isShareClicked, setIsShareClicked] = useState(false);
+    const [isShareClicked, setIsShareClicked] = useState(false);
 
   useEffect(() => {
     const fetchCreatorAppName = async (uuid: string) => {
@@ -50,7 +50,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
 
   const showJoinButton = !isCreatorOfActivity;
 
-  //  - - - - - Mínimo 2 (by Victor) - - - - - 
+  //  - - - - - START of SHARING - - - - - 
 
   const handleShare = () => {
     setShowSharePopup(true);
@@ -62,7 +62,9 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
     setIsShareClicked(false); 
   };
 
-  //  - - - - - Mínimo 2 (by Marc) - - - - - 
+  //  - - - - - END of SHARING - - - - - 
+
+  // - - - - - START of RATINGS - - - - - 
 
   const [allRatings, setAllRatings] = useState<RatingsEntity[] | null>(null);
   const [ratingAverage, setRatingAverage] = useState<number | null>(null);
@@ -164,7 +166,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
     }
   };
 
-  //  - - - - - Mínimo 2 (by Marc) - - - - - 
+  // - - - - - END of RATINGS - - - - - 
 
   return (
     <div className="modal">
