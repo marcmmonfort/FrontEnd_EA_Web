@@ -6,20 +6,18 @@ import { ActivityEntity } from "../models/activity.model";
 let API_URL="";
 if (process.env.NODE_ENV === 'production') {
   // Cargar variables de entorno desde .env.production
-  API_URL = "http://147.83.7.158:5432/activity";
+  API_URL = "http://147.83.7.158:5432/";
 } else {
   // Cargar variables de entorno desde .env.local
-  API_URL = "http://localhost:5432/activity";
+  API_URL = "http://localhost:5432/";
 }
-
-
 
 export class ActivityService {
   
   
   static async createActivity(activity: ActivityEntity) {
     try {
-      const response = await axios.post(API_URL + "/add", activity, { headers: authHeader() });
+      const response = await axios.post(API_URL + "activity/add", activity, { headers: authHeader() });
       console.log("try response " + response)
       return response;
     } catch (error) {
@@ -31,7 +29,7 @@ export class ActivityService {
   //OBTENER LAS ACTIVITIES DE LA GENTE QUE SIGUES
   static async getMySchedule(uuid: string, date: string) {
     try {
-      const response = await axios.get(API_URL + "/myweek/" + uuid + "/" + date, { headers: authHeader() });
+      const response = await axios.get(API_URL + "activity/myweek/" + uuid + "/" + date, { headers: authHeader() });
       console.log("try response " + response)
       return response;
     } catch (error) {
@@ -51,7 +49,7 @@ export class ActivityService {
 
   static async getOtherSchedule(uuid: string, numPage:string, date: string) {
     try {
-      const response = await axios.get(API_URL + "/following/" + uuid + "/" + numPage + "/" + date, { headers: authHeader() });
+      const response = await axios.get(API_URL + "activity/following/" + uuid + "/" + numPage + "/" + date, { headers: authHeader() });
       console.log("try response " + response)
       return response;
     } catch (error) {
@@ -62,7 +60,7 @@ export class ActivityService {
 
   static async updateActivity(uuid: string, activity: ActivityEntity) {
     try {
-      const response = await axios.put(API_URL + "/" + uuid, activity, { headers: authHeader() });
+      const response = await axios.put(API_URL + "activity/" + uuid, activity, { headers: authHeader() });
       console.log("try response " + response)
       return response;
     } catch (error) {
@@ -73,7 +71,7 @@ export class ActivityService {
 
   static async getActivity(uuid: string) {
     try {
-      const response = await axios.get(API_URL + "/" + uuid, { headers: authHeader() });
+      const response = await axios.get(API_URL + "activity/" + uuid, { headers: authHeader() });
       console.log("try response " + response)
       return response;
     } catch (error) {
