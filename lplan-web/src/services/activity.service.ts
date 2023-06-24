@@ -12,8 +12,6 @@ if (process.env.NODE_ENV === 'production') {
   API_URL = "http://localhost:5432/";
 }
 
-
-
 export class ActivityService {
   
   

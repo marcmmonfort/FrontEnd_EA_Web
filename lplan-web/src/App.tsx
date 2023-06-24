@@ -53,7 +53,7 @@ function App() {
           <Route path="/calendarevents" element={<CalendarEvents />} />
           <Route path="/map" element={<MapPage/>}></Route>
           <Route path="/createActivity" element={<CreateActivity/>}></Route> 
-          <Route path='/activityloclist' element={<ActivitiesLocationList/>}></Route>         
+          <Route path="/activityloclist" element={<ActivitiesLocationList/>}></Route> 
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>
