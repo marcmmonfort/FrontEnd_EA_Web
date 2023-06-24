@@ -27,6 +27,11 @@ const CreateActivity = () => {
 
   useEffect(() => {
 
+    const isAudioDescription = AuthService.getAudioDescription();
+    if (isAudioDescription === "si") {
+      const pageToSpeech = "You are in create an Activity";
+      speakText(pageToSpeech);
+    } 
     const value = AuthService.getCurrentUser();
     setActivity((prevActivity) => ({
       ...prevActivity,
@@ -35,6 +40,13 @@ const CreateActivity = () => {
     }));
     
   }, []);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

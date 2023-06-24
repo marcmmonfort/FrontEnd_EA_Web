@@ -168,6 +168,13 @@ const Feed = () => {
       if(recargar === "Inicio" || recargar === "More Publications" ){
         console.log(numPagePublication);
         fetchData();
+        if(recargar === "Inicio" ){
+          const isAudioDescription = AuthService.getAudioDescription();
+          if (isAudioDescription === "si") {
+            const pageToSpeech = "You are in feed";
+            speakText(pageToSpeech);
+          };
+        }
       }else if(recargar === "New Comment" || recargar === "Delete Like" || recargar === "Update Like"){
         console.log(reloadPublication);
         PublicationService.getPublication(reloadPublication)
@@ -192,6 +199,13 @@ const Feed = () => {
   }, [recargar]);
 
   console.log(listPublications);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleLoadMore = () => {
     console.log("Has pulsado el btn");

@@ -10,6 +10,7 @@ import './list.activity.page.css';
 import { ActivityEntity } from "../../models/activity.model";
 import { ActivityService } from "../../services/activity.service";
 import { UserService } from "../../services/user.service";
+import { AuthService } from "../../services/auth.service";
 
 interface RouteParams {
   uuid?: string;
@@ -57,6 +58,13 @@ const ActivitiesLocationList = () => {
   const [userProfilePhotos, setUserProfilePhotos] = useState<Map<string, string[]>>(new Map());
 
   useEffect(() => {
+
+    const audioDescription = AuthService.getAudioDescription();
+    // Leer el texto del usuario actual en voz alta al cargar la página
+    if (audioDescription === "si") {
+      const pageToSpeech = "You are in discovery";
+      speakText(pageToSpeech);
+    }
     const fetchUserProfilePhotos = async (): Promise<void> => {
       const photos = new Map<string, string[]>();
 
@@ -79,6 +87,13 @@ const ActivitiesLocationList = () => {
 
     fetchUserProfilePhotos();
   }, [activities]);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleGoToScreenUser = (uuid: string): void => {
     navigate(`/user/${uuid}`)

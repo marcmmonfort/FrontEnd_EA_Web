@@ -37,6 +37,12 @@ const CalendarEvents = () => {
   useEffect(() => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
 
+    const isAudioDescription = AuthService.getAudioDescription();
+    if (isAudioDescription === "si") {
+      const pageToSpeech = "You are in calendar";
+      speakText(pageToSpeech);
+    } 
+
     const userId = AuthService.getCurrentUser();
     setUuid(userId);
 
@@ -83,6 +89,13 @@ const CalendarEvents = () => {
     fetchData();
 
   }, [selectedTimetable, currentPage, recargar, selectedUser]);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleTimetableChange = (timetable: string) => {
     setSelectedTimetable(timetable);

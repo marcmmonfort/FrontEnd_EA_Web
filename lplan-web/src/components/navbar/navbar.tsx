@@ -16,30 +16,38 @@ const Navbar = () => {
   useEffect(() => {
     let recognition: any;
 
-    // Verificar si el navegador es compatible con la API de reconocimiento de voz
-    if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-      recognition = new ((window as any).webkitSpeechRecognition)();
+    const config = AuthService.getVoiceControl();
+    console.log(config);
+    console.log("Estoy en el useEffect de navbar");
+    if(config === "si"){
+      setIsListening(true);
+      // Verificar si el navegador es compatible con la API de reconocimiento de voz
+      if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+        recognition = new ((window as any).webkitSpeechRecognition)();
 
-      // Configurar el idioma del reconocimiento de voz
-      recognition.lang = "es"; // Establece el idioma deseado, como 'es' para español
+        // Configurar el idioma del reconocimiento de voz
+        recognition.lang = "es-ES,en-US"; // Establece el idioma deseado, como 'es' para español
 
-      // Configurar si el reconocimiento debe continuar después de detectar un resultado
-      recognition.continuous = true; // Configura el reconocimiento continuo
+        // Configurar si el reconocimiento debe continuar después de detectar un resultado
+        recognition.continuous = true; // Configura el reconocimiento continuo
 
-      recognition.onstart = () => {
-        // Se activa cuando comienza el reconocimiento de voz
-        console.log("Escuchando...");
-      };
+        recognition.onstart = () => {
+          // Se activa cuando comienza el reconocimiento de voz
+          console.log("Escuchando...");
+        };
 
-      recognition.onresult = (event: any) => {
-        // Se activa cuando se detecta un resultado de voz
-        const { transcript } = event.results[event.results.length - 1][0];
-        console.log(transcript);
-        processVoiceCommand(transcript);
-      };
+        recognition.onresult = (event: any) => {
+          // Se activa cuando se detecta un resultado de voz
+          const { transcript } = event.results[event.results.length - 1][0];
+          console.log(transcript);
+          processVoiceCommand(transcript);
+        };
 
-      recognitionRef.current = recognition;
+        recognitionRef.current = recognition;
+        recognition.start();
+      }
     }
+    
   }, []);
 
   const toggleVoiceRecognition = () => {
@@ -63,32 +71,36 @@ const Navbar = () => {
     if (recognition) {
       recognition.stop();
       setIsListening(false);
+      AuthService.setVoiceControl("no");
     }
   };
 
   const processVoiceCommand = (command: string) => {
     switch (command) {
-      case "Feed.":
+      case "Muro." || "muro" || "feed" || "Feed.":
         navigate("/feed"); // Navegación al feed
         break;
-      case "Descubrir.":
+      case "Descubrimiento." || "descubrimiento" || "Discovery." || "discovery":
         navigate("/discovery"); // Navegación al descubrimiento
         break;
-      case "Mensajes.":
+      case "Mensajes." || "mensajes":
         navigate("/messages"); // Navegación a los mensajes
         break;
-      case "Calendario.":
+      case "Calendario." || "calendario":
         navigate("/calendarevents"); // Navegación al calendario
         break;
-      case "Ubicaciones.":
+      case "Ubicaciones." || "ubicaciones":
         navigate("/map"); // Navegación a las ubicaciones
         break;
-      case "Perfil.":
+      case "Perfil." || "perfil":
         navigate("/profile"); // Navegación al perfil
         break;
-      case "Cerrar sesión.":
+      case "Cerrar sesión." || "cerrar sesion":
         handleLogout();
         navigate("/");
+        break;
+      case "Finalizar." || "finalizar":
+        stopVoiceRecognition();
         break;
       default:
         break;
@@ -119,9 +131,11 @@ const Navbar = () => {
             <Link to="/" onClick={handleLogout} className="logout-link">
               <FontAwesomeIcon className="logout-link" icon={faSignOutAlt} />
             </Link>
-            <button className="microphone_button" onClick={toggleVoiceRecognition}>
-              {isListening ? <FontAwesomeIcon icon={faMicrophone} /> : <FontAwesomeIcon icon={faMicrophoneSlash} />}
-            </button>
+            {isListening && (
+              <button className="microphone_button" onClick={toggleVoiceRecognition}>
+                {isListening ? <FontAwesomeIcon icon={faMicrophone} /> : <FontAwesomeIcon icon={faMicrophoneSlash} />}
+              </button>
+            )}
           </nav>
         </header>
       );

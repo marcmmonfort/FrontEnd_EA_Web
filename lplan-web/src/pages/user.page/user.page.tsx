@@ -37,6 +37,7 @@ const UserProfile = () => {
     }, [userId]);
 
 
+    
     const getById = async () => {
         console.log("Obtenemos los datos del otro usuario:", userId);
         try {

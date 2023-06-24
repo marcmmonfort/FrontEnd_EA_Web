@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { Location } from "../../models/location.model";
 import { useTranslation } from "react-i18next";
 import { CircleLoader } from "react-spinners";
+import { AuthService } from "../../services/auth.service";
 
 const customIcon = L.icon({
   iconUrl: markerIcon,
@@ -47,6 +48,13 @@ const MapPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    
+    const audioDescription = AuthService.getAudioDescription();
+    // Leer el texto del usuario actual en voz alta al cargar la página
+    if (audioDescription === "si") {
+      const pageToSpeech = "You are in map";
+      speakText(pageToSpeech);
+    }
     setTimeout(() => {
       const getLocations = async () => {
         LocationService.getLocations()
@@ -67,6 +75,13 @@ const MapPage = () => {
     if (event.key === "Enter") {
       handleSearch();
     }
+  };
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleSearch = async () => {

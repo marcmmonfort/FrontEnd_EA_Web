@@ -37,6 +37,13 @@ const EditUser = () => {
   const {t} = useTranslation();
 
   useEffect(() => {
+
+    const isAudioDescription = AuthService.getAudioDescription();
+    if (isAudioDescription === "si") {
+      const pageToSpeech = "You are in edit user page";
+      speakText(pageToSpeech);
+    };
+
     const getUser = async () => {
       const userId = AuthService.getCurrentUser();
       if(userId){
@@ -56,8 +63,13 @@ const EditUser = () => {
     document.body.style.backgroundImage = `url(${backgroundImage})`;
     getUser();
   }, []);
-
   
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handlePrivacy = () => {
     const newPrivacy = !privacy;

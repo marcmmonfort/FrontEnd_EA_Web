@@ -33,8 +33,23 @@ const Discovery = () => {
       })
       .catch(error => {
         navigate("*");
-      });
+      }
+    );
+
+    const audioDescription = AuthService.getAudioDescription();
+    // Leer el texto del usuario actual en voz alta al cargar la página
+    if (audioDescription === "si") {
+      const pageToSpeech = "You are in discovery";
+      speakText(pageToSpeech);
+    }
   }, []);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;

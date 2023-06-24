@@ -11,6 +11,7 @@ import backgroundImage from '../../assets/images/background_4.jpg';
 import './usersList.page.css';
 import { PublicationService } from "../../services/publication.service";
 import { PublicationLikes } from "../../models/publication.model";
+import { AuthService } from "../../services/auth.service";
 
 const UsersList = () => {
   const { userId, mode } = useParams();
@@ -46,8 +47,20 @@ const UsersList = () => {
       loadUserList(); 
     } // Cargar la lista de usuarios al inicializar
 
-    // Actualizar la lista de usuarios cuando cambie la página
+    const audioDescription = AuthService.getAudioDescription();
+    // Leer el texto del usuario actual en voz alta al cargar la página
+    if (audioDescription === "si") {
+      const pageToSpeech = "You are in " + mode + "page";
+      speakText(pageToSpeech);
+    }
   }, [numPage]);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const loadUser = async () => {
     try {

@@ -30,9 +30,12 @@ const SettingsPage = () => {
 
 
   useEffect(() => {
+
     const isAudioDescription = AuthService.getAudioDescription();
     if (isAudioDescription === "si") {
       setAudioDescriptionEnabled(true);
+      const pageToSpeech = "You are in settings";
+      speakText(pageToSpeech);
     } else if (isAudioDescription === "no") {
       setAudioDescriptionEnabled(false);
     }
@@ -40,10 +43,18 @@ const SettingsPage = () => {
     const isVoiceControlEnabled = AuthService.getVoiceControl();
     if (isVoiceControlEnabled === "si") {
       setVoiceControlEnabled(true);
+      
     } else if (isVoiceControlEnabled === "no") {
       setVoiceControlEnabled(false);
     }
   }, []);
+
+  // Función para leer el texto en voz alta
+  const speakText = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en";
+    window.speechSynthesis.speak(utterance);
+  };
 
   const handleToggleAudioDescription = () => {
     const newAudioDescriptionEnabled = !audioDescriptionEnabled;
@@ -54,6 +65,10 @@ const SettingsPage = () => {
   const handleToggleVoiceControl = () => {
     const newVoiceControlEnabled = !voiceControlEnabled;
     setVoiceControlEnabled(newVoiceControlEnabled);
+    if(newVoiceControlEnabled){
+      const pageToSpeech = "Say finalizar for end the voice control.";
+      speakText(pageToSpeech);
+    }
     AuthService.setVoiceControl(newVoiceControlEnabled ? "si" : "no");
   };
 

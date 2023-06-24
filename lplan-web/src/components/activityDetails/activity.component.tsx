@@ -216,7 +216,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
 
         {showSharePopup ? (
           <>
-            <ShareComponent shareUrl={`http://localhost:3001/shared/activity/${activity.uuid}`} handleShare={handleShare} />
+            <ShareComponent shareUrl={`https://www.lplan.es:443/shared/activity/${activity.uuid}`} handleShare={handleShare} />
             <button onClick={handleCloseSharePopup}>
               Cerrar
             </button>
