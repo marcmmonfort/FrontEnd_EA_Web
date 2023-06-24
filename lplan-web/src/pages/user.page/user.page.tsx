@@ -118,7 +118,7 @@ const UserProfile = () => {
   const [allRatings, setAllRatings] = useState<RatingsEntity[] | null>(null);
   const [ratingAverage, setRatingAverage] = useState<number | null>(null);
   const [raters, setRaters] = useState<string[] | null>(null);
-  const [rate, setRate] = useState<number | null>(0);
+  const [rate, setRate] = useState<number | null>(1);
   const [currentRating, setCurrentRating] = useState<RatingsEntity | null>(null);
   const [currentRatingId, setCurrentRatingId] = useState<string | null>(null);
   const [currentRatingLength, setCurrentRatingLength] = useState<number | null>(null);
@@ -264,14 +264,14 @@ const UserProfile = () => {
               <div>
                 <div className="rating_container">
                   <div className="stars_for_rating">
-                    <span data-star="1" onClick={handleStarClick}>☆</span>
+                    <span data-star="1" onClick={handleStarClick}>★</span>
                     <span data-star="2" onClick={handleStarClick}>☆</span>
                     <span data-star="3" onClick={handleStarClick}>☆</span>
                     <span data-star="4" onClick={handleStarClick}>☆</span>
                     <span data-star="5" onClick={handleStarClick}>☆</span>
                   </div>
                 </div>
-                <button className="rate_button_user" onClick={handleRating}>Rate</button>
+                <button className="rate_button_user" onClick={handleRating}>Rate with {rate} ☆</button>
               </div>
             )}
         </div>
