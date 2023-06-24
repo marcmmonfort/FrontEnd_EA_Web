@@ -130,3 +130,47 @@
     background-color: #66fcf1;
     color: #000;
     }
+
+    .rating_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #66fcf1;
+        padding: 0;
+        border-radius: 500px;
+        width: 170px;
+        height: 42px;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+
+    .stars_amount_user {
+        margin-top: -50px;
+        color: yellow;
+    }
+
+    .stars_for_rating {
+        margin-top: -4px;
+        color: #66fcf1;
+        font-size: 34px;
+    }
+
+    .rating_container{
+        margin-top: -10px;
+    }
+
+    .rate_button_user{
+        margin-top: 10px;
+        margin-bottom: 60px;
+        width: 80px;
+        margin-left: 10px;
+    }
+
+    .rate_button_user_disabled{
+        margin-top: 0px;
+        margin-bottom: 60px;
+        background-color: transparent;
+        color: #66fcf1;
+        width: 120px;
+        margin-left: 10px;
+    }

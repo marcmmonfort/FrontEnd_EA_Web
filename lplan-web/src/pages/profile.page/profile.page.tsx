@@ -14,6 +14,8 @@ import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import Filter from 'bad-words';
 import ShareComponent from "../../components/share/share.component";
+import { RatingsService } from "../../services/ratings.service";
+import { RatingsEntity } from "../../models/ratings.model";
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
