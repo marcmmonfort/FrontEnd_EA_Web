@@ -11,10 +11,6 @@ import { ActivityEntity } from "../../models/activity.model";
 import { ActivityService } from "../../services/activity.service";
 import { UserService } from "../../services/user.service";
 
-interface RouteParams {
-  uuid?: string;
-}
-
 
 const ActivitiesLocationList = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -22,6 +18,11 @@ const ActivitiesLocationList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const uuid = location.state?.uuid;
+
+  useEffect(() => {
+    obtainActivitiesLocation();
+  }, []);
+
   const obtainActivitiesLocation = async (): Promise<void> => {
     if (uuid) {
       try {

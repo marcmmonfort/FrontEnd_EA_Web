@@ -32,7 +32,7 @@ const MapPage = () => {
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [locationInfo, setLocationInfo] = useState<any>(null);
-  const [clickedLocation, setClickedLocation] = useState("");
+  const [clickedLocation, setClickedLocation] = useState(" ");
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -74,12 +74,19 @@ const MapPage = () => {
   };
 
   const handleGoToListActivities = (uuid: string) => {
+    console.log("ID: " + uuid);
+    navigate("/activityloclist", { state: { uuid: uuid } });
+
+    /*
     if (clickedLocation.toString() === uuid?.toString()) {
-      setClickedLocation("");
+      setClickedLocation(" ");
+      console.log("LLEGA BIEN 1");
       navigate("/activityloclist", { state: { uuid } }); // UserScreen
     } else {
+      console.log("LLEGA 2");
       setClickedLocation(uuid);
     }
+    */
   };
 
   const MapComponent = React.memo(({ selectedOption }: { selectedOption: any }) => {
