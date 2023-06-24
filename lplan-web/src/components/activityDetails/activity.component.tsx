@@ -186,7 +186,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
         }
 
         <h2>Valoració</h2>
-        <h2 className="stars_amount">{ratingAverage ? `☆ ${ratingAverage}` : `Not Rated`}</h2>
+        <h2 className="stars_amount">{ratingAverage ? `☆ ${ratingAverage.toFixed(2)}` : `Not Rated`}</h2>
         {raters && raters.includes(userId) ? (
           <div>
             <button className="rate_button_disabled" disabled={true}>Already Rated</button>
