@@ -94,21 +94,40 @@ const Calendar: React.FC<CalendarProps> = ({
   };
 
   const adjustedActivities = activities.map((activity) => {
-    const startHour = activity.hoursActivity[0];
-    const endHour = activity.hoursActivity[1];
+    const startHourParts = activity.hoursActivity[0].split(":");
+    const endHourParts = activity.hoursActivity[1].split(":");
+    const startHour = parseInt(startHourParts[0]);
+    const startMinute = parseInt(startHourParts[1]);
+    const endHour = parseInt(endHourParts[0]);
+    const endMinute = parseInt(endHourParts[1]);
     const startDate = new Date(activity.dateActivity);
-    startDate.setHours(parseInt(startHour), 0, 0);
+    startDate.setHours(startHour, startMinute, 0, 0);
     const endDate = new Date(activity.dateActivity);
-    endDate.setHours(parseInt(endHour), 0, 0);
+    endDate.setHours(endHour, endMinute, 0, 0);
+    console.log(startDate);
+    console.log(endDate);
 
+    let color;
+    if (activity.roleActivity === "verificado") {
+      color = "green"; // Color para el rol "verificado"
+    } else if (activity.roleActivity === "common") {
+      color = "blue"; // Color para el rol "common"
+    } else if (activity.roleActivity === "empresa") {
+      color = "orange"; // Color para el rol "empresa"
+    } else {
+      color = "gray"; // Color predeterminado para otros roles no especificados
+    }
+  
     return {
       id: activity.uuid,
       title: activity.nameActivity,
       start: startDate.toISOString(),
       end: endDate.toISOString(),
       allDay: false,
+      color: color
     };
   });
+  
 
   return (
     <div className="calendar-container">

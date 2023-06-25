@@ -5,6 +5,7 @@ import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {useTranslation} from "react-i18next"
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from '../../assets/images/background_4.jpg';
@@ -54,6 +55,41 @@ const UsersList = () => {
       speakText(pageToSpeech);
     }
   }, [numPage]);
+
+  interface UserProfileProps {
+    user: {
+      nameUser: string;
+      surnameUser: string;
+      roleUser: string;
+    };
+  }
+  const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
+    if (user.roleUser === "business") {
+      return (
+        <p className="user-name">
+          {user.nameUser} {user.surnameUser} <FaBuilding />
+        </p>
+      );
+    } else if (user.roleUser === "admin") {
+      return (
+        <p className="user-name">
+          {user.nameUser} {user.surnameUser} <FaCog />
+        </p>
+      );
+    } else if (user.roleUser === "verified") {
+      return (
+        <p className="user-name">
+          {user.nameUser} {user.surnameUser} <FaShieldAlt />
+        </p>
+      );
+    } else {
+      return (
+        <p className="user-name">
+          {user.nameUser} {user.surnameUser} <FaUser />
+        </p>
+      );
+    }
+  };
 
   // Función para leer el texto en voz alta
   const speakText = (text: string) => {
@@ -144,7 +180,7 @@ const UsersList = () => {
                       <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card" />
                     )}
                     <div className="user__info">
-                      <p className="user__name">{user.nameUser} {user.surnameUser}</p>
+                      <UserProfile user={user}></UserProfile>
                       <p className="user__username">@{user.appUser}</p>
                     </div>
                   </div>

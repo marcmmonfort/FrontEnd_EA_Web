@@ -16,6 +16,7 @@ import { FaComment, FaHeart } from "react-icons/fa";
 import { useSpring, animated } from 'react-spring';
 import i18n from "../../i18n";
 import { CircleLoader } from "react-spinners";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 
 
 const Feed = () => {
@@ -411,6 +412,40 @@ const Feed = () => {
     setRecargar("No Recargues");
   };
   
+  interface UserProfileProps {
+    user: {
+      nameUser: string;
+      surnameUser: string;
+      roleUser: string;
+    };
+  }
+  const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
+    if (user.roleUser === "business") {
+      return (
+        <p className="post__username_header">
+          {user.nameUser} {user.surnameUser} <FaBuilding />
+        </p>
+      );
+    } else if (user.roleUser === "admin") {
+      return (
+        <p className="post__username_header">
+          {user.nameUser} {user.surnameUser} <FaCog />
+        </p>
+      );
+    } else if (user.roleUser === "verified") {
+      return (
+        <p className="post__username_header">
+          {user.nameUser} {user.surnameUser} <FaShieldAlt />
+        </p>
+      );
+    } else {
+      return (
+        <p className="post__username_header">
+          {user.nameUser} {user.surnameUser} <FaUser />
+        </p>
+      );
+    }
+  };
 
   return (
     <div>
@@ -430,7 +465,7 @@ const Feed = () => {
               <div className="post__header">
                 <img className="post__profile-img" src={`${publication.idUser.photoUser}`} alt="Profile"/>
                   <div className="post__info">
-                    <p className="post__username_header">{publication.idUser.nameUser} {publication.idUser.surnameUser}</p>
+                    <UserProfile user={publication.idUser}></UserProfile>
                     <p className="post__timestamp_header">{new Date(publication.createdAt).toLocaleString()}</p>
                   </div>
               </div>

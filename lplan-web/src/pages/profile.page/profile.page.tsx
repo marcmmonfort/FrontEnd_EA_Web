@@ -15,6 +15,7 @@ import { PublicationService } from "../../services/publication.service";
 import Filter from 'bad-words';
 import ShareComponent from "../../components/share/share.component";
 import { CircleLoader } from "react-spinners";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -33,6 +34,8 @@ const Profile = () => {
   const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [icon, setIcon] = useState(<FaBuilding  />);
+  
 
 
   useEffect(() => {
@@ -58,6 +61,15 @@ const Profile = () => {
 
               response.data.descriptionUser = filteredDescription;
               setCurrentUser(response.data);
+              if (response.data.roleUser === "business") {
+                setIcon(<FaBuilding  />);
+              } else if (response.data.roleUser === "admin") {
+                setIcon(<FaCog />);
+              } else if (response.data.roleUser === "verified") {
+                setIcon(<FaShieldAlt />);
+              } else{
+                setIcon(<FaUser />);
+              }
             }
 
             const audioDescription = AuthService.getAudioDescription();
@@ -126,8 +138,11 @@ const Profile = () => {
           });
       }
       setIsLoading(false);
+
     }, 1000);
   }, [numPagePublication, recargar]);
+
+ 
 
   // Función para leer el texto en voz alta
   const speakText = (text: string) => {
@@ -195,7 +210,7 @@ const Profile = () => {
         {currentUser && (
           <div className="profile-container">
             <div className="profile">
-              <h1 className="profile-user-name">{currentUser.appUser}</h1>
+              <h1 className="profile-user-name">{currentUser.appUser}{icon && <div>{icon}</div>}</h1>
               <div className="profile-image">
                 <img
                   src={currentUser.photoUser}

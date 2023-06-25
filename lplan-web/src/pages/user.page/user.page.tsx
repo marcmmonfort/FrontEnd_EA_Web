@@ -9,6 +9,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { AuthService } from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import {useTranslation} from "react-i18next"
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 import './user.page.css';
 
 const UserProfile = () => {
@@ -17,6 +18,7 @@ const UserProfile = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [myId, setMyId] = useState("1234");
+  const [icon, setIcon] = useState(<FaBuilding  />);
   const navigate = useNavigate();
   const {t} = useTranslation();
 
@@ -43,6 +45,15 @@ const UserProfile = () => {
         try {
             const response = await UserService.getPerson(userId ?? 'NoID');
             setCurrentUser(response.data);
+            if (response.data.roleUser === "business") {
+                setIcon(<FaBuilding  />);
+              } else if (response.data.roleUser === "admin") {
+                setIcon(<FaCog />);
+              } else if (response.data.roleUser === "verified") {
+                setIcon(<FaShieldAlt />);
+              } else{
+                setIcon(<FaUser />);
+              }
             console.log("Obtenemos los datos del otro usuario: exito");
             const audioDescription = AuthService.getAudioDescription();
             if (audioDescription === "si") {
@@ -145,7 +156,7 @@ const UserProfile = () => {
             <div className="user-profile">
                 {currentUser ? (
                     <div className="profile">
-                        <h1 className="profile-user-name">{currentUser.appUser}</h1>
+                        <h1 className="profile-user-name">{currentUser.appUser}{icon && <div>{icon}</div>}</h1>
                         <div className="profile-image">{currentUser.photoUser ? (<img src={currentUser.photoUser} alt="profile-img" className="profile-img-card" />) : (
                             <FaUserCircle className="default-profile-img" />
                             )}

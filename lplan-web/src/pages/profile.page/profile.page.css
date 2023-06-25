@@ -81,6 +81,7 @@
     font-size: 28px;
     margin-bottom: 12px;
     animation: flip 3s infinite;
+    display: flex;
   }
 
   @keyframes flip {
