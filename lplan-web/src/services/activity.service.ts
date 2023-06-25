@@ -81,4 +81,15 @@ export class ActivityService {
     }
   }
 
+  static async getParticipants(uuid: string|undefined, numPage: string) {
+    try {
+      const response = await axios.get(API_URL + "/all/participants/" + uuid + "/" +numPage, { headers: authHeader() });
+      console.log("try response " + response)
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
 }

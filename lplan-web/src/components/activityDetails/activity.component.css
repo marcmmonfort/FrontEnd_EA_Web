@@ -67,3 +67,11 @@
 .share_show_button:hover {
   background-color: #999;
 }
+
+.user__profile-img {
+  width: 66px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 8px;
+}

@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import ShareComponent from "../share/share.component";
 import { RatingsService } from "../../services/ratings.service";
 import { RatingsEntity } from "../../models/ratings.model";
+import { ActivityService } from "../../services/activity.service";
+import { AuthService } from "../../services/auth.service";
 
 interface ActivityDetailsModalProps {
   activity: ActivityEntity;
@@ -19,14 +21,17 @@ interface ActivityDetailsModalProps {
 console.log("(1) Entro al Modal.");
 
 const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, onClose, onAddToActivity, userId}) => {
-    const { t } = useTranslation();
-    const [participants, setParticipants] = useState(activity.participantsActivity || []);
-    const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(participants.includes(userId));
-    const [isCreatorOfActivity, setIsCreatorOfActivity] = useState(activity.creatorActivity.includes(userId));
-    const [creatorUser, setCreatorUser] = useState<User | null>(null);
-    const [creatorAppName, setCreatorAppName] = useState<string>("");
-    const [showSharePopup, setShowSharePopup] = useState(false);
+  const { t } = useTranslation();
+  const [participants, setParticipants] = useState(activity.participantsActivity || []);
+  const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(participants.includes(userId));
+  const [isCreatorOfActivity, setIsCreatorOfActivity] = useState(activity.creatorActivity.includes(userId));
+  const [creatorUser, setCreatorUser] = useState<User | null>(null);
+  const [creatorAppName, setCreatorAppName] = useState<string>("");
+  const [showSharePopup, setShowSharePopup] = useState(false);
   const [isShareClicked, setIsShareClicked] = useState(false);
+  const [fotoParticipantes, setFotoParticipantes] = useState<User[]|null>(null);
+  const [numPage, setNumPage] = useState<string>("1");
+  const [id, setId] = useState<string>("1");
 
   useEffect(() => {
     const fetchCreatorAppName = async (uuid: string) => {
@@ -41,7 +46,10 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
     };
     fetchCreatorAppName(activity.creatorActivity);
     ratingsMechanism();
-  }, [activity.creatorActivity]);
+    handleFotoParticipants();
+    setId(AuthService.getCurrentUser());
+
+  }, [activity.creatorActivity, numPage]);
     
   const handleAddToActivity = (isJoining: boolean) => {
     setIsCurrentUserParticipant(!isCurrentUserParticipant);
@@ -49,6 +57,12 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
   };
 
   const showJoinButton = !isCreatorOfActivity;
+
+  const handleFotoParticipants = async () => {
+    const participantesAux = await ActivityService.getParticipants(activity.uuid, numPage);
+    setFotoParticipantes(participantesAux.data);
+  };
+  
 
   //  - - - - - Mínimo 2 (by Victor) - - - - - 
 
@@ -203,8 +217,29 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({ activity, o
             <button className="rate_button" onClick={handleRating}>Rate with {rate} ☆</button>
           </div>
         )}
+        <p>Participantes: 
+          {fotoParticipantes &&
+            fotoParticipantes.map((participant, index) => {
+              if (id === participant.uuid) {
+                return (
+                  <Link to={`/profile`} className="user-link" key={index}>
+                    <div>
+                      <img src={participant.photoUser} alt={participant.nameUser} className="user__profile-img" />
+                    </div>
+                  </Link>
+                );
+              } else {
+                return (
+                  <Link to={`/user/${participant.uuid}`} className="user-link" key={index}>
+                    <div>
+                      <img src={participant.photoUser} alt={participant.nameUser} className="user__profile-img" />
+                    </div>
+                  </Link>
+                );
+              }
+            })}
+        </p>
 
-        <p>Participantes: {activity.participantsActivity?.join(", ")}</p>
         <button onClick={onClose}>
           {t("Close")}
         </button>
