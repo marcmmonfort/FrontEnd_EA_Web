@@ -19,4 +19,4 @@ const SignInWithGoogle = () => {
 
 export default SignInWithGoogle;
 */
-export{};
+export {};

@@ -12,90 +12,90 @@ import i18next from "i18next";
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const lngs: any = {
-  en: { nativeName: "English" },
-  es: { nativeName: "Español" },
-  pt: { nativeName: "Português" },
-  de: { nativeName: "Deutsch" },
+	en: { nativeName: "English" },
+	es: { nativeName: "Español" },
+	pt: { nativeName: "Português" },
+	de: { nativeName: "Deutsch" },
 };
 
 const SettingsPage = () => {
-  const { t, i18n } = useTranslation();
-  const [audioDescriptionEnabled, setAudioDescriptionEnabled] = useState(false);
-  const [voiceControlEnabled, setVoiceControlEnabled] = useState(false);
+	const { t, i18n } = useTranslation();
+	const [audioDescriptionEnabled, setAudioDescriptionEnabled] = useState(false);
+	const [voiceControlEnabled, setVoiceControlEnabled] = useState(false);
 
-  useEffect(() => {
-    const isAudioDescription = AuthService.getAudioDescription();
-    if (isAudioDescription === "si") {
-      setAudioDescriptionEnabled(true);
-    } else if (isAudioDescription === "no") {
-      setAudioDescriptionEnabled(false);
-    }
+	useEffect(() => {
+		const isAudioDescription = AuthService.getAudioDescription();
+		if (isAudioDescription === "si") {
+			setAudioDescriptionEnabled(true);
+		} else if (isAudioDescription === "no") {
+			setAudioDescriptionEnabled(false);
+		}
 
-    const isVoiceControlEnabled = AuthService.getVoiceControl();
-    if (isVoiceControlEnabled === "si") {
-      setVoiceControlEnabled(true);
-    } else if (isVoiceControlEnabled === "no") {
-      setVoiceControlEnabled(false);
-    }
-  }, []);
+		const isVoiceControlEnabled = AuthService.getVoiceControl();
+		if (isVoiceControlEnabled === "si") {
+			setVoiceControlEnabled(true);
+		} else if (isVoiceControlEnabled === "no") {
+			setVoiceControlEnabled(false);
+		}
+	}, []);
 
-  const handleToggleAudioDescription = () => {
-    const newAudioDescriptionEnabled = !audioDescriptionEnabled;
-    setAudioDescriptionEnabled(newAudioDescriptionEnabled);
-    AuthService.setAudioDescription(newAudioDescriptionEnabled ? "si" : "no");
-  };
+	const handleToggleAudioDescription = () => {
+		const newAudioDescriptionEnabled = !audioDescriptionEnabled;
+		setAudioDescriptionEnabled(newAudioDescriptionEnabled);
+		AuthService.setAudioDescription(newAudioDescriptionEnabled ? "si" : "no");
+	};
 
-  const handleToggleVoiceControl = () => {
-    const newVoiceControlEnabled = !voiceControlEnabled;
-    setVoiceControlEnabled(newVoiceControlEnabled);
-    AuthService.setVoiceControl(newVoiceControlEnabled ? "si" : "no");
-  };
+	const handleToggleVoiceControl = () => {
+		const newVoiceControlEnabled = !voiceControlEnabled;
+		setVoiceControlEnabled(newVoiceControlEnabled);
+		AuthService.setVoiceControl(newVoiceControlEnabled ? "si" : "no");
+	};
 
-  return (
-    <div>
-      <Navbar />
-      <div className="titleContainer">
-        <h1 className="titleSection">{t("Settings")}</h1>
-        <div className="LanguageButtons">
-          {Object.keys(lngs).map((lng) => (
-            <button
-              type="submit"
-              key={lng}
-              onClick={() => i18n.changeLanguage(lng)}
-              disabled={i18n.resolvedLanguage === lng}
-            >
-              {lngs[lng].nativeName}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="settingsContainer">
-        <h2>{t("AudioDescription")}</h2>
-        <p>{t("Enaudiodescription1")}</p>
-        <label>
-          <input
-            type="checkbox"
-            checked={audioDescriptionEnabled}
-            onChange={handleToggleAudioDescription}
-          />
-          {t("Enaudiodescription2")}
-        </label>
-      </div>
-      <div className="settingsContainer">
-        <h2>{t("Vcontrol")}</h2>
-        <p>{t("EVcontrolforNavigation")}</p>
-        <label>
-          <input
-            type="checkbox"
-            checked={voiceControlEnabled}
-            onChange={handleToggleVoiceControl}
-          />
-          {t("EVcontrol")}
-        </label>
-      </div>
-      <Footer />
-    </div>
-  );
+	return (
+		<div>
+			<Navbar />
+			<div className="titleContainer">
+				<h1 className="titleSection">{t("Settings")}</h1>
+				<div className="LanguageButtons">
+					{Object.keys(lngs).map((lng) => (
+						<button
+							type="submit"
+							key={lng}
+							onClick={() => i18n.changeLanguage(lng)}
+							disabled={i18n.resolvedLanguage === lng}
+						>
+							{lngs[lng].nativeName}
+						</button>
+					))}
+				</div>
+			</div>
+			<div className="settingsContainer">
+				<h2>{t("AudioDescription")}</h2>
+				<p>{t("Enaudiodescription1")}</p>
+				<label>
+					<input
+						type="checkbox"
+						checked={audioDescriptionEnabled}
+						onChange={handleToggleAudioDescription}
+					/>
+					{t("Enaudiodescription2")}
+				</label>
+			</div>
+			<div className="settingsContainer">
+				<h2>{t("Vcontrol")}</h2>
+				<p>{t("EVcontrolforNavigation")}</p>
+				<label>
+					<input
+						type="checkbox"
+						checked={voiceControlEnabled}
+						onChange={handleToggleVoiceControl}
+					/>
+					{t("EVcontrol")}
+				</label>
+			</div>
+			<Footer />
+		</div>
+	);
 };
 
 export default SettingsPage;

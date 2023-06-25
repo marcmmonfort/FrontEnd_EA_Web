@@ -1,4 +1,4 @@
 export interface Auth {
-    mailUser: string;
-    passwordUser: string;
+	mailUser: string;
+	passwordUser: string;
 }

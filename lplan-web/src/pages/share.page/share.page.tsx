@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import backgroundImage from '../../assets/images/background_4.jpg';
+import backgroundImage from "../../assets/images/background_4.jpg";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import { User } from "../../models/user.model";
@@ -8,133 +8,137 @@ import { UserService } from "../../services/user.service";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthService } from "../../services/auth.service";
 import { Link } from "react-router-dom";
-import './share.page.css';
+import "./share.page.css";
 import { ActivityService } from "../../services/activity.service";
 import { ActivityEntity, ActivityShare } from "../../models/activity.model";
 import { useTranslation } from "react-i18next";
 
 const SharedContentPage = () => {
-  const { type, id } = useParams();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [currentActivity, setCurrentActivity] = useState<ActivityShare | null>(null);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [myId, setMyId] = useState("1234");
-  const [myType, setMyType] = useState("");
-  const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(currentActivity?.participantsActivity.includes(myId));
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+	const { type, id } = useParams();
+	const [currentUser, setCurrentUser] = useState<User | null>(null);
+	const [currentActivity, setCurrentActivity] = useState<ActivityShare | null>(
+		null
+	);
+	const [isFollowing, setIsFollowing] = useState(false);
+	const [myId, setMyId] = useState("1234");
+	const [myType, setMyType] = useState("");
+	const [isCurrentUserParticipant, setIsCurrentUserParticipant] = useState(
+		currentActivity?.participantsActivity.includes(myId)
+	);
+	const navigate = useNavigate();
+	const { t } = useTranslation();
 
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-    console.log("Estamos en la página de compartir");
-    const myUserId = AuthService.getCurrentUser();
-    console.log("myUserId");
+	useEffect(() => {
+		document.body.style.backgroundImage = `url(${backgroundImage})`;
+		console.log("Estamos en la página de compartir");
+		const myUserId = AuthService.getCurrentUser();
+		console.log("myUserId");
 
-    if (type) {
-      setMyType(type);
-    }
+		if (type) {
+			setMyType(type);
+		}
 
-    if (type === 'profile') {
-      if (myUserId) {
-        setMyId(myUserId);
-        console.log("Obtenemos los datos del otro usuario");
-        //Obtenemos el usuario
-        getById();
+		if (type === "profile") {
+			if (myUserId) {
+				setMyId(myUserId);
+				console.log("Obtenemos los datos del otro usuario");
+				//Obtenemos el usuario
+				getById();
 
-        console.log("Pedimos la relación que tenemos con ese usuario");
-        //Obtenemos si es seguidor o no.
-        getRelation(myUserId);
-      }
-    } else if (type === 'activity' && id) {
-      getActivity(id);
+				console.log("Pedimos la relación que tenemos con ese usuario");
+				//Obtenemos si es seguidor o no.
+				getRelation(myUserId);
+			}
+		} else if (type === "activity" && id) {
+			getActivity(id);
+		}
+	}, [id]);
 
-    } else {
+	//Funciones del perfil
+	const getById = async () => {
+		console.log("Obtenemos los datos del otro usuario:", id);
+		try {
+			const response = await UserService.getPerson(id ?? "NoID");
+			setCurrentUser(response.data);
+			console.log("Obtenemos los datos del otro usuario: éxito");
+		} catch (error) {
+			navigate("*");
+			console.log("Obtenemos los datos del otro usuario: error");
+			console.error(error);
+		}
+	};
 
-    }
+	const getRelation = async (myUserId: string) => {
+		console.log("Pedimos la relación que tenemos con ese usuario:", myUserId);
+		try {
+			const response = await UserService.isFollowed(myUserId, id ?? "NoID");
+			console.log("Pedimos la relación que tenemos con ese usuario: éxito");
+			console.log(response);
+			setIsFollowing(response.data);
+		} catch (error) {
+			console.log("Pedimos la relación que tenemos con ese usuario: error");
+			navigate("*");
+			console.error(error);
+		}
+	};
 
+	const handleFollow = async () => {
+		// Aquí implemento la lógica para seguir o dejar de seguir al usuario
+		console.log("¿Este usuario es tu seguidor?:" + isFollowing);
+		if (isFollowing) {
+			try {
+				const response = await UserService.removeFollowed(myId, id ?? "NoID");
+				console.log(
+					"Pedimos eliminar la relación que tenemos con ese usuario: éxito"
+				);
+				console.log(response);
+				if (response) {
+					setIsFollowing(false);
+				}
+			} catch (error) {
+				console.log(
+					"Pedimos eliminar la relación que tenemos con ese usuario: error"
+				);
+				console.error(error);
+			}
+		} else {
+			try {
+				const response = await UserService.addFollowed(myId, id ?? "NoID");
+				console.log(
+					"Pedimos agregar la relación que tenemos con ese usuario: éxito"
+				);
+				console.log(response);
+				if (response) {
+					setIsFollowing(true);
+				}
+			} catch (error) {
+				console.log(
+					"Pedimos agregar la relación que tenemos con ese usuario: error"
+				);
+				console.error(error);
+			}
+		}
+	};
 
-  }, [id]);
+	const getActivity = async (activityId: string) => {
+		console.log("Obtenemos la actividad:", activityId);
+		ActivityService.getActivity(activityId)
+			.then((response) => {
+				console.log("Obtenemos la actividad: éxito");
+				setCurrentActivity(response.data);
+				console.log(response.data?.creatorActivity.uuid);
+			})
+			.catch((error) => {
+				navigate("*");
+			});
+	};
 
+	const handleAddToActivity = (isJoining: boolean) => {
+		setIsCurrentUserParticipant(!isCurrentUserParticipant);
+		//onAddToActivity(isJoining);
+	};
 
-  //Funciones del perfil
-  const getById = async () => {
-    console.log("Obtenemos los datos del otro usuario:", id);
-    try {
-      const response = await UserService.getPerson(id ?? 'NoID');
-      setCurrentUser(response.data);
-      console.log("Obtenemos los datos del otro usuario: éxito");
-    } catch (error) {
-      navigate("*");
-      console.log("Obtenemos los datos del otro usuario: error");
-      console.error(error);
-    }
-  };
-
-  const getRelation = async (myUserId: string) => {
-    console.log("Pedimos la relación que tenemos con ese usuario:", myUserId);
-    try {
-      const response = await UserService.isFollowed(myUserId, id ?? 'NoID');
-      console.log("Pedimos la relación que tenemos con ese usuario: éxito");
-      console.log(response);
-      setIsFollowing(response.data);
-    } catch (error) {
-      console.log("Pedimos la relación que tenemos con ese usuario: error");
-      navigate("*");
-      console.error(error);
-    }
-  };
-
-  const handleFollow = async () => {
-    // Aquí implemento la lógica para seguir o dejar de seguir al usuario
-    console.log("¿Este usuario es tu seguidor?:" + isFollowing);
-    if (isFollowing) {
-      try {
-        const response = await UserService.removeFollowed(myId, id ?? 'NoID');
-        console.log("Pedimos eliminar la relación que tenemos con ese usuario: éxito");
-        console.log(response);
-        if (response) {
-          setIsFollowing(false);
-        }
-      } catch (error) {
-        console.log("Pedimos eliminar la relación que tenemos con ese usuario: error");
-        console.error(error);
-      }
-    } else {
-      try {
-        const response = await UserService.addFollowed(myId, id ?? 'NoID');
-        console.log("Pedimos agregar la relación que tenemos con ese usuario: éxito");
-        console.log(response);
-        if (response) {
-          setIsFollowing(true);
-        }
-      } catch (error) {
-        console.log("Pedimos agregar la relación que tenemos con ese usuario: error");
-        console.error(error);
-      }
-    }
-  };
-
-  const getActivity = async (activityId: string) => {
-    console.log("Obtenemos la actividad:", activityId);
-    ActivityService.getActivity(activityId).then((response) => {
-        console.log("Obtenemos la actividad: éxito");
-        setCurrentActivity(response.data);
-        console.log(response.data?.creatorActivity.uuid );
-      })
-      .catch((error) => {
-        navigate("*");
-      }
-    );
-  };
-
-  const handleAddToActivity = (isJoining: boolean) => {
-    setIsCurrentUserParticipant(!isCurrentUserParticipant);
-    //onAddToActivity(isJoining);
-  };
-
-
-
-  /*
+	/*
   const onAddToActivity = (isJoining: boolean) => {
     console.log("handleAddToActivity");
     if (currentActivity) {
@@ -171,68 +175,84 @@ const SharedContentPage = () => {
   };
   */
 
+	return (
+		<div>
+			<Navbar />
+			<div className="header">
+				{myType === "profile" && currentUser && (
+					<div>
+						<h2>{t("ProfileDetails")}</h2>
+						<p>
+							{t("Name")}: {currentUser.nameUser}
+						</p>
+						<p>
+							{t("Email")}: {currentUser.mailUser}
+						</p>
+						<p>
+							{t("Username")}: {currentUser.appUser}
+						</p>
+						<p>
+							{t("Bio")}: {currentUser.descriptionUser}
+						</p>
+						<button onClick={handleFollow}>
+							{isFollowing ? t("Unfollow") : t("Follow")}
+						</button>
+					</div>
+				)}
+				{myType === "activity" && currentActivity && (
+					<div>
+						<h2>{t("ActivityDetails")}</h2>
+						<p>
+							{t("Name")}: {currentActivity.nameActivity}
+						</p>
+						<p>
+							{t("Date")}:{" "}
+							{new Date(currentActivity.dateActivity)
+								.toISOString()
+								.substr(0, 10)}
+						</p>
+						<p>
+							{t("Description")}: {currentActivity.descriptionActivity}
+						</p>
+						{currentActivity.creatorActivity && (
+							<Link
+								to={`/user/${currentActivity.creatorActivity.uuid}`}
+								className="user-link"
+							>
+								<div className="post__header">
+									<img
+										className="post__profile-img"
+										src={`${currentActivity.creatorActivity.photoUser}`}
+										alt="Profile"
+									/>
+									<div className="post__info">
+										<p className="post__username_header">
+											{t("Creator")}: {currentActivity.creatorActivity.nameUser}
+										</p>
+									</div>
+								</div>
+							</Link>
+						)}
 
-  return (
-    <div>
-      <Navbar />
-        <div className="header">
-        {myType === 'profile' && currentUser && (
-            <div>
-            <h2>{t("ProfileDetails")}</h2>
-            <p>
-                {t("Name")}: {currentUser.nameUser}
-            </p>
-            <p>
-                {t("Email")}: {currentUser.mailUser}
-            </p>
-            <p>
-                {t("Username")}: {currentUser.appUser}
-            </p>
-            <p>
-                {t("Bio")}: {currentUser.descriptionUser}
-            </p>
-            <button onClick={handleFollow}>
-                {isFollowing ? t("Unfollow") : t("Follow")}
-            </button>
-            </div>
-        )}
-        {myType === 'activity' && currentActivity && (
-            <div>
-            <h2>{t("ActivityDetails")}</h2>
-            <p>
-                {t("Name")}: {currentActivity.nameActivity}
-            </p>
-            <p>
-                {t("Date")}: {new Date(currentActivity.dateActivity).toISOString().substr(0, 10)}
-            </p>
-            <p>
-                {t("Description")}: {currentActivity.descriptionActivity}
-            </p>
-            {currentActivity.creatorActivity && (
-                <Link to={`/user/${currentActivity.creatorActivity.uuid}`} className="user-link">
-                <div className="post__header">
-                    <img className="post__profile-img" src={`${currentActivity.creatorActivity.photoUser}`} alt="Profile" />
-                    <div className="post__info">
-                    <p className="post__username_header">
-                        {t("Creator")}: {currentActivity.creatorActivity.nameUser}
-                    </p>
-                    </div>
-                </div>
-                </Link>
-            )}
-
-            <p>{t("Participants")}: {currentActivity.participantsActivity?.join(", ")}</p>
-            {currentActivity.creatorActivity.uuid == myId && (
-                <button onClick={() => handleAddToActivity(!isCurrentUserParticipant)}>
-                {isCurrentUserParticipant ? t("LeaveActivity") : t("JoinActivity")}
-                </button>
-            )}
-            </div>
-        )}       
-        </div> 
-      <Footer />
-    </div>
-  );
+						<p>
+							{t("Participants")}:{" "}
+							{currentActivity.participantsActivity?.join(", ")}
+						</p>
+						{currentActivity.creatorActivity.uuid == myId && (
+							<button
+								onClick={() => handleAddToActivity(!isCurrentUserParticipant)}
+							>
+								{isCurrentUserParticipant
+									? t("LeaveActivity")
+									: t("JoinActivity")}
+							</button>
+						)}
+					</div>
+				)}
+			</div>
+			<Footer />
+		</div>
+	);
 };
 
 export default SharedContentPage;
