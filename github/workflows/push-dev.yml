@@ -28,5 +28,5 @@ on:
             with:
               context: ./lplan-web
               push: true
-              tags: 0.0.1
+              tags: 0.1.7
               labels: ${{ steps.meta.outputs.labels }}
