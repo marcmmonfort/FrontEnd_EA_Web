@@ -25,8 +25,8 @@ const CreateActivity = () => {
   const {t}=useTranslation();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
+    const { name, value } = event.target; 
+  
   
     
     
@@ -56,11 +56,7 @@ const CreateActivity = () => {
       }));
     }
   };
-  
 
-  
-  
-  
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
