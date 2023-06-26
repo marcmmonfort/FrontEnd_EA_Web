@@ -11,6 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import { AuthService } from "../../services/auth.service";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignOutAlt, faBell, faPlusCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
+import _debounce from 'lodash/debounce';
 import "./calendarevents.page.css"
 
 
@@ -121,6 +122,8 @@ const CalendarEvents = () => {
     }
   };
 
+  const debouncedSearch = _debounce(handleSearch, 500);
+
   return (
     <div>
       <Navbar/>
@@ -170,7 +173,7 @@ const CalendarEvents = () => {
               value={searchQuery}
               onChange={(event) => {
                 setSearchQuery(event.target.value);
-                handleSearch(event);
+                debouncedSearch(event);
               }}
             />
             <div className="cardsUsers-Calendar">
@@ -231,7 +234,7 @@ const CalendarEvents = () => {
             </div></>
         )};
         <div className="calendar">
-          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false} userId={currentUser?.uuid || ""} recargar={recargar} setRecargar={setRecargar}/>
+          <Calendar activities={listActivities} uuid={uuid} showWeekButton={false} showDayButton={false} showMonthButton={false} showWeekChangeButtons={true} editable={selectedTimetable === "My Timetable"} selectedTimetable={selectedTimetable} showAllDay={false} userId={currentUser?.uuid || ""}  setRecargar={setRecargar} initialDate={new Date()}/>
         </div>
       </div>
       <Footer/>

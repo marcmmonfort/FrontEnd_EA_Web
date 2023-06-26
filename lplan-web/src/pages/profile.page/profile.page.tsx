@@ -16,6 +16,9 @@ import Filter from 'bad-words';
 import ShareComponent from "../../components/share/share.component";
 import { CircleLoader } from "react-spinners";
 import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
+import Calendar from "../../components/calendar/calendar.component";
+import { ActivityEntity } from "../../models/activity.model";
+import { ActivityService } from "../../services/activity.service";
 
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -35,6 +38,9 @@ const Profile = () => {
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [icon, setIcon] = useState(<FaBuilding  />);
+  const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
+  const [date, setDate] = useState<Date>(new Date());
+  const [recargarCalendar, setRecargarCalendar] = useState(true);
   
 
 
@@ -136,8 +142,23 @@ const Profile = () => {
           .catch((error) => {
             navigate("*");
           });
+
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        console.log(currentDate);
+        const dateAux = currentDate.toString();
+        ActivityService.getMySchedule(id, dateAux)
+            .then((response) => {
+              console.log(response.data);
+              setListActivities(response.data);
+            })
+            .catch((error) => {
+              navigate("*");
+            });
       }
+     
       setIsLoading(false);
+      
 
     }, 1000);
   }, [numPagePublication, recargar]);
@@ -185,6 +206,57 @@ const Profile = () => {
   const currentPublication = listOwnPublications[currentPublicationIndex];
   const previousPublication = listOwnPublications[currentPublicationIndex-1];
   const nextPublication = listOwnPublications[currentPublicationIndex+1];
+
+  const handlePreviousWeek = () => {
+    setRecargarCalendar(false);
+    setTimeout(()=>{
+      setDate(prevDate => {
+        const newDate = new Date(prevDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        return newDate;
+      });
+      const currentDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+      currentDate.setHours(0, 0, 0, 0);
+      console.log(currentDate);
+      const dateAux = currentDate.toString();
+      ActivityService.getMySchedule(userId, dateAux)
+          .then((response) => {
+            console.log(response.data);
+            setListActivities(response.data);
+          })
+          .catch((error) => {
+            navigate("*");
+          });
+      setRecargarCalendar(true);
+    }, 500);
+   
+  };
+
+  const handleNextWeek = () => {
+    setRecargarCalendar(false);
+    setTimeout(()=>{
+      setDate(prevDate => {
+        const newDate = new Date(prevDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        return newDate;
+      });
+      const currentDate = new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+      currentDate.setHours(0, 0, 0, 0);
+      console.log(currentDate);
+      const dateAux = currentDate.toString();
+      ActivityService.getMySchedule(userId, dateAux)
+          .then((response) => {
+            console.log(response.data);
+            setListActivities(response.data);
+          })
+          .catch((error) => {
+            navigate("*");
+          });
+      setRecargarCalendar(true);
+    }, 500);
+  
+    //setDate(new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000));
+  };
+
+  console.log(date);
   
   return (
     
@@ -302,6 +374,32 @@ const Profile = () => {
             </div>
           </div>
         )}
+        
+        <div className="calendar">
+        <div className="calendar-nav">
+          <button className="calendar-nav-button" onClick={handlePreviousWeek}>
+            Previous Week
+          </button>
+          <button className="calendar-nav-button" onClick={handleNextWeek}>
+            Next Week
+          </button>
+        </div>
+        {recargarCalendar&&(<Calendar
+          activities={listActivities}
+          uuid={userId}
+          showWeekButton={false}
+          showDayButton={false}
+          showMonthButton={false}
+          showWeekChangeButtons={true}
+          editable={true}
+          selectedTimetable={"My Timetable"}
+          showAllDay={false}
+          userId={currentUser?.uuid || ""}
+          setRecargar={setRecargarCalendar}
+          initialDate={date}
+        />)}
+        
+      </div>
       </div>
       
     </div>

@@ -161,6 +161,15 @@ const UsersList = () => {
     setNumPage(prevNumPage => prevNumPage + 1); // Aumentar el número de página al hacer clic en "Obtener más"
   };
 
+  interface UserProfileProps {
+    user: {
+      nameUser: string;
+      surnameUser: string;
+      roleUser: string;
+    };
+  }
+
+  
 
 
   return (

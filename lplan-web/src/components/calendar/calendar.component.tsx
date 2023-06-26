@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -21,8 +21,8 @@ interface CalendarProps {
   editable: boolean;
   showAllDay: boolean;
   userId: string; // ID del usuario actual
-  recargar: boolean // Pasa el estado recargar como prop
   setRecargar: React.Dispatch<React.SetStateAction<boolean>>; 
+  initialDate: Date;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -33,13 +33,12 @@ const Calendar: React.FC<CalendarProps> = ({
   showWeekChangeButtons,
   selectedTimetable,
   showAllDay,
-  userId,
-  recargar, 
+  userId, 
   setRecargar,
+  initialDate,
 }) => {
   
   const [selectedActivity, setSelectedActivity] = useState<ActivityEntity | null>(null);
-  
 
   const handleEventClick = (event: EventClickArg) => {
     const clickedActivity = activities.find(
@@ -53,6 +52,8 @@ const Calendar: React.FC<CalendarProps> = ({
       setSelectedActivity(null);
     }
   };
+
+  
   
   const handleAddToActivity = (isJoining: boolean) => {
     console.log("handleAddToActivity");
@@ -129,6 +130,7 @@ const Calendar: React.FC<CalendarProps> = ({
   });
   
 
+
   return (
     <div className="calendar-container">
       <FullCalendar
@@ -136,6 +138,7 @@ const Calendar: React.FC<CalendarProps> = ({
         initialView="timeGridWeek"
         events={adjustedActivities}
         eventClick={handleEventClick}
+        initialDate={initialDate}
         customButtons={{}}
         headerToolbar={{
           left: "prev,next today",
