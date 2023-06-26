@@ -47,7 +47,7 @@ const UserStats = () => {
         console.log("Obtenemos los datos del otro usuario");
         //Obtenemos el usuario
         getById(myUserId);
-        
+
         const fetchActivitiesParticipated = async () => {
             try {
               const participated = await activitiesParticipated(myUserId);
@@ -95,7 +95,7 @@ const UserStats = () => {
               setChartData(dataChart);
               setOptions(optionsChart);
 
-              
+
 
             } catch (error) {
               console.error('Error al obtener las actividades participadas:', error);
@@ -117,7 +117,7 @@ const UserStats = () => {
             navigate("*");
             console.log("Obtenemos los datos del otro usuario: mal");
             console.error(error);
-            
+
         }
     };
 
@@ -182,14 +182,14 @@ const UserStats = () => {
             endOfWeek.setHours(23, 59, 59, 999);
             const startString = `${startOfWeek.getDate()} / ${startOfWeek.getMonth() + 1}`;
             const endString = `${endOfWeek.getDate()} / ${endOfWeek.getMonth() + 1}`;
-          
+
             const weekRange = `${startString} - ${endString}`;
             days.push(weekRange);
           }
         return days;
     }
 
-    
+
     return (
         <div>
             <Navbar/>
