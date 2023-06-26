@@ -30,7 +30,6 @@ export class UserService {
 	//OK
 	static async searchUsers(searchQuery: string) {
 		try {
-			console.log("He entrado al servicio:" + searchQuery);
 			const response = await axios.get(API_URL + "/search/" + searchQuery, {
 				headers: authHeader(),
 			});
@@ -140,11 +139,10 @@ export class UserService {
 	//OK
 	static async editUser(user: User) {
 		try {
-			console.log("Estamos en el editUser");
 			const response = await axios.put(API_URL + "/" + user.uuid, user, {
 				headers: authHeader(),
 			});
-			console.log("Recibimos respuesta" + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error editing user: ", error);

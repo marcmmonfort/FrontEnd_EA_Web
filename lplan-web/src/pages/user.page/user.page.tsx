@@ -29,11 +29,10 @@ const UserProfile = () => {
 
 		if (myUserId) {
 			setMyId(myUserId);
-			console.log("Obtenemos los datos del otro usuario");
+
 			// Obtenemos el usuario que estamos mostrando
 			getById();
 
-			console.log("Pedimos la relacion que tenemos con ese user");
 			//Obtenemos si es seguidor o no.
 			getRelation(myUserId);
 		}
@@ -44,27 +43,23 @@ const UserProfile = () => {
 	}, [hasRated, currentUser]);
 
 	const getById = async () => {
-		console.log("Obtenemos los datos del otro usuario:", userId);
 		try {
 			const response = await UserService.getPerson(userId ?? "NoID");
 			setCurrentUser(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
 
 	const getRelation = async (myUserId: string) => {
-		console.log("Pedimos la relacion que tenemos con ese user:", myUserId);
 		try {
 			const response = await UserService.isFollowed(myUserId, userId ?? "NoID");
-			console.log("Pedimos la relacion que tenemos con ese user:: exito");
-			console.log(response);
+
 			setIsFollowing(response.data);
 		} catch (error) {
-			console.log("Pedimos la relacion que tenemos con ese user:: mal");
+			console.error("Pedimos la relacion que tenemos con ese user:: mal");
 			navigate("*");
 			console.error(error);
 		}
@@ -72,37 +67,33 @@ const UserProfile = () => {
 
 	const handleFollow = async () => {
 		// Aquí implemento la lógica para seguir o dejar de seguir al usuario
-		console.log("Este usuario es seguir tuyo?:" + isFollowing);
+
 		if (isFollowing) {
 			try {
 				const response = await UserService.removeFollowed(
 					myId,
 					userId ?? "NoID"
 				);
-				console.log("Pedimos la relacion que tenemos con ese user:: exito");
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(false);
 				} else {
 					alert("Algo ha ido mal al borrar el followed");
 				}
 			} catch (error) {
-				console.log("Pedimos la relacion que tenemos con ese user:: mal");
 				navigate("*");
 				console.error(error);
 			}
 		} else {
 			try {
 				const response = await UserService.addFollowed(myId, userId ?? "NoID");
-				console.log("Pedimos la relacion que tenemos con ese user:: exito");
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(true);
 				} else {
 					alert("Algo ha ido mal al añadir el followed");
 				}
 			} catch (error) {
-				console.log("Pedimos la relacion que tenemos con ese user:: mal");
 				navigate("*");
 				console.error(error);
 			}
@@ -157,7 +148,6 @@ const UserProfile = () => {
 			const listAllRatings = response.data;
 			setAllRatings(listAllRatings);
 
-			console.log("USUARIO RATED: " + JSON.stringify(currentUser));
 			if (currentUser) {
 				const ratedUserId = currentUser.uuid;
 
@@ -168,25 +158,20 @@ const UserProfile = () => {
 						rating.ratingType === "users"
 				);
 
-				console.log("---> ¿Va a entrar?");
 				if (userRating) {
-					console.log("---> ENTRA");
 					setCurrentRating(userRating);
 					setCurrentRatingId(userRating.uuid);
 					setCurrentRatingLength(userRating.idRaters.length);
 					setRatingAverage(userRating.ratingAverage);
 					setRaters(userRating.idRaters);
-					console.log("Average Rating: ", ratingAverage);
-					console.log("ID of the Raters: ", raters);
 				} else {
-					console.log("---> NO ENTRA");
-					console.log("There's no rating for this user: ", ratedUserId);
+					console.error("There's no rating for this user: ", ratedUserId);
 				}
 			} else {
-				console.log("---> NO ENCUENTRA USUARIO.");
+				console.error("---> NO ENCUENTRA USUARIO.");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -200,7 +185,7 @@ const UserProfile = () => {
 
 	const handleRating = async () => {
 		// Si nunca se ha votado ...
-		console.log("---> RATINGS ---> Current User Id: " + currentUser?.uuid);
+
 		if (!raters && currentUser?.uuid && myId && rate) {
 			try {
 				const newRating: RatingsEntity = {
@@ -210,9 +195,8 @@ const UserProfile = () => {
 					idRaters: [myId],
 				};
 				const response = await RatingsService.insertRating(newRating);
-				console.log("---> RATINGS ---> ¡Llega aquí!");
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		} else if (
 			raters &&
@@ -239,7 +223,7 @@ const UserProfile = () => {
 					updatedRating
 				);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 		setHasRated(true);

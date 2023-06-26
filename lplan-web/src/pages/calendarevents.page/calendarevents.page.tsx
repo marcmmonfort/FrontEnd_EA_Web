@@ -46,9 +46,8 @@ const CalendarEvents = () => {
 
 		const currentDate = new Date();
 		currentDate.setHours(0, 0, 0, 0);
-		console.log(currentDate);
+
 		const date = currentDate.toString();
-		console.log("currentDate", date);
 
 		const fetchData = async () => {
 			try {
@@ -57,17 +56,13 @@ const CalendarEvents = () => {
 				setCurrentUser(user);
 
 				if (selectedTimetable === "My Timetable") {
-					console.log("My horario");
 					const myScheduleResponse = await ActivityService.getMySchedule(
 						userId,
 						date
 					);
-					console.log(myScheduleResponse);
-					console.log(myScheduleResponse.data);
+
 					setListActivities(myScheduleResponse.data);
 				} else {
-					console.log("Feed de horarios de seguidores");
-					console.log("Page", currentPage);
 					const numPage = currentPage.toString();
 					if (selectedUser && selectedUser.uuid) {
 						const selectedUserActivities = await ActivityService.getMySchedule(
@@ -79,8 +74,7 @@ const CalendarEvents = () => {
 					} else {
 						const otherScheduleResponse =
 							await ActivityService.getOtherSchedule(userId, numPage, date);
-						console.log(otherScheduleResponse);
-						console.log(otherScheduleResponse.data);
+
 						setListActivities(otherScheduleResponse.data.activities);
 						const response = await UserService.getPerson(
 							otherScheduleResponse.data.uuid

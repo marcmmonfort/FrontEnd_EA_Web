@@ -46,16 +46,13 @@ const Calendar: React.FC<CalendarProps> = ({
 		);
 		if (clickedActivity) {
 			setSelectedActivity(clickedActivity);
-			console.log("clickedActivity", clickedActivity);
 		} else {
 			setSelectedActivity(null);
 		}
 	};
 
 	const handleAddToActivity = (isJoining: boolean) => {
-		console.log("handleAddToActivity");
 		if (selectedActivity) {
-			console.log(selectedActivity.uuid);
 			const activityIndex = activities.findIndex(
 				(activity) => activity.uuid === selectedActivity.uuid
 			);
@@ -68,13 +65,13 @@ const Calendar: React.FC<CalendarProps> = ({
 						...activityToUpdate.participantsActivity,
 						userId,
 					];
-					console.log("Joined Activity");
+					console.warn("Joined Activity");
 				} else {
 					activityToUpdate.participantsActivity =
 						activityToUpdate.participantsActivity.filter(
 							(participantId) => participantId !== userId
 						);
-					console.log("Left Activity");
+					console.error("Left Activity");
 				}
 
 				setSelectedActivity(activityToUpdate);
@@ -129,7 +126,7 @@ const Calendar: React.FC<CalendarProps> = ({
 					}${showDayButton ? "timeGridDay," : ""}`.slice(0, -1),
 				}}
 				dateClick={(arg) => {
-					console.log(arg.date);
+					console.warn(arg.date);
 				}}
 				weekends={true}
 				selectable={true}

@@ -42,8 +42,6 @@ const EditUser = () => {
 			if (userId) {
 				UserService.getPerson(userId)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
 						setUser(response.data);
 						setPrivacy(response.data.privacyUser);
 					})
@@ -74,24 +72,18 @@ const EditUser = () => {
 	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = e.target;
 		setUser((prevUser) => ({ ...prevUser, [name]: value }));
-		console.log(user);
+
 		// Convertir el valor a una instancia de `Date`
 		const dateValue = name === "birthdateUser" ? new Date(value) : value;
 
 		setUser((prevUser) => ({ ...prevUser, [name]: dateValue }));
 	};
 
-	console.log(user);
-
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		console.log(user);
 		UserService.editUser(user)
 			.then((response: any) => {
-				console.log(user);
-				console.log(response);
-				console.log(response.status);
 				if (response.request.status === 200) {
 					Swal.fire({
 						position: "center",
@@ -109,14 +101,13 @@ const EditUser = () => {
 						background: "#66fcf1",
 						backdrop: "rgba(0,0,0,0.8)",
 					}).then(() => {
-						console.log(response.data);
 						navigate("/profile");
 					});
 				}
 			})
 			.catch((error: any) => {
 				console.error(error);
-				console.log(error.response);
+				console.error(error.response);
 				Swal.fire({
 					position: "center",
 					icon: "info",

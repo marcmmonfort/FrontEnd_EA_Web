@@ -34,7 +34,6 @@ export class LocationService {
 	//OK
 	static async searchLocations(searchQuery: string) {
 		try {
-			console.log("He entrado al servicio:" + searchQuery);
 			const response = await axios.get(API_URL + "/search/" + searchQuery, {
 				headers: authHeader(),
 			});

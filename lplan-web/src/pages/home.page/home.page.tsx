@@ -45,19 +45,17 @@ const Home = () => {
 
 	const handleGoogleLoginSuccess = async (credentialResponse: any) => {
 		const decoded: any = jwt_decode(credentialResponse.credential);
-		console.log(decoded);
+
 		const userData = {
 			nameUser: decoded.given_name,
 			surnameUser: decoded.family_name,
 			emailUser: decoded.email,
 			photoUser: decoded.picture,
 		};
-		console.log(JSON.stringify(userData));
+
 		setUserinfo(userData);
 
 		UserService.getPersonByEmail(userData.emailUser).then(async (response) => {
-			console.log(response);
-			console.log("MailUser: " + response.data.mailUser);
 			if (!response.data.mailUser) {
 				const newUser = uuidv4();
 				generatePassword();
@@ -77,14 +75,11 @@ const Home = () => {
 					privacyUser: false,
 					deletedUser: false,
 				};
-				console.log(user);
+
 				setUserFR(user);
 
 				await AuthService.register(user)
 					.then(async (response: any) => {
-						console.log(user);
-						console.log(response);
-						console.log(response.status);
 						if (response.status === 200) {
 							Swal.fire({
 								position: "center",
@@ -108,12 +103,6 @@ const Home = () => {
 								passwordUser: response.data.passwordUser,
 							})
 								.then((response: any) => {
-									console.log({
-										mailUser: response.data.emailUser,
-										passwordUser: response.data.passwordUser,
-									});
-									console.log(response);
-									console.log(response.status);
 									if (response.status === 200) {
 										Swal.fire({
 											position: "center",
@@ -131,24 +120,18 @@ const Home = () => {
 											background: "#66fcf1",
 											backdrop: "rgba(0,0,0,0.8)",
 										}).then(() => {
-											console.log(response.data);
 											AuthService.setCurrentUser(
 												JSON.stringify(response.data.user.uuid),
 												JSON.stringify(response.data.token)
 											);
-											console.log(
-												"_id" + JSON.stringify(response.data.user.uuid)
-											);
-											console.log(
-												"token" + JSON.stringify(response.data.token)
-											);
+
 											navigate("/profile");
 										});
 									}
 								})
 								.catch((error: any) => {
 									console.error("error: " + error);
-									console.log("error.response: " + error.response);
+									console.error("error.response: " + error.response);
 									switch (error.response.status) {
 										case 404:
 									}
@@ -174,7 +157,7 @@ const Home = () => {
 					})
 					.catch((error: any) => {
 						console.error("error: " + error);
-						console.log("error.response: " + error.response);
+						console.error("error.response: " + error.response);
 						switch (error.response.status) {
 							case 403:
 								Swal.fire({
@@ -202,12 +185,6 @@ const Home = () => {
 					passwordUser: response.data.passwordUser,
 				})
 					.then((response: any) => {
-						console.log({
-							mailUser: response.data.emailUser,
-							passwordUser: response.data.passwordUser,
-						});
-						console.log(response);
-						console.log(response.status);
 						if (response.status === 200) {
 							Swal.fire({
 								position: "center",
@@ -225,20 +202,18 @@ const Home = () => {
 								background: "#66fcf1",
 								backdrop: "rgba(0,0,0,0.8)",
 							}).then(() => {
-								console.log(response.data);
 								AuthService.setCurrentUser(
 									JSON.stringify(response.data.user.uuid),
 									JSON.stringify(response.data.token)
 								);
-								console.log("_id" + JSON.stringify(response.data.user.uuid));
-								console.log("token" + JSON.stringify(response.data.token));
+
 								navigate("/profile");
 							});
 						}
 					})
 					.catch((error: any) => {
 						console.error("error: " + error);
-						console.log("error.response: " + error.response);
+
 						switch (error.response.status) {
 							case 404:
 						}
@@ -263,7 +238,7 @@ const Home = () => {
 					<GoogleLogin
 						onSuccess={handleGoogleLoginSuccess}
 						onError={() => {
-							console.log("Login Failed");
+							console.error("Login Failed");
 						}}
 					/>
 				</div>

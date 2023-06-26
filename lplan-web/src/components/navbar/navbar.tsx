@@ -34,13 +34,13 @@ const Navbar = () => {
 
 			recognition.onstart = () => {
 				// Se activa cuando comienza el reconocimiento de voz
-				console.log("Escuchando...");
+				console.warn("Escuchando...");
 			};
 
 			recognition.onresult = (event: any) => {
 				// Se activa cuando se detecta un resultado de voz
 				const { transcript } = event.results[event.results.length - 1][0];
-				console.log(transcript);
+				//console.log(transcript);
 				processVoiceCommand(transcript);
 			};
 

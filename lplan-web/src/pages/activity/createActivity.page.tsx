@@ -64,11 +64,11 @@ const CreateActivity = () => {
 			...prevActivity,
 			dateActivity,
 		}));
-		console.log(activity);
+		//console.log(activity);
 
 		ActivityService.createActivity(activity)
 			.then((response) => {
-				console.log(response);
+				//console.log(response);
 				navigate("/calendarevents");
 			})
 			.catch((error) => {

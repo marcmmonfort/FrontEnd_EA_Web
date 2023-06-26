@@ -34,15 +34,12 @@ const Profile = () => {
 	const [showSharePopup, setShowSharePopup] = useState(false);
 
 	useEffect(() => {
-		console.log("Estoy en el perfil");
 		const id = AuthService.getCurrentUser();
-		console.log(id);
+
 		if (id) {
 			setUserId(id);
 			UserService.getPerson(id)
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					if (response.data && response.data.descriptionUser) {
 						const customFilter = new Filter({ regex: /\*|\.|$/gi });
 						customFilter.addWords("idiota", "retrasado");
@@ -50,7 +47,6 @@ const Profile = () => {
 						const filteredDescription = customFilter.clean(
 							response.data.descriptionUser
 						);
-						console.log(filteredDescription);
 
 						response.data.descriptionUser = filteredDescription;
 						setCurrentUser(response.data);
@@ -78,19 +74,18 @@ const Profile = () => {
 							speakText(descriptionToSpeech);
 						}, 500);
 					}
-					console.log("Estoy saliendo del Audio");
 				})
 				.catch((error) => {
 					navigate("*");
 				});
 		}
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
-		console.log(id);
+
 		if (userId) {
 			PublicationService.obtainOwnPosts(id)
 				.then((response) => {
 					const publications = response.data;
-					console.log(response);
+
 					if (publications.length != 0) {
 						const firstTransparentPublication = {
 							...publications[0],

@@ -45,16 +45,13 @@ const Feed = () => {
 
 	useEffect(() => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
-		console.log("Iniciamos");
+
 		const fetchData = async () => {
 			const userId = AuthService.getCurrentUser();
-			console.log(numPagePublication);
+
 			if (userId) {
 				PublicationService.feed(numPagePublication.toString(), userId)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
-
 						const initialVisibility = response.data.reduce(
 							(acc: { [key: string]: boolean }, publication: Publication) => {
 								acc[publication.uuid] = false;
@@ -180,7 +177,6 @@ const Feed = () => {
 							);
 							return updatedHasLiked;
 						});
-						console.log(listPublications);
 
 						setListPublications((prevPublications) => [
 							...prevPublications,
@@ -193,8 +189,6 @@ const Feed = () => {
 
 				PublicationService.numPublicationsFollowing(userId)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
 						setNumPublications(response.data);
 					})
 					.catch((error) => {
@@ -202,19 +196,16 @@ const Feed = () => {
 					});
 			}
 		};
-		console.log(recargar);
+
 		if (recargar === "Inicio" || recargar === "More Publications") {
-			console.log(numPagePublication);
 			fetchData();
 		} else if (
 			recargar === "New Comment" ||
 			recargar === "Delete Like" ||
 			recargar === "Update Like"
 		) {
-			console.log(reloadPublication);
 			PublicationService.getPublication(reloadPublication)
 				.then((response) => {
-					console.log(response.data);
 					const index = listPublications.findIndex(
 						(publication) => publication.uuid === reloadPublication
 					);
@@ -226,15 +217,12 @@ const Feed = () => {
 				})
 				.catch((error) => {
 					navigate("*");
-					console.log(error);
+					console.error(error);
 				});
 		}
 	}, [recargar]);
 
-	console.log(listPublications);
-
 	const handleLoadMore = () => {
-		console.log("Has pulsado el btn");
 		setRecargar("More Publications");
 		setNumPagePublication((prevPage) => prevPage + 1);
 		/*
@@ -255,32 +243,23 @@ const Feed = () => {
 	};
 
 	const getComments = (idPublication: string) => {
-		console.log("Ver comentarios");
-		console.log("idPublication: " + idPublication);
-		console.log(
-			"commentsVisibility[PublicationId]=" + commentsVisibility[idPublication]
-		);
-		console.log("pageComments[PublicationId]=" + pageComments[idPublication]);
 		setCommentsVisibility((prevVisibility) => {
 			const updatedVisibility = {
 				...prevVisibility,
 				[idPublication]: !prevVisibility[idPublication],
 			};
-			console.log("second " + updatedVisibility[idPublication]);
 
 			if (updatedVisibility[idPublication]) {
 				setCommentButton((prevCommentButton) => ({
 					...prevCommentButton,
 					[idPublication]: (prevCommentButton[idPublication] = "Hide Comments"),
 				}));
-				console.log("Entro a hide");
+
 				CommentService.getCommentsPublication(
 					idPublication,
 					pageComments[idPublication].toString()
 				)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
 						setListCommentsPublication((prevListComments) => ({
 							...prevListComments,
 							[idPublication]: response.data,
@@ -294,7 +273,7 @@ const Feed = () => {
 					...prevCommentButton,
 					[idPublication]: (prevCommentButton[idPublication] = "Show Comments"),
 				}));
-				console.log("Entro a show");
+
 				setListCommentsPublication((prevListComments) => ({
 					...prevListComments,
 					[idPublication]: [],
@@ -306,11 +285,9 @@ const Feed = () => {
 			}
 			return updatedVisibility;
 		});
-		console.log("Page comentarios:" + pageComments[idPublication]);
 	};
 
 	const showMoreComments = (idPublication: string) => {
-		console.log("Ver más comentarios");
 		setPageComments((prevPageComments) => ({
 			...prevPageComments,
 			[idPublication]: prevPageComments[idPublication] + 1,
@@ -320,8 +297,6 @@ const Feed = () => {
 			(pageComments[idPublication] + 1).toString()
 		)
 			.then((response) => {
-				console.log(response);
-				console.log(response.data);
 				setListCommentsPublication((prevListComments) => ({
 					...prevListComments,
 					[idPublication]: [
@@ -365,13 +340,12 @@ const Feed = () => {
 
 			CommentService.createComment(comment)
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					setReloadPublication(idPublication);
 					setRecargar("New Comment");
 				})
 				.catch((error) => {
 					navigate("*");
+					console.error(error);
 				});
 		}
 
@@ -382,8 +356,6 @@ const Feed = () => {
 	};
 
 	const handleLike = (idPublication: string) => {
-		console.log("Handle Like" + idPublication);
-		console.log("Handle Like" + hasLiked[idPublication]);
 		const userId = AuthService.getCurrentUser();
 		if (userId) {
 			if (hasLiked[idPublication]) {
@@ -391,14 +363,11 @@ const Feed = () => {
 					...prevLikes,
 					[idPublication]: !prevLikes[idPublication],
 				}));
-				console.log("Handle Like True: " + hasLiked[idPublication]);
+
 				PublicationService.deleteLike(idPublication, userId)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
 						setReloadPublication(idPublication);
 						setRecargar("Delete Like");
-						console.log("Se ha recargado");
 					})
 					.catch((error) => {
 						navigate("*");
@@ -408,15 +377,11 @@ const Feed = () => {
 					...prevLikes,
 					[idPublication]: !prevLikes[idPublication],
 				}));
-				console.log("Handle Like False: " + hasLiked[idPublication]);
 
 				PublicationService.updateLike(idPublication, userId)
 					.then((response) => {
-						console.log(response);
-						console.log(response.data);
 						setReloadPublication(idPublication);
 						setRecargar("Update Like");
-						console.log("Se ha recargado");
 					})
 					.catch((error) => {
 						navigate("*");

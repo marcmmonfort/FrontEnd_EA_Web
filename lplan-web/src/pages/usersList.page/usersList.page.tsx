@@ -26,9 +26,6 @@ const UsersList = () => {
 	const isFollowingMode = mode === "following";
 	const isLikesMode = mode === "likes";
 
-	console.log(isFollowersMode);
-	console.log(isFollowingMode);
-	console.log(isLikesMode);
 	const title = isFollowersMode
 		? "Followers"
 		: isFollowingMode
@@ -39,10 +36,8 @@ const UsersList = () => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
 		if (userId) {
 			if (isFollowersMode || isFollowingMode) {
-				console.log("Entro donde no tenia que entrar");
 				loadUser();
 			} else {
-				console.log("Entra la publicación");
 				loadPublication();
 			}
 
@@ -56,10 +51,9 @@ const UsersList = () => {
 		try {
 			const response = await UserService.getPerson(userId ?? "NoID");
 			setCurrentUser(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
@@ -70,10 +64,9 @@ const UsersList = () => {
 				userId ?? "NoID"
 			);
 			setcurrentPublication(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
@@ -82,8 +75,6 @@ const UsersList = () => {
 		if (isFollowersMode) {
 			UserService.getFollowers(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					setUserList((prevUserList) => [...prevUserList, ...response.data]);
 				})
 				.catch((error) => {
@@ -92,8 +83,6 @@ const UsersList = () => {
 		} else if (isFollowingMode) {
 			UserService.getFollowed(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					setUserList((prevUserList) => [...prevUserList, ...response.data]);
 				})
 				.catch((error) => {
@@ -102,8 +91,6 @@ const UsersList = () => {
 		} else if (isLikesMode) {
 			PublicationService.getListLikes(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data.likesPublication);
 					setUserList((prevUserList) => [
 						...prevUserList,
 						...response.data.likesPublication,

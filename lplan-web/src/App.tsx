@@ -33,7 +33,7 @@ import Navbar from "./components/navbar/navbar";
 function App() {
 	const handleRegister = async (authData: any) => {
 		// Aquí puedes enviar los datos del formulario a un servidor y procesar la respuesta
-		console.log("Datos del formulario de REGISTRO:", authData);
+		console.warn("Datos del formulario de REGISTRO:", authData);
 	};
 	return (
 		<Router>

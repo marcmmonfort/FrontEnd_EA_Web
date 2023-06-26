@@ -20,14 +20,10 @@ const Discovery = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	console.log("global:" + searchQuery);
-
 	useEffect(() => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
 		UserService.getUsers()
 			.then((response) => {
-				console.log(response);
-				console.log(response.data);
 				setUserList(response.data);
 			})
 			.catch((error) => {
@@ -37,13 +33,13 @@ const Discovery = () => {
 
 	const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const query = event.target.value;
-		console.log("He entrado en handleSearch");
+
 		if (query.length > 0) {
 			try {
 				const response = await UserService.searchUsers(query);
-				console.log(response);
+
 				setUserList(response.data);
-				console.log("He hecho el servicio");
+				console.warn("He hecho el servicio");
 			} catch (error) {
 				console.error(error);
 			}
@@ -60,7 +56,6 @@ const Discovery = () => {
 	const debouncedSearch = _debounce(handleSearch, 500);
 
 	const currentUser = AuthService.getCurrentUser();
-	console.log("usuario", currentUser);
 
 	return (
 		<div>

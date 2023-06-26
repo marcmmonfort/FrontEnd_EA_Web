@@ -17,7 +17,7 @@ export class ActivityService {
 			const response = await axios.post(API_URL + "activity/add", activity, {
 				headers: authHeader(),
 			});
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
@@ -32,7 +32,7 @@ export class ActivityService {
 				API_URL + "activity/myweek/" + uuid + "/" + date,
 				{ headers: authHeader() }
 			);
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
@@ -58,7 +58,7 @@ export class ActivityService {
 				API_URL + "activity/following/" + uuid + "/" + numPage + "/" + date,
 				{ headers: authHeader() }
 			);
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
@@ -71,7 +71,7 @@ export class ActivityService {
 			const response = await axios.put(API_URL + "activity/" + uuid, activity, {
 				headers: authHeader(),
 			});
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
@@ -84,7 +84,7 @@ export class ActivityService {
 			const response = await axios.get(API_URL + "activity/" + uuid, {
 				headers: authHeader(),
 			});
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);

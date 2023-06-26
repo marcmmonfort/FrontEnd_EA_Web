@@ -9,7 +9,6 @@ let API_URL = "";
 if (process.env.NODE_ENV === "production") {
 	// Cargar variables de entorno desde .env.production
 	API_URL = "http://147.83.7.158:5432/user";
-	console.log(API_URL);
 } else {
 	// Cargar variables de entorno desde .env.local
 	API_URL = "http://localhost:5432/user";
@@ -17,7 +16,6 @@ if (process.env.NODE_ENV === "production") {
 
 export class AuthService {
 	static isLoggedIn(): boolean {
-		console.log("Estoy" + localStorage.getItem("token"));
 		return !!localStorage.getItem("token");
 	}
 
@@ -68,26 +66,24 @@ export class AuthService {
 	}
 
 	static setAudioDescription(isAudioDescription: string) {
-		console.log(isAudioDescription);
 		localStorage.setItem("AudioDescription", isAudioDescription);
 	}
 
 	static getAudioDescription() {
 		const AudioDescription = localStorage.getItem("AudioDescription");
-		console.log(AudioDescription);
+
 		if (AudioDescription) {
 			return AudioDescription;
 		}
 	}
 
 	static setVoiceControl(isAudioDescription: string) {
-		console.log(isAudioDescription);
 		localStorage.setItem("voiceRecognitionEnabled", isAudioDescription);
 	}
 
 	static getVoiceControl() {
 		const AudioDescription = localStorage.getItem("voiceRecognitionEnabled");
-		console.log(AudioDescription);
+
 		if (AudioDescription) {
 			return AudioDescription;
 		}

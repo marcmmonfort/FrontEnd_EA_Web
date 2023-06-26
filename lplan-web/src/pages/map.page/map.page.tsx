@@ -81,7 +81,6 @@ const MapPage = () => {
 	};
 
 	const handleGoToListActivities = (uuid: string) => {
-		console.log("ID: " + uuid);
 		navigate("/activityloclist", { state: { uuid: uuid } });
 
 		/*
