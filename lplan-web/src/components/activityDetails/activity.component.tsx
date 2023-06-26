@@ -15,7 +15,7 @@ interface ActivityDetailsModalProps {
 	userId: string;
 }
 
-console.log("(1) Entro al Modal.");
+//console.log("(1) Entro al Modal.");
 
 const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 	activity,
@@ -47,7 +47,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 				setCreatorUser(user);
 				setCreatorAppName(user.appUser || "");
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 		fetchCreatorAppName(activity.creatorActivity);
@@ -137,16 +137,16 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 					setCurrentRatingLength(activityRating.idRaters.length);
 					setRatingAverage(activityRating.ratingAverage);
 					setRaters(activityRating.idRaters);
-					console.log("Average Rating: ", ratingAverage);
-					console.log("ID of the Raters: ", raters);
+					//console.log("Average Rating: ", ratingAverage);
+					//console.log("ID of the Raters: ", raters);
 				} else {
-					console.log("There's no rating for this activity: ", activityId);
+					console.error("There's no rating for this activity: ", activityId);
 				}
 			} else {
-				console.log("No activity found.");
+				console.error("No activity found.");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -171,7 +171,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 				const response = await RatingsService.insertRating(newRating);
 				onClose();
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		} else if (
 			raters &&
@@ -199,7 +199,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 				);
 				onClose();
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 	};

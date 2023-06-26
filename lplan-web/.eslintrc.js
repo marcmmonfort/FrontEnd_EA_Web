@@ -32,6 +32,7 @@ module.exports = {
 		"linebreak-style": ["error", "windows"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
+		"no-console": ["error", { allow: ["warn", "error"] }],
 		"prettier/prettier": [
 			"error",
 			{
