@@ -9,6 +9,7 @@ import { setDate } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { AuthService } from "../../services/auth.service";
 import { UserService } from "../../services/user.service";
+import Navbar from "../../components/navbar/navbar";
 
 const CreateActivity = () => {
 	const [activity, setActivity] = useState<ActivityEntity>({
@@ -162,36 +163,53 @@ const CreateActivity = () => {
 
 	return (
 		<div>
-			<h1>{t("CreateActivity")}</h1>
-			<form onSubmit={handleSubmit} className="scroll-container">
+			<Navbar />
+			<div className="titleContainer_Calendar">
+				<h1 className="titleSection">{t("New Activity")}</h1>
+			</div>
+			<form className="containerWithData" onSubmit={handleSubmit}>
 				<Input
-					label="Nombre de la actividad"
+					label="Name"
 					name="nameActivity"
 					type="text"
 					value={activity.nameActivity}
 					onChange={handleInputChange}
 				/>
+				<h1 className="splitterCreateActivity"></h1>
 				<Input
-					label="Fecha de la actividad"
+					label="Date"
 					name="dateActivity"
 					type="date"
 					value={new Date(activity.dateActivity).toISOString().substr(0, 10)} //new Date(user.birthdateUser).toISOString().substr(0, 10)
 					onChange={handleInputChange}
 				/>
-				<div>
-					<label>Inicio de la actividad:</label>
+				<h1 className="splitterCreateActivity2"></h1>
+				<Input
+					label="Description"
+					name="descriptionActivity"
+					type="text"
+					value={activity.descriptionActivity}
+					onChange={handleInputChange}
+				/>
+				<div className="containerWithData">
+					<h1 className="splitterCreateActivity"></h1>
+					<label className="textType1">Start</label>
+					<h1 className="splitterCreateActivity"></h1>
 					<div>
-						<label>Hora:</label>
-						<select value={selectedHourStart} onChange={handleHourStartChange}>
+						<select
+							className="boxTimeActivity"
+							value={selectedHourStart}
+							onChange={handleHourStartChange}
+						>
 							{hours.map((hour) => (
 								<option key={hour} value={hour}>
 									{hour.toString().padStart(2, "0")}
 								</option>
 							))}
 						</select>
-
-						<label>Minuto:</label>
+						<label className="hourMinuteLabel">H</label>
 						<select
+							className="boxTimeActivity"
 							value={selectedMinuteStart}
 							onChange={handleMinuteStartChange}
 						>
@@ -201,44 +219,48 @@ const CreateActivity = () => {
 								</option>
 							))}
 						</select>
+						<label className="hourMinuteLabel">min.</label>
 					</div>
-
-					<label>Fin de la actividad:</label>
+					<label className="textType1">End</label>
+					<h1 className="splitterCreateActivity"></h1>
 					<div>
-						<label>Hora:</label>
-						<select value={selectedHourEnd} onChange={handleHourEndChange}>
+						<select
+							className="boxTimeActivity"
+							value={selectedHourEnd}
+							onChange={handleHourEndChange}
+						>
 							{hours.map((hour) => (
 								<option key={hour} value={hour}>
 									{hour.toString().padStart(2, "0")}
 								</option>
 							))}
 						</select>
-
-						<label>Minuto:</label>
-						<select value={selectedMinuteEnd} onChange={handleMinuteEndChange}>
+						<label className="hourMinuteLabel">H</label>
+						<select
+							className="boxTimeActivity"
+							value={selectedMinuteEnd}
+							onChange={handleMinuteEndChange}
+						>
 							{minutes.map((minute) => (
 								<option key={minute} value={minute}>
 									{minute.toString().padStart(2, "0")}
 								</option>
 							))}
 						</select>
+						<label className="hourMinuteLabel">min.</label>
 					</div>
+					<input
+						className="checkboxCreateActivity"
+						type="checkbox"
+						name="privacyActivity"
+						checked={activity.privacyActivity}
+						onChange={handleInputChange}
+					/>
 				</div>
-				<Input
-					label="Descripción de la actividad"
-					name="descriptionActivity"
-					type="text"
-					value={activity.descriptionActivity}
-					onChange={handleInputChange}
-				/>
-				<input
-					type="checkbox"
-					name="privacyActivity"
-					checked={activity.privacyActivity}
-					onChange={handleInputChange}
-				/>
-				<button type="submit">{t("Create")}</button>
 			</form>
+			<button className="buttonCreateActivity" type="submit">
+				{t("Create")}
+			</button>
 			<Footer />
 		</div>
 	);

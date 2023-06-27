@@ -222,6 +222,7 @@ const CalendarEvents = () => {
 						<div className="SearchContainer">
 							<input
 								type="text"
+								className="SearchContainer"
 								placeholder="Search Users"
 								value={searchQuery}
 								onChange={(event) => {
@@ -268,7 +269,7 @@ const CalendarEvents = () => {
 										))}
 									</ul>
 								) : (
-									<h1 className="usersnotfound">{t("UNF")}</h1>
+									<h1 className="usersnotfound-Calendar">{t("UNF")}</h1>
 								)}
 							</div>
 						</div>

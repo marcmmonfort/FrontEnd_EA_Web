@@ -2,3 +2,65 @@
     max-height: 300px; /* Establece la altura máxima del contenedor */
     overflow-y: auto; /* Habilita el desplazamiento vertical */
   }
+
+  .buttonCreateActivity {
+    margin-top: 10px;
+    margin-bottom: 60px;
+    width: 100px;
+  }
+
+  .textType1{
+    font-family: "SFNS", sans-serif;
+    color: yellow;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 0px !important;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  .textType2{
+    font-family: "SFNS_Light", sans-serif;
+    color: yellow;
+    font-size: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .boxTimeActivity{
+    width: 80px;
+    border: none;
+  }
+
+  .hourMinuteLabel{
+    margin-left: 4px;
+    margin-right: 14px;
+  }
+
+  .splitterCreateActivity{
+    margin-top: 12px !important;
+    margin-bottom: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  .splitterCreateActivity2{
+    margin-top: 4px !important;
+    margin-bottom: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  .containerWithData{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .checkboxCreateActivity{
+    width: 20px !important;
+    margin-left: -10px !important;
+  }
