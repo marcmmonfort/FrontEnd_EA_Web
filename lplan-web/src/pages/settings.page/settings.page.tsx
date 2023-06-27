@@ -90,6 +90,7 @@ const SettingsPage = () => {
 				<div className="LanguageButtons">
 					{Object.keys(lngs).map((lng) => (
 						<button
+							className="languageButton"
 							type="submit"
 							key={lng}
 							onClick={() => i18n.changeLanguage(lng)}
