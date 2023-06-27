@@ -145,7 +145,7 @@ margin-bottom:2px;
 
 .usersnotfound-Calendar {
   font-size: 14px;
-  margin-top: 70px;
+  margin-top: 74px;
   margin-bottom: 20px;
   color: #66fcf1;
   font-family: "SFNS", sans-serif;
@@ -165,18 +165,19 @@ margin-bottom:2px;
 }
 
 .cardsUsers-Calendar{
-  margin-top: 0px !important;
+  margin-top: -50px !important;
   margin-bottom: 0px !important;
 }
 
-.user{
-  height: 52px !important;
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-}
-
-.searchInputProfiles {
-  margin-bottom: -50px !important;
+.user-calendar{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 80px;
+    height: 50px;
+    border: 1px solid #fff;
+    margin-top: 0px;
+    margin-left:-40px;
 }
 
 

@@ -240,7 +240,7 @@ const CalendarEvents = () => {
 														className="user-link-Calendar"
 														onClick={() => setSelectedUser(user)}
 													>
-														<div className="user">
+														<div className="user-calendar">
 															{user.photoUser ? (
 																<img
 																	src={user.photoUser}
