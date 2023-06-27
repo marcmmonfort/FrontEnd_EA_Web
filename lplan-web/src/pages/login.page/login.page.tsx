@@ -51,9 +51,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 		}
 		AuthService.login(formData)
 			.then((response: any) => {
-				console.log(formData);
-				console.log(response);
-				console.log(response.status);
 				if (response.status === 200) {
 					Swal.fire({
 						position: "center",
@@ -71,20 +68,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 						background: "#66fcf1",
 						backdrop: "rgba(0,0,0,0.8)",
 					}).then(() => {
-						console.log(response.data);
 						AuthService.setCurrentUser(
 							JSON.stringify(response.data.user.uuid),
 							JSON.stringify(response.data.token)
 						);
-						console.log("_id" + JSON.stringify(response.data.user.uuid));
-						console.log("token" + JSON.stringify(response.data.token));
+
 						navigate("/profile");
 					});
 				}
 			})
 			.catch((error: any) => {
 				console.error("error: " + error);
-				console.log("error.response: " + error.response);
+				console.error("error.response: " + error.response);
 				switch (error.response.status) {
 					case 403:
 						Swal.fire({

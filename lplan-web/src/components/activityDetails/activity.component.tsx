@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 import ShareComponent from "../share/share.component";
 import { RatingsService } from "../../services/ratings.service";
 import { RatingsEntity } from "../../models/ratings.model";
+import { ActivityService } from "../../services/activity.service";
+import { AuthService } from "../../services/auth.service";
+
 interface ActivityDetailsModalProps {
 	activity: ActivityEntity;
 	onClose: () => void;
@@ -36,6 +39,11 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 
 	const [showSharePopup, setShowSharePopup] = useState(false);
 	const [isShareClicked, setIsShareClicked] = useState(false);
+	const [fotoParticipantes, setFotoParticipantes] = useState<User[] | null>(
+		null
+	);
+	const [numPage, setNumPage] = useState<string>("1");
+	const [id, setId] = useState<string>("1");
 
 	useEffect(() => {
 		const fetchCreatorAppName = async (uuid: string) => {
@@ -50,7 +58,9 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 		};
 		fetchCreatorAppName(activity.creatorActivity);
 		ratingsMechanism();
-	}, [activity.creatorActivity]);
+		handleFotoParticipants();
+		setId(AuthService.getCurrentUser());
+	}, [activity.creatorActivity, numPage]);
 
 	const handleAddToActivity = (isJoining: boolean) => {
 		setIsCurrentUserParticipant(!isCurrentUserParticipant);
@@ -58,6 +68,14 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 	};
 
 	const showJoinButton = !isCreatorOfActivity;
+
+	const handleFotoParticipants = async () => {
+		const participantesAux = await ActivityService.getParticipants(
+			activity.uuid,
+			numPage
+		);
+		setFotoParticipantes(participantesAux.data);
+	};
 
 	//  - - - - - START of SHARING - - - - -
 
@@ -268,7 +286,42 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 					</div>
 				)}
 
-				<p>Participantes: {activity.participantsActivity?.join(", ")}</p>
+				<p>
+					Participantes:
+					{fotoParticipantes &&
+						fotoParticipantes.map((participant, index) => {
+							if (id === participant.uuid) {
+								return (
+									<Link to={"/profile"} className="user-link" key={index}>
+										<div>
+											<img
+												src={participant.photoUser}
+												alt={participant.nameUser}
+												className="user__profile-img"
+											/>
+										</div>
+									</Link>
+								);
+							} else {
+								return (
+									<Link
+										to={`/user/${participant.uuid}`}
+										className="user-link"
+										key={index}
+									>
+										<div>
+											<img
+												src={participant.photoUser}
+												alt={participant.nameUser}
+												className="user__profile-img"
+											/>
+										</div>
+									</Link>
+								);
+							}
+						})}
+				</p>
+
 				<button onClick={onClose}>{t("Close")}</button>
 				{showJoinButton && (
 					<button
@@ -281,7 +334,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 				{showSharePopup ? (
 					<>
 						<ShareComponent
-							shareUrl={`http://localhost:3001/shared/activity/${activity.uuid}`}
+							shareUrl={`https://www.lplan.es:443/shared/activity/${activity.uuid}`}
 							handleShare={handleShare}
 						/>
 						<button onClick={handleCloseSharePopup}>Cerrar</button>

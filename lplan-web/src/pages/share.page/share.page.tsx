@@ -30,9 +30,8 @@ const SharedContentPage = () => {
 
 	useEffect(() => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
-		console.log("Estamos en la página de compartir");
+
 		const myUserId = AuthService.getCurrentUser();
-		console.log("myUserId");
 
 		if (type) {
 			setMyType(type);
@@ -41,11 +40,10 @@ const SharedContentPage = () => {
 		if (type === "profile") {
 			if (myUserId) {
 				setMyId(myUserId);
-				console.log("Obtenemos los datos del otro usuario");
+
 				//Obtenemos el usuario
 				getById();
 
-				console.log("Pedimos la relación que tenemos con ese usuario");
 				//Obtenemos si es seguidor o no.
 				getRelation(myUserId);
 			}
@@ -56,27 +54,24 @@ const SharedContentPage = () => {
 
 	//Funciones del perfil
 	const getById = async () => {
-		console.log("Obtenemos los datos del otro usuario:", id);
 		try {
 			const response = await UserService.getPerson(id ?? "NoID");
 			setCurrentUser(response.data);
-			console.log("Obtenemos los datos del otro usuario: éxito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: error");
+
 			console.error(error);
 		}
 	};
 
 	const getRelation = async (myUserId: string) => {
-		console.log("Pedimos la relación que tenemos con ese usuario:", myUserId);
 		try {
 			const response = await UserService.isFollowed(myUserId, id ?? "NoID");
-			console.log("Pedimos la relación que tenemos con ese usuario: éxito");
-			console.log(response);
+			//console.log("Pedimos la relación que tenemos con ese usuario: éxito");
+			//console.log(response);
 			setIsFollowing(response.data);
 		} catch (error) {
-			console.log("Pedimos la relación que tenemos con ese usuario: error");
+			//console.log("Pedimos la relación que tenemos con ese usuario: error");
 			navigate("*");
 			console.error(error);
 		}
@@ -84,49 +79,34 @@ const SharedContentPage = () => {
 
 	const handleFollow = async () => {
 		// Aquí implemento la lógica para seguir o dejar de seguir al usuario
-		console.log("¿Este usuario es tu seguidor?:" + isFollowing);
+		//console.log("¿Este usuario es tu seguidor?:" + isFollowing);
 		if (isFollowing) {
 			try {
 				const response = await UserService.removeFollowed(myId, id ?? "NoID");
-				console.log(
-					"Pedimos eliminar la relación que tenemos con ese usuario: éxito"
-				);
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(false);
 				}
 			} catch (error) {
-				console.log(
-					"Pedimos eliminar la relación que tenemos con ese usuario: error"
-				);
 				console.error(error);
 			}
 		} else {
 			try {
 				const response = await UserService.addFollowed(myId, id ?? "NoID");
-				console.log(
-					"Pedimos agregar la relación que tenemos con ese usuario: éxito"
-				);
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(true);
 				}
 			} catch (error) {
-				console.log(
-					"Pedimos agregar la relación que tenemos con ese usuario: error"
-				);
 				console.error(error);
 			}
 		}
 	};
 
 	const getActivity = async (activityId: string) => {
-		console.log("Obtenemos la actividad:", activityId);
 		ActivityService.getActivity(activityId)
 			.then((response) => {
-				console.log("Obtenemos la actividad: éxito");
 				setCurrentActivity(response.data);
-				console.log(response.data?.creatorActivity.uuid);
 			})
 			.catch((error) => {
 				navigate("*");

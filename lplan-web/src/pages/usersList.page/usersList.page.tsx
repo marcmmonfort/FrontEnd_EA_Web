@@ -5,6 +5,7 @@ import { User } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 
 // Fondo de pantalla personalizado ...
 import backgroundImage from "../../assets/images/background_4.jpg";
@@ -26,9 +27,6 @@ const UsersList = () => {
 	const isFollowingMode = mode === "following";
 	const isLikesMode = mode === "likes";
 
-	console.log(isFollowersMode);
-	console.log(isFollowingMode);
-	console.log(isLikesMode);
 	const title = isFollowersMode
 		? "Followers"
 		: isFollowingMode
@@ -39,10 +37,8 @@ const UsersList = () => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
 		if (userId) {
 			if (isFollowersMode || isFollowingMode) {
-				console.log("Entro donde no tenia que entrar");
 				loadUser();
 			} else {
-				console.log("Entra la publicación");
 				loadPublication();
 			}
 
@@ -56,10 +52,9 @@ const UsersList = () => {
 		try {
 			const response = await UserService.getPerson(userId ?? "NoID");
 			setCurrentUser(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
@@ -70,10 +65,9 @@ const UsersList = () => {
 				userId ?? "NoID"
 			);
 			setcurrentPublication(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
@@ -82,8 +76,6 @@ const UsersList = () => {
 		if (isFollowersMode) {
 			UserService.getFollowers(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					setUserList((prevUserList) => [...prevUserList, ...response.data]);
 				})
 				.catch((error) => {
@@ -92,8 +84,6 @@ const UsersList = () => {
 		} else if (isFollowingMode) {
 			UserService.getFollowed(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
 					setUserList((prevUserList) => [...prevUserList, ...response.data]);
 				})
 				.catch((error) => {
@@ -102,8 +92,6 @@ const UsersList = () => {
 		} else if (isLikesMode) {
 			PublicationService.getListLikes(userId, numPage.toString())
 				.then((response) => {
-					console.log(response);
-					console.log(response.data.likesPublication);
 					setUserList((prevUserList) => [
 						...prevUserList,
 						...response.data.likesPublication,
@@ -117,6 +105,41 @@ const UsersList = () => {
 
 	const handleLoadMore = () => {
 		setNumPage((prevNumPage) => prevNumPage + 1); // Aumentar el número de página al hacer clic en "Obtener más"
+	};
+
+	interface UserProfileProps {
+		user: {
+			nameUser: string;
+			surnameUser: string;
+			roleUser: string;
+		};
+	}
+	const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
+		if (user.roleUser === "business") {
+			return (
+				<p className="user-name">
+					{user.nameUser} {user.surnameUser} <FaBuilding />
+				</p>
+			);
+		} else if (user.roleUser === "admin") {
+			return (
+				<p className="user-name">
+					{user.nameUser} {user.surnameUser} <FaCog />
+				</p>
+			);
+		} else if (user.roleUser === "verified") {
+			return (
+				<p className="user-name">
+					{user.nameUser} {user.surnameUser} <FaShieldAlt />
+				</p>
+			);
+		} else {
+			return (
+				<p className="user-name">
+					{user.nameUser} {user.surnameUser} <FaUser />
+				</p>
+			);
+		}
 	};
 
 	return (
@@ -144,9 +167,7 @@ const UsersList = () => {
 											/>
 										)}
 										<div className="user__info">
-											<p className="user__name">
-												{user.nameUser} {user.surnameUser}
-											</p>
+											<UserProfile user={user}></UserProfile>
 											<p className="user__username">@{user.appUser}</p>
 										</div>
 									</div>

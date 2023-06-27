@@ -48,7 +48,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 		setPrivacy(newPrivacy);
 		setUser((prevUser) => ({ ...prevUser, privacyUser: newPrivacy }));
 	};
-	console.log(user);
+
 	// Handle para input tipo checkbox
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -60,7 +60,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = e.target;
 		setUser((prevUser) => ({ ...prevUser, [name]: value }));
-		console.log(user);
+
 		// Convertir el valor a una instancia de `Date`
 		const dateValue = name === "birthdateUser" ? new Date(value) : value;
 
@@ -70,12 +70,8 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		console.log(user);
 		AuthService.register(user)
 			.then((response: any) => {
-				console.log(user);
-				console.log(response);
-				console.log(response.status);
 				if (response.status === 200) {
 					Swal.fire({
 						position: "center",
@@ -118,7 +114,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 			})
 			.catch((error: any) => {
 				console.error("error: " + error);
-				console.log("error.response: " + error.response);
+				console.error("error.response: " + error.response);
 				switch (error.response.status) {
 					case 403:
 						Swal.fire({

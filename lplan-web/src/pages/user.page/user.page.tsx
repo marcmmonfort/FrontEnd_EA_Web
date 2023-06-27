@@ -12,12 +12,20 @@ import { useTranslation } from "react-i18next";
 import "./user.page.css";
 import { RatingsEntity } from "../../models/ratings.model";
 import { RatingsService } from "../../services/ratings.service";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
+import Calendar from "../../components/calendar/calendar.component";
+import { ActivityService } from "../../services/activity.service";
+import { ActivityEntity } from "../../models/activity.model";
 
 const UserProfile = () => {
 	const { userId } = useParams();
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [myId, setMyId] = useState("1234");
+	const [icon, setIcon] = useState(<FaBuilding />);
+	const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
+	const [date, setDate] = useState<Date>(new Date());
+	const [recargarCalendar, setRecargarCalendar] = useState(true);
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
@@ -29,11 +37,10 @@ const UserProfile = () => {
 
 		if (myUserId) {
 			setMyId(myUserId);
-			console.log("Obtenemos los datos del otro usuario");
+
 			// Obtenemos el usuario que estamos mostrando
 			getById();
 
-			console.log("Pedimos la relacion que tenemos con ese user");
 			//Obtenemos si es seguidor o no.
 			getRelation(myUserId);
 		}
@@ -44,27 +51,42 @@ const UserProfile = () => {
 	}, [hasRated, currentUser]);
 
 	const getById = async () => {
-		console.log("Obtenemos los datos del otro usuario:", userId);
 		try {
 			const response = await UserService.getPerson(userId ?? "NoID");
 			setCurrentUser(response.data);
-			console.log("Obtenemos los datos del otro usuario: exito");
+			if (response.data.roleUser === "business") {
+				setIcon(<FaBuilding />);
+			} else if (response.data.roleUser === "admin") {
+				setIcon(<FaCog />);
+			} else if (response.data.roleUser === "verified") {
+				setIcon(<FaShieldAlt />);
+			} else {
+				setIcon(<FaUser />);
+			}
+			const currentDate = new Date();
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			ActivityService.getMySchedule(userId ?? "NoID", dateAux)
+				.then((response) => {
+					setListActivities(response.data);
+				})
+				.catch((error) => {
+					navigate("*");
+				});
 		} catch (error) {
 			navigate("*");
-			console.log("Obtenemos los datos del otro usuario: mal");
+
 			console.error(error);
 		}
 	};
 
 	const getRelation = async (myUserId: string) => {
-		console.log("Pedimos la relacion que tenemos con ese user:", myUserId);
 		try {
 			const response = await UserService.isFollowed(myUserId, userId ?? "NoID");
-			console.log("Pedimos la relacion que tenemos con ese user:: exito");
-			console.log(response);
+
 			setIsFollowing(response.data);
 		} catch (error) {
-			console.log("Pedimos la relacion que tenemos con ese user:: mal");
+			console.error("Pedimos la relacion que tenemos con ese user:: mal");
 			navigate("*");
 			console.error(error);
 		}
@@ -72,37 +94,33 @@ const UserProfile = () => {
 
 	const handleFollow = async () => {
 		// Aquí implemento la lógica para seguir o dejar de seguir al usuario
-		console.log("Este usuario es seguir tuyo?:" + isFollowing);
+
 		if (isFollowing) {
 			try {
 				const response = await UserService.removeFollowed(
 					myId,
 					userId ?? "NoID"
 				);
-				console.log("Pedimos la relacion que tenemos con ese user:: exito");
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(false);
 				} else {
 					alert("Algo ha ido mal al borrar el followed");
 				}
 			} catch (error) {
-				console.log("Pedimos la relacion que tenemos con ese user:: mal");
 				navigate("*");
 				console.error(error);
 			}
 		} else {
 			try {
 				const response = await UserService.addFollowed(myId, userId ?? "NoID");
-				console.log("Pedimos la relacion que tenemos con ese user:: exito");
-				console.log(response);
+
 				if (response) {
 					setIsFollowing(true);
 				} else {
 					alert("Algo ha ido mal al añadir el followed");
 				}
 			} catch (error) {
-				console.log("Pedimos la relacion que tenemos con ese user:: mal");
 				navigate("*");
 				console.error(error);
 			}
@@ -157,7 +175,6 @@ const UserProfile = () => {
 			const listAllRatings = response.data;
 			setAllRatings(listAllRatings);
 
-			console.log("USUARIO RATED: " + JSON.stringify(currentUser));
 			if (currentUser) {
 				const ratedUserId = currentUser.uuid;
 
@@ -168,25 +185,20 @@ const UserProfile = () => {
 						rating.ratingType === "users"
 				);
 
-				console.log("---> ¿Va a entrar?");
 				if (userRating) {
-					console.log("---> ENTRA");
 					setCurrentRating(userRating);
 					setCurrentRatingId(userRating.uuid);
 					setCurrentRatingLength(userRating.idRaters.length);
 					setRatingAverage(userRating.ratingAverage);
 					setRaters(userRating.idRaters);
-					console.log("Average Rating: ", ratingAverage);
-					console.log("ID of the Raters: ", raters);
 				} else {
-					console.log("---> NO ENTRA");
-					console.log("There's no rating for this user: ", ratedUserId);
+					console.error("There's no rating for this user: ", ratedUserId);
 				}
 			} else {
-				console.log("---> NO ENCUENTRA USUARIO.");
+				console.error("---> NO ENCUENTRA USUARIO.");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -200,7 +212,7 @@ const UserProfile = () => {
 
 	const handleRating = async () => {
 		// Si nunca se ha votado ...
-		console.log("---> RATINGS ---> Current User Id: " + currentUser?.uuid);
+
 		if (!raters && currentUser?.uuid && myId && rate) {
 			try {
 				const newRating: RatingsEntity = {
@@ -210,9 +222,8 @@ const UserProfile = () => {
 					idRaters: [myId],
 				};
 				const response = await RatingsService.insertRating(newRating);
-				console.log("---> RATINGS ---> ¡Llega aquí!");
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		} else if (
 			raters &&
@@ -239,7 +250,7 @@ const UserProfile = () => {
 					updatedRating
 				);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		}
 		setHasRated(true);
@@ -247,13 +258,64 @@ const UserProfile = () => {
 
 	// - - - - - END of RATINGS - - - - -
 
+	const handlePreviousWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			if (userId) {
+				ActivityService.getMySchedule(userId, dateAux)
+					.then((response) => {
+						setListActivities(response.data);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+			setRecargarCalendar(true);
+		}, 500);
+	};
+
+	const handleNextWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			if (userId) {
+				ActivityService.getMySchedule(userId, dateAux)
+					.then((response) => {
+						setListActivities(response.data);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+			setRecargarCalendar(true);
+		}, 500);
+
+		//setDate(new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000));
+	};
+
 	return (
 		<div>
 			<Navbar />
 			<div className="user-profile">
 				{currentUser ? (
 					<div className="profile">
-						<h1 className="profile-user-name">{currentUser.appUser}</h1>
+						<h1 className="profile-user-name">
+							{currentUser.appUser}
+							{icon && <div>{icon}</div>}
+						</h1>
 						<div className="profile-image">
 							{currentUser.photoUser ? (
 								<img
@@ -334,6 +396,34 @@ const UserProfile = () => {
 								Rate with {rate} ☆
 							</button>
 						</div>
+					)}
+				</div>
+				<div className="calendar">
+					<div className="calendar-nav">
+						<button
+							className="calendar-nav-button"
+							onClick={handlePreviousWeek}
+						>
+							Previous Week
+						</button>
+						<button className="calendar-nav-button" onClick={handleNextWeek}>
+							Next Week
+						</button>
+					</div>
+					{recargarCalendar && (
+						<Calendar
+							activities={listActivities}
+							showWeekButton={false}
+							showDayButton={false}
+							showMonthButton={false}
+							showWeekChangeButtons={true}
+							editable={true}
+							selectedTimetable={"My Timetable"}
+							showAllDay={false}
+							userId={currentUser?.uuid || ""}
+							setRecargar={setRecargarCalendar}
+							initialDate={date}
+						/>
 					)}
 				</div>
 			</div>

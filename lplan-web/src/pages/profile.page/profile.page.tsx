@@ -14,8 +14,11 @@ import { Publication } from "../../models/publication.model";
 import { PublicationService } from "../../services/publication.service";
 import Filter from "bad-words";
 import ShareComponent from "../../components/share/share.component";
-import { RatingsService } from "../../services/ratings.service";
-import { RatingsEntity } from "../../models/ratings.model";
+import { CircleLoader } from "react-spinners";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
+import Calendar from "../../components/calendar/calendar.component";
+import { ActivityEntity } from "../../models/activity.model";
+import { ActivityService } from "../../services/activity.service";
 
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
@@ -32,91 +35,117 @@ const Profile = () => {
 	const [recargar, setRecargar] = useState<string>("");
 	const [currentPublicationIndex, setCurrentPublicationIndex] = useState(1);
 	const [showSharePopup, setShowSharePopup] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+	const [icon, setIcon] = useState(<FaBuilding />);
+	const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
+	const [date, setDate] = useState<Date>(new Date());
+	const [recargarCalendar, setRecargarCalendar] = useState(true);
 
 	useEffect(() => {
-		console.log("Estoy en el perfil");
-		const id = AuthService.getCurrentUser();
-		console.log(id);
-		if (id) {
-			setUserId(id);
-			UserService.getPerson(id)
-				.then((response) => {
-					console.log(response);
-					console.log(response.data);
-					if (response.data && response.data.descriptionUser) {
-						const customFilter = new Filter({ regex: /\*|\.|$/gi });
-						customFilter.addWords("idiota", "retrasado");
-
-						const filteredDescription = customFilter.clean(
-							response.data.descriptionUser
-						);
-						console.log(filteredDescription);
-
-						response.data.descriptionUser = filteredDescription;
-						setCurrentUser(response.data);
-					}
-
-					const audioDescription = AuthService.getAudioDescription();
-					// Leer el texto del usuario actual en voz alta al cargar la página
-					if (audioDescription === "si") {
-						const appUserToSpeech = `appUser: ${response.data.appUser}`;
-						speakText(appUserToSpeech);
-						setTimeout(() => {
-							const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
-							speakText(followersUserToSpeech);
-						}, 500);
-						setTimeout(() => {
-							const followingUserToSpeech = `followed by: ${response.data.followedUser.length}`;
-							speakText(followingUserToSpeech);
-						}, 500);
-						setTimeout(() => {
-							const followingUserToSpeech = `user name: ${response.data.nameUser}`;
-							speakText(followingUserToSpeech);
-						}, 500);
-						setTimeout(() => {
-							const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
-							speakText(descriptionToSpeech);
-						}, 500);
-					}
-					console.log("Estoy saliendo del Audio");
-				})
-				.catch((error) => {
-					navigate("*");
-				});
-		}
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
-		console.log(id);
-		if (userId) {
-			PublicationService.obtainOwnPosts(id)
-				.then((response) => {
-					const publications = response.data;
-					console.log(response);
-					if (publications.length != 0) {
-						const firstTransparentPublication = {
-							...publications[0],
-							photoPublication: [
-								"https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-							],
-						};
-						const lastTransparentPublication = {
-							...publications[0],
-							photoPublication: [
-								"https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-							],
-						};
-						// Publicación transparente al principio ...
-						publications.unshift(firstTransparentPublication);
-						// Publicación transparente al final ...
-						publications.push(lastTransparentPublication);
-					}
+		setTimeout(() => {
+			const id = AuthService.getCurrentUser();
+			if (id) {
+				setUserId(id);
+				UserService.getPerson(id)
+					.then((response) => {
+						if (response.data && response.data.descriptionUser) {
+							const customFilter = new Filter({ regex: /\*|\.|$/gi });
+							customFilter.addWords("idiota", "retrasado");
 
-					setListOwnPublications(publications);
-					setNumOwnPublications(publications.length);
-				})
-				.catch((error) => {
-					navigate("*");
-				});
-		}
+							const filteredDescription = customFilter.clean(
+								response.data.descriptionUser
+							);
+
+							response.data.descriptionUser = filteredDescription;
+							setCurrentUser(response.data);
+							if (response.data.roleUser === "business") {
+								setIcon(<FaBuilding />);
+							} else if (response.data.roleUser === "admin") {
+								setIcon(<FaCog />);
+							} else if (response.data.roleUser === "verified") {
+								setIcon(<FaShieldAlt />);
+							} else {
+								setIcon(<FaUser />);
+							}
+						}
+
+						const audioDescription = AuthService.getAudioDescription();
+						// Leer el texto del usuario actual en voz alta al cargar la página
+						if (audioDescription === "si") {
+							const pageToSpeech = "You are in your profile";
+							speakText(pageToSpeech);
+							setTimeout(() => {
+								const appUserToSpeech = `appUser: ${response.data.appUser}`;
+								speakText(appUserToSpeech);
+							}, 500);
+							setTimeout(() => {
+								const followersUserToSpeech = `followed by: ${response.data.followersUser.length}`;
+								speakText(followersUserToSpeech);
+							}, 500);
+							setTimeout(() => {
+								const followingUserToSpeech = `following by: ${response.data.followedUser.length}`;
+								speakText(followingUserToSpeech);
+							}, 500);
+							setTimeout(() => {
+								const followingUserToSpeech = `user name: ${response.data.nameUser}`;
+								speakText(followingUserToSpeech);
+							}, 500);
+							setTimeout(() => {
+								const descriptionToSpeech = `description: ${response.data.descriptionUser}`;
+								speakText(descriptionToSpeech);
+							}, 500);
+						}
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+
+			if (userId) {
+				PublicationService.obtainOwnPosts(id)
+					.then((response) => {
+						const publications = response.data;
+						if (publications.length != 0) {
+							const firstTransparentPublication = {
+								...publications[0],
+								photoPublication: [
+									"https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
+								],
+							};
+							const lastTransparentPublication = {
+								...publications[0],
+								photoPublication: [
+									"https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
+								],
+							};
+							// Publicación transparente al principio ...
+							publications.unshift(firstTransparentPublication);
+							// Publicación transparente al final ...
+							publications.push(lastTransparentPublication);
+						}
+
+						setListOwnPublications(publications);
+						setNumOwnPublications(publications.length);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+
+				const currentDate = new Date();
+				currentDate.setHours(0, 0, 0, 0);
+				const dateAux = currentDate.toString();
+				ActivityService.getMySchedule(id, dateAux)
+					.then((response) => {
+						setListActivities(response.data);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+
+			setIsLoading(false);
+		}, 1000);
 	}, [numPagePublication, recargar]);
 
 	// Función para leer el texto en voz alta
@@ -161,124 +190,215 @@ const Profile = () => {
 	const previousPublication = listOwnPublications[currentPublicationIndex - 1];
 	const nextPublication = listOwnPublications[currentPublicationIndex + 1];
 
+	const handlePreviousWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			ActivityService.getMySchedule(userId, dateAux)
+				.then((response) => {
+					setListActivities(response.data);
+				})
+				.catch((error) => {
+					navigate("*");
+				});
+			setRecargarCalendar(true);
+		}, 500);
+	};
+
+	const handleNextWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			ActivityService.getMySchedule(userId, dateAux)
+				.then((response) => {
+					setListActivities(response.data);
+				})
+				.catch((error) => {
+					navigate("*");
+				});
+			setRecargarCalendar(true);
+		}, 500);
+
+		//setDate(new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000));
+	};
+
 	return (
 		<div>
 			<Navbar />
-			<div className="titleContainer">
-				<h1 className="titleSection">{t("Profile")}</h1>
-			</div>
-			{showSharePopup ? (
-				<>
-					<ShareComponent
-						shareUrl={"http://147.83.7.158:5432/shared/profile/" + userId}
-						handleShare={handleShare}
-					/>
-					<button className="share_show_button" onClick={handleCloseSharePopup}>
-						Close
-					</button>
-				</>
+			{isLoading ? (
+				<CircleLoader color="#123abc" loading={isLoading} />
 			) : (
-				<button className="share_show_button" onClick={handleShare}>
-					Share
-				</button>
-			)}
-			<div className="profileContour">
-				{currentUser && (
-					<div className="profile-container">
-						<div className="profile">
-							<h1 className="profile-user-name">{currentUser.appUser}</h1>
-							<div className="profile-image">
-								<img
-									src={currentUser.photoUser}
-									alt="profile-img"
-									className="profile-img-card"
-								/>
-							</div>
-							<div className="profile-user-buttons">
-								<Link to="/profile/edituser" className="buttonProfile">
-									{t("EditProfile")}
-								</Link>
-								<Link to="/profile/settings" className="buttonProfile">
-									{t("Settings")}
-								</Link>
-							</div>
-							<div className="profile-stats">
-								<h1 className="profileTitleFollowers">{t("Followers")}</h1>
-								<h1 className="profile-stat-count">
-									<Link to={`/profile/userList/${userId}/followers`}>
-										{currentUser.followersUser?.length}
-									</Link>
-								</h1>
-								<h1 className="profileTitle">{t("Following")}</h1>
-								<h1 className="profile-stat-count">
-									<Link to={`/profile/userList/${userId}/following`}>
-										{currentUser.followedUser?.length}
-									</Link>
-								</h1>
-							</div>
-							<div className="profile-bio">
-								<h1 className="profileTitle">{t("Name")}</h1>
-								<p>
-									<span className="profile-real-name">
-										{currentUser.nameUser}
-									</span>
-								</p>
-								<h1 className="profileTitle">{t("Description")}</h1>
-								<p>{currentUser.descriptionUser}</p>
-							</div>
-							<div className="profile-album">
-								<div className="feed">
-									<div className="profile_post">
-										<div className="new_profile_post">
-											{currentPublication && (
-												<div>
-													<div className="row_pictures">
-														<button
-															className="new_button"
-															onClick={handlePreviousPublication}
-															disabled={currentPublicationIndex === 1}
-														>
-															<img
-																className="new_profile_post_image_L"
-																src={previousPublication.photoPublication[0]}
-															/>
-														</button>
-														<img
-															className="new_profile_post_image"
-															src={currentPublication.photoPublication[0]}
-														/>
-														<button
-															className="new_button"
-															onClick={handleNextPublication}
-															disabled={
-																currentPublicationIndex ===
-																listOwnPublications.length - 2
-															}
-														>
-															<img
-																className="new_profile_post_image_R"
-																src={nextPublication.photoPublication[0]}
-															/>
-														</button>
-													</div>
-													<p className="new_profile_post_text">
-														{currentPublication.textPublication}
-													</p>
-													<p className="new_profile_post_time">
-														{new Date(
-															currentPublication.createdAt
-														).toLocaleString()}
-													</p>
+				<div>
+					<div className="titleContainer">
+						<h1 className="titleSection">{t("Profile")}</h1>
+					</div>
+					{showSharePopup ? (
+						<>
+							<ShareComponent
+								shareUrl={"https://www.lplan.es:443/shared/profile/" + userId}
+								handleShare={handleShare}
+							/>
+							<button
+								className="share_show_button"
+								onClick={handleCloseSharePopup}
+							>
+								Close
+							</button>
+						</>
+					) : (
+						<button className="share_show_button" onClick={handleShare}>
+							Share
+						</button>
+					)}
+					<div className="profileContour">
+						{currentUser && (
+							<div className="profile-container">
+								<div className="profile">
+									<h1 className="profile-user-name">
+										{currentUser.appUser}
+										{icon && <div>{icon}</div>}
+									</h1>
+									<div className="profile-image">
+										<img
+											src={currentUser.photoUser}
+											alt="profile-img"
+											className="profile-img-card"
+										/>
+									</div>
+									<div className="profile-user-buttons">
+										<Link to="/profile/edituser" className="buttonProfile">
+											{t("EditProfile")}
+										</Link>
+										<Link to="/profile/settings" className="buttonProfile">
+											{t("Settings")}
+										</Link>
+									</div>
+									<div className="profile-stats">
+										<h1 className="profileTitleFollowers">{t("Followers")}</h1>
+										<h1 className="profile-stat-count">
+											<Link to={`/profile/userList/${userId}/followers`}>
+												{currentUser.followersUser?.length}
+											</Link>
+										</h1>
+										<h1 className="profileTitle">{t("Following")}</h1>
+										<h1 className="profile-stat-count">
+											<Link to={`/profile/userList/${userId}/following`}>
+												{currentUser.followedUser?.length}
+											</Link>
+										</h1>
+									</div>
+									<div className="profile-bio">
+										<h1 className="profileTitle">{t("Name")}</h1>
+										<p>
+											<span className="profile-real-name">
+												{currentUser.nameUser}
+											</span>
+										</p>
+										<h1 className="profileTitle">{t("Description")}</h1>
+										<p>{currentUser.descriptionUser}</p>
+									</div>
+									<div className="profile-album">
+										<div className="feed">
+											<div className="profile_post">
+												<div className="new_profile_post">
+													{currentPublication && (
+														<div>
+															<div className="row_pictures">
+																<button
+																	className="new_button"
+																	onClick={handlePreviousPublication}
+																	disabled={currentPublicationIndex === 1}
+																>
+																	<img
+																		className="new_profile_post_image_L"
+																		src={
+																			previousPublication.photoPublication[0]
+																		}
+																	/>
+																</button>
+																<img
+																	className="new_profile_post_image"
+																	src={currentPublication.photoPublication[0]}
+																/>
+																<button
+																	className="new_button"
+																	onClick={handleNextPublication}
+																	disabled={
+																		currentPublicationIndex ===
+																		listOwnPublications.length - 2
+																	}
+																>
+																	<img
+																		className="new_profile_post_image_R"
+																		src={nextPublication.photoPublication[0]}
+																	/>
+																</button>
+															</div>
+															<p className="new_profile_post_text">
+																{currentPublication.textPublication}
+															</p>
+															<p className="new_profile_post_time">
+																{new Date(
+																	currentPublication.createdAt
+																).toLocaleString()}
+															</p>
+														</div>
+													)}
 												</div>
-											)}
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+						)}
+
+						<div className="calendar">
+							<div className="calendar-nav">
+								<button
+									className="calendar-nav-button"
+									onClick={handlePreviousWeek}
+								>
+									Previous Week
+								</button>
+								<button
+									className="calendar-nav-button"
+									onClick={handleNextWeek}
+								>
+									Next Week
+								</button>
+							</div>
+							{recargarCalendar && (
+								<Calendar
+									activities={listActivities}
+									uuid={userId}
+									showWeekButton={false}
+									showDayButton={false}
+									showMonthButton={false}
+									showWeekChangeButtons={true}
+									editable={true}
+									selectedTimetable={"My Timetable"}
+									showAllDay={false}
+									userId={currentUser?.uuid || ""}
+									setRecargar={setRecargarCalendar}
+									initialDate={date}
+								/>
+							)}
 						</div>
 					</div>
-				)}
-			</div>
+				</div>
+			)}
 			<Footer />
 		</div>
 	);

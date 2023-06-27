@@ -2,8 +2,6 @@ import axios from "axios";
 
 import authHeader from "./authHeader.service";
 
-import { Location } from "../models/location.model";
-
 let API_URL = "";
 let API_URL_All = "";
 
@@ -34,7 +32,6 @@ export class LocationService {
 	//OK
 	static async searchLocations(searchQuery: string) {
 		try {
-			console.log("He entrado al servicio:" + searchQuery);
 			const response = await axios.get(API_URL + "/search/" + searchQuery, {
 				headers: authHeader(),
 			});

@@ -36,38 +36,50 @@ import Navbar from './components/navbar/navbar';
 
 
 function App() {
-  const handleRegister = async (authData: any) => {
-    // Aquí puedes enviar los datos del formulario a un servidor y procesar la respuesta
-    console.log('Datos del formulario de REGISTRO:', authData);
-  };
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {} } />} />
-          <Route path='register' element={<RegisterForm onSubmit={handleRegister}/>} />
-          <Route path="shared/:type/:id" element={<SharedContentPage />} />
-          
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/discovery" element={<Discovery />} />
-          <Route path="/user/:userId" element={<UserProfile />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/userList/:userId/:mode" element={<UsersList />} />
-          <Route path="/profile/settings" element={<SettingsPage/>}></Route>
-          <Route path="/profile/edituser" element={<EditUserPage/>}></Route>
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/calendarevents" element={<CalendarEvents />} />
-          <Route path="/map" element={<MapPage/>}></Route>
-          <Route path="/createActivity" element={<CreateActivity/>}></Route> 
-          <Route path='/activityloclist' element={<ActivitiesLocationList/>}></Route>         
-          <Route path="/stats" element={<UserStats/>}></Route>
-          <Route path='*' element={<PageNotFound />} />
-        </Routes>
-      </div>
-    </Router>
-  );
-};
+	const handleRegister = async (authData: any) => {
+		// Aquí puedes enviar los datos del formulario a un servidor y procesar la respuesta
+		console.warn("Datos del formulario de REGISTRO:", authData);
+	};
+	return (
+		<Router>
+			<div className="App">
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route
+						path="login"
+						// eslint-disable-next-line @typescript-eslint/no-empty-function
+						element={<LoginForm onSubmit={function (auth: Auth): void {}} />}
+					/>
+					<Route
+						path="register"
+						element={<RegisterForm onSubmit={handleRegister} />}
+					/>
+					<Route path="shared/:type/:id" element={<SharedContentPage />} />
+
+					<Route path="/feed" element={<Feed />} />
+					<Route path="/discovery" element={<Discovery />} />
+					<Route path="/user/:userId" element={<UserProfile />} />
+					<Route path="/profile" element={<Profile />} />
+					<Route
+						path="/profile/userList/:userId/:mode"
+						element={<UsersList />}
+					/>
+					<Route path="/profile/settings" element={<SettingsPage />}></Route>
+					<Route path="/profile/edituser" element={<EditUserPage />}></Route>
+					<Route path="/messages" element={<Messages />} />
+					<Route path="/calendarevents" element={<CalendarEvents />} />
+					<Route path="/map" element={<MapPage />}></Route>
+					<Route path="/createActivity" element={<CreateActivity />}></Route>
+					<Route
+						path="/activityloclist"
+						element={<ActivitiesLocationList />}
+					></Route>
+					<Route path="*" element={<PageNotFound />} />
+				</Routes>
+			</div>
+		</Router>
+	);
+}
 
 export default App;
 

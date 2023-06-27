@@ -66,6 +66,12 @@ const ActivitiesLocationList = () => {
 	>(new Map());
 
 	useEffect(() => {
+		const audioDescription = AuthService.getAudioDescription();
+		// Leer el texto del usuario actual en voz alta al cargar la página
+		if (audioDescription === "si") {
+			const pageToSpeech = "You are in discovery";
+			speakText(pageToSpeech);
+		}
 		const fetchUserProfilePhotos = async (): Promise<void> => {
 			const photos = new Map<string, string[]>();
 
@@ -93,6 +99,13 @@ const ActivitiesLocationList = () => {
 		fetchUserProfilePhotos();
 	}, [activities]);
 
+	// Función para leer el texto en voz alta
+	const speakText = (text: string) => {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en";
+		window.speechSynthesis.speak(utterance);
+	};
+
 	const handleGoToScreenUser = (uuid: string): void => {
 		navigate(`/user/${uuid}`);
 	};
@@ -110,7 +123,6 @@ const ActivitiesLocationList = () => {
 		);
 		if (clickedActivity) {
 			setSelectedActivity(clickedActivity);
-			console.log("clickedActivity", clickedActivity);
 		} else {
 			setSelectedActivity(null);
 		}
@@ -122,9 +134,7 @@ const ActivitiesLocationList = () => {
 	};
 
 	const handleAddToActivity = (isJoining: boolean) => {
-		console.log("handleAddToActivity");
 		if (selectedActivity) {
-			console.log(selectedActivity.uuid);
 			const activityIndex = activities.findIndex(
 				(activity) => activity.uuid === selectedActivity.uuid
 			);
@@ -137,13 +147,11 @@ const ActivitiesLocationList = () => {
 						...activityToUpdate.participantsActivity,
 						userId,
 					];
-					console.log("Joined Activity");
 				} else {
 					activityToUpdate.participantsActivity =
 						activityToUpdate.participantsActivity.filter(
 							(participantId) => participantId !== userId
 						);
-					console.log("Left Activity");
 				}
 
 				setSelectedActivity(activityToUpdate);

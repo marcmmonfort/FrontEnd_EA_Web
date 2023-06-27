@@ -30,7 +30,6 @@ export class UserService {
 	//OK
 	static async searchUsers(searchQuery: string) {
 		try {
-			console.log("He entrado al servicio:" + searchQuery);
 			const response = await axios.get(API_URL + "/search/" + searchQuery, {
 				headers: authHeader(),
 			});
@@ -140,11 +139,10 @@ export class UserService {
 	//OK
 	static async editUser(user: User) {
 		try {
-			console.log("Estamos en el editUser");
 			const response = await axios.put(API_URL + "/" + user.uuid, user, {
 				headers: authHeader(),
 			});
-			console.log("Recibimos respuesta" + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error editing user: ", error);
@@ -162,5 +160,19 @@ export class UserService {
         return axios.get(API_URL + 'admin', { headers: authHeader() });
       }
     */
+	}
+
+	static async disableUser(uuid: string | undefined) {
+		try {
+			const response = await axios.put(
+				API_URL + "/disable/this",
+				{ uuid: uuid },
+				{ headers: authHeader() }
+			);
+			return response;
+		} catch (error) {
+			console.error("Error getting followed:", error);
+			throw error;
+		}
 	}
 }

@@ -27,7 +27,7 @@ export class CommentService {
 					numPage,
 				{ headers: authHeader() }
 			);
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
@@ -41,7 +41,7 @@ export class CommentService {
 			const response = await axios.post(API_URL + "/add", comment, {
 				headers: authHeader(),
 			});
-			console.log("try response " + response);
+
 			return response;
 		} catch (error) {
 			console.error("Error during loading comments:", error);
