@@ -6,3 +6,69 @@
 @font-face { font-family: "Handodle"; src: url("../../assets/fonts/Handodle.ttf"); }
 @font-face { font-family: "Late"; src: url("../../assets/fonts/LateNights.ttf"); }
 
+.languageButton {
+    width: 100px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.yesNoButtonCD {
+    width: 50px !important;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.LanguageButtons {
+    margin-bottom: 42px;
+}
+
+.titleCD {
+    font-size: 18px;
+    font-family: 'SFNS';
+    color: #66fcf1 !important;
+    margin-top: 0px;
+}
+
+.commentsCD {
+    font-size: 12px;
+    font-family: 'SFNS';
+    color: white !important;
+    margin-top: -26px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 6px;
+}
+
+.commentsDehactivateCD {
+    font-size: 12px;
+    font-family: 'SFNS_Light';
+    color: yellow !important;
+    margin-top: -20px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 6px;
+}
+
+.rowTickCD {
+    display: flex;
+    flex-direction: row;
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    margin-top: -10px !important;
+}
+
+.tickCD{
+    margin-left: 0px !important;
+    width: 20px;
+}
+
+.settingsContainer {
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+}

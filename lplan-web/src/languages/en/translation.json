@@ -30,17 +30,17 @@
     "Name":"Name",
     "Description":"Description",
     "Loading":"Loading ...",
-    "ActivityDetails":"Activity details",
+    "ActivityDetails":"Activity Details",
     "Close":"Close",
     "Credits":"Credits to Brain Farm and © Dave / Neighbourhood Recordings 2019",
     "Locations":"Locations",
     "Date": "Date",
     "Creator": "Creator",
     "AudioDescription": "Audio Description",
-    "Enaudiodescription1": "Habilitate audio desciption for screen readers:",
-    "Enaudiodescription2": "Habilitate audio description",
-    "Vcontrol": "Voice control",
-    "EVcontrolforNavigation": "Habilitate voice control for navigation:",
-    "EVcontrol": "Habilitate voice control" 
+    "Enaudiodescription1": "Habilitate Audio Desciption for Screen Readers",
+    "Enaudiodescription2": "Habilitate Audio Description",
+    "Vcontrol": "Voice Control",
+    "EVcontrolforNavigation": "Habilitate Voice Control for Navigation",
+    "EVcontrol": "Habilitate Voice Control" 
 }
   

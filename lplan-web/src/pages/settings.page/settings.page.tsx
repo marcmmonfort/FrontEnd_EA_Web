@@ -102,34 +102,57 @@ const SettingsPage = () => {
 				</div>
 			</div>
 			<div className="settingsContainer">
-				<h2>{t("AudioDescription")}</h2>
-				<p>{t("Enaudiodescription1")}</p>
-				<label>
-					<input
-						type="checkbox"
-						checked={audioDescriptionEnabled}
-						onChange={handleToggleAudioDescription}
-					/>
-					{t("Enaudiodescription2")}
-				</label>
+				<h2 className="titleCD">{t("AudioDescription")}</h2>
+				<div className="rowTickCD">
+					<p className="commentsCD">{t("Enaudiodescription1")}</p>
+					<label>
+						<input
+							className="tickCD"
+							type="checkbox"
+							checked={audioDescriptionEnabled}
+							onChange={handleToggleAudioDescription}
+						/>
+					</label>
+				</div>
 			</div>
 			<div className="settingsContainer">
-				<h2>{t("Vcontrol")}</h2>
-				<p>{t("EVcontrolforNavigation")}</p>
-				<label>
-					<input
-						type="checkbox"
-						checked={voiceControlEnabled}
-						onChange={handleToggleVoiceControl}
-					/>
-					{t("EVcontrol")}
-				</label>
+				<h2 className="titleCD">{t("Vcontrol")}</h2>
+				<div className="rowTickCD">
+					<p className="commentsCD">{t("EVcontrolforNavigation")}</p>
+					<label>
+						<input
+							className="tickCD"
+							type="checkbox"
+							checked={voiceControlEnabled}
+							onChange={handleToggleVoiceControl}
+						/>
+					</label>
+				</div>
+			</div>
+			<div className="settingsContainer">
+				<h2 className="titleCD">Delete Account</h2>
+				<div className="rowTickCD">
+					<p className="commentsCD">Do you want to disable your account?</p>
+					<label>
+						<input
+							className="tickCD"
+							type="checkbox"
+							checked={disableAccountEnabled}
+							onChange={handleDisableAccount}
+						/>
+					</label>
+				</div>
 			</div>
 			{showConfirmationPopup && (
 				<div className="confirmationPopup">
-					<p>¿Estás seguro de que quieres deshabilitar tu cuenta?</p>
-					<button onClick={confirmDisableAccount}>Sí</button>
+					<p className="commentsDehactivateCD">
+						¿Estás seguro de que quieres deshabilitar tu cuenta?
+					</p>
+					<button className="yesNoButtonCD" onClick={confirmDisableAccount}>
+						Sí
+					</button>
 					<button
+						className="yesNoButtonCD"
 						onClick={() => {
 							setShowConfirmationPopup(false);
 							setDisableAccountEnabled(false);
@@ -139,17 +162,6 @@ const SettingsPage = () => {
 					</button>
 				</div>
 			)}
-			<div className="settingsContainer">
-				<h2>Delete Account</h2>
-				<p>Do you want to disable your account?</p>
-				<label>
-					<input
-						type="checkbox"
-						checked={disableAccountEnabled}
-						onChange={handleDisableAccount}
-					/>
-				</label>
-			</div>
 			<Footer />
 		</div>
 	);
