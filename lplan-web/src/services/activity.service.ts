@@ -128,4 +128,15 @@ export class ActivityService {
     }
   }
 
+  static async getActivitiesByMonthAndYear(myUserId: string, month: string, year: string){
+    try {
+      console.log(myUserId);
+      const response = await axios.get(API_URL + "activity/monthyear/" + myUserId + "/" + month + "/" + year, { headers: authHeader() });
+      return response;
+    } catch (error) {
+      console.error('Error during loading comments:', error);
+      throw error;
+    }
+  }
+
 }

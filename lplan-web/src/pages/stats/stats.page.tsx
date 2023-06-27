@@ -31,9 +31,16 @@ const UserStats = () => {
   const [numActivitiesWeek, setNumActivitiesWeek] = useState<number>(0);
   const [numActivitiesMonth, setNumActivitiesMonth] = useState<number>(0);
   const [chartData, setChartData] = useState<ChartData<"bar", number[], unknown> | null>(null);
+  const [chartData2, setChartData2] = useState<ChartData<"bar", number[], unknown> | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<string>('0');
+  const [selectedYear, setSelectedYear] = useState<string>('0');
   const [options, setOptions] = useState({});
+  const [recargar, setRecargar] = useState<boolean>(false);
   const navigate = useNavigate();
   const {t} = useTranslation();
+
+  
+
 
   useEffect(() => {
       document.body.style.backgroundImage = `url(${backgroundImage})`;
@@ -47,6 +54,12 @@ const UserStats = () => {
         console.log("Obtenemos los datos del otro usuario");
         //Obtenemos el usuario
         getById(myUserId);
+
+        const currentMonth = currentDate.getMonth().toString();
+        const currentYear = currentDate.getFullYear().toString();
+        
+        setSelectedMonth(currentMonth);
+        setSelectedYear(currentYear);
 
         const fetchActivitiesParticipated = async () => {
             try {
@@ -95,8 +108,6 @@ const UserStats = () => {
               setChartData(dataChart);
               setOptions(optionsChart);
 
-
-
             } catch (error) {
               console.error('Error al obtener las actividades participadas:', error);
             }
@@ -108,18 +119,22 @@ const UserStats = () => {
 
 
     const getById = async (myUserId: string) => {
+      if (myUserId) {
         console.log("Obtenemos los datos del otro usuario:", myUserId);
         try {
-            const response = await UserService.getPerson(myUserId ?? 'NoID');
-            setCurrentUser(response.data);
-            console.log("Obtenemos los datos del otro usuario: exito");
+          const response = await UserService.getPerson(myUserId);
+          setCurrentUser(response.data);
+          console.log("Obtenemos los datos del otro usuario: exito");
         } catch (error) {
-            navigate("*");
-            console.log("Obtenemos los datos del otro usuario: mal");
-            console.error(error);
-
+          navigate("*");
+          console.log("Obtenemos los datos del otro usuario: mal");
+          console.error(error);
         }
+      } else {
+        navigate("*");
+      }
     };
+    
 
     const activitiesParticipated = async(myUserId: string) => {
         const response = await ActivityService.getAllActivitiesParticipatedByUser(myUserId);
@@ -189,6 +204,51 @@ const UserStats = () => {
         return days;
     }
 
+    useEffect(() => {
+      const myUserId = AuthService.getCurrentUser();
+      if(myUserId){
+        const fetchActivitiesByMonthAndYear = async () => {
+          try {
+            const response = await ActivityService.getActivitiesByMonthAndYear(myUserId, selectedMonth, selectedYear);
+            console.log(response.data);
+    
+            const dataChart2 = {
+              labels: ['1st week', '2nd week', '3rd week', '4th week'],
+              datasets: [
+                {
+                  label: 'Activities Participated',
+                  data: response.data,
+                  backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1,
+                },
+              ],
+            };
+    
+            setChartData2(dataChart2);
+          } catch (error) {
+            console.error('Error al obtener las actividades por mes y año:', error);
+          }
+        };
+        fetchActivitiesByMonthAndYear();
+      }
+    }, [recargar]);
+  
+    
+    const handleMonthSelect = (month: string) => {
+      setSelectedMonth(month);
+    };
+    
+    const handleYearSelect = (year: string) => {
+      setSelectedYear(year);
+    };
+    
+    const handleMonthSubmit = () => {
+      setRecargar(prevState => !prevState);
+    };
+
+    
+
 
     return (
         <div>
@@ -220,8 +280,40 @@ const UserStats = () => {
                                     <Bar data={chartData} options={options}/>
                                 </div>
                             )}
+                            <div className="selectMonthContainer">
+                              <select onChange={(e) => handleMonthSelect(e.target.value)}>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                              </select>
+                              <select onChange={(e) => handleYearSelect(e.target.value)}>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                              </select>
+                              <button onClick={() => handleMonthSubmit()}>Select</button>
+                            </div>
+                              {chartData2 && (
+                                <div className="chart-container">
+                                  <h2 className="chart-title">Activities Participated in {selectedMonth}/{selectedYear}</h2>
+                                  <Bar data={chartData2} options={options} />
+                                </div>
+                              )}
+
+                          </div>
                         </div>
-                    </div>
+                    
                 ) : (
                     <p>{t("Loading")}</p>
                 )}
