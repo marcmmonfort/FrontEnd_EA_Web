@@ -268,10 +268,10 @@ const Profile = () => {
 						{currentUser && (
 							<div className="profile-container">
 								<div className="profile">
-									<h1 className="profile-user-name">
-										{currentUser.appUser}
-										{icon && <div>{icon}</div>}
-									</h1>
+									<div className="userNameProfile">
+										{icon && <div className="typeUserIcon">{icon}</div>}
+										<h1 className="profile-user-name">{currentUser.appUser}</h1>
+									</div>
 									<div className="profile-image">
 										<img
 											src={currentUser.photoUser}
@@ -285,6 +285,9 @@ const Profile = () => {
 										</Link>
 										<Link to="/profile/settings" className="buttonProfile">
 											{t("Settings")}
+										</Link>
+										<Link to="/stats" className="buttonProfile">
+											{t("Stats")}
 										</Link>
 									</div>
 									<div className="profile-stats">

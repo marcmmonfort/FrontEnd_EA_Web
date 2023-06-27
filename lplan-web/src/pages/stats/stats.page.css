@@ -1,0 +1,33 @@
+.chart-title {
+    font-size: 16px !important;
+    color: yellow;
+}
+
+.selectMonthContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.monthYearSelector {
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+
+.selectMonthContainer {
+    align-items: center !important;
+    align-content: center !important;
+    text-align: center !important;
+}
+
+.barStyle {
+    width: 10%;
+    height: 400px;
+    background-color: #66fcf1;
+    color: black;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}

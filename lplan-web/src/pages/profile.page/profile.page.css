@@ -55,12 +55,18 @@
     cursor: pointer;
     text-align: center;
     z-index: 1;
-    margin-bottom: 80;
+    margin-bottom: 20px !important;
     margin-top: 0 !important;
  }
 
   .share_show_button:hover{
     outline: none !important;
+  }
+
+  .calendar-nav-button{
+    margin-top: 0px !important;
+    width: 140px;
+    margin-bottom: 30px;
   }
 
  .new_button {
@@ -85,9 +91,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: -40px !important;
   }
 
-  /* USERNAME + ANIMATION */
+  .typeUserIcon{
+    color: white;
+    margin-top: 28px;
+    margin-right: 6px;
+  }
 
   .profile-user-name {
     color: white;
@@ -341,6 +352,10 @@
   }
 
   .row_pictures{
+    display: flex;
+  }
+
+  .userNameProfile{
     display: flex;
   }
 
