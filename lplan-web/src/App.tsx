@@ -7,34 +7,30 @@ import {
 } from "react-router-dom";
 
 // Import of Pages ...
-import Home from './pages/home.page/home.page';
-import LoginForm from './pages/login.page/login.page';
-import RegisterForm from './pages/register.page/register.page';
-import Feed from './pages/feed.page/feed.page';
-import Discovery from './pages/discovery.page/discovery.page';
-import UserProfile from './pages/user.page/user.page';
-import Messages from './pages/messages.page/messages.page';
-import CalendarEvents from './pages/calendarevents.page/calendarevents.page';
-import Profile from './pages/profile.page/profile.page';
-import PageNotFound from './pages/pagenotfound.page/pagenotfound.page';
-import SettingsPage from './pages/settings.page/settings.page';
-import EditUserPage from './pages/edituser.page/edituser.page';
-import UsersList from './pages/usersList.page/usersList.page';
-import MapPage from './pages/map.page/map.page';
-import CreateActivity from './pages/activity/createActivity.page';
-import ActivitiesLocationList from './pages/listActivityByLocation/list.activity.page';
-import SharedContentPage from './pages/share.page/share.page';
-import UserStats from './pages/stats/stats.page';
+import Home from "./pages/home.page/home.page";
+import LoginForm from "./pages/login.page/login.page";
+import RegisterForm from "./pages/register.page/register.page";
+import Feed from "./pages/feed.page/feed.page";
+import Discovery from "./pages/discovery.page/discovery.page";
+import UserProfile from "./pages/user.page/user.page";
+import Messages from "./pages/messages.page/messages.page";
+import CalendarEvents from "./pages/calendarevents.page/calendarevents.page";
+import Profile from "./pages/profile.page/profile.page";
+import PageNotFound from "./pages/pagenotfound.page/pagenotfound.page";
+import SettingsPage from "./pages/settings.page/settings.page";
+import EditUserPage from "./pages/edituser.page/edituser.page";
+import UsersList from "./pages/usersList.page/usersList.page";
+import MapPage from "./pages/map.page/map.page";
+import CreateActivity from "./pages/activity/createActivity.page";
+import ActivitiesLocationList from "./pages/listActivityByLocation/list.activity.page";
+import SharedContentPage from "./pages/share.page/share.page";
+import UserStats from "./pages/stats/stats.page";
 
 // Import of Components ...
-import Footer from './components/footer/footer';
-import { Auth } from './models/auth.model';
-import './App.css';
-import Navbar from './components/navbar/navbar';
-
-
-
-
+import Footer from "./components/footer/footer";
+import { Auth } from "./models/auth.model";
+import "./App.css";
+import Navbar from "./components/navbar/navbar";
 
 function App() {
 	const handleRegister = async (authData: any) => {
@@ -70,7 +66,7 @@ function App() {
 					<Route path="/messages" element={<Messages />} />
 					<Route path="/calendarevents" element={<CalendarEvents />} />
 					<Route path="/map" element={<MapPage />}></Route>
-					<Route path="/stats" element={<UserStats/>}></Route>
+					<Route path="/stats" element={<UserStats />}></Route>
 					<Route path="/createActivity" element={<CreateActivity />}></Route>
 					<Route
 						path="/activityloclist"

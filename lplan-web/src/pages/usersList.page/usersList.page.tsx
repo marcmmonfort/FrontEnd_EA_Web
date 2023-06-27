@@ -146,7 +146,9 @@ const UsersList = () => {
 		<div>
 			<Navbar />
 			<div className="cardsUsers">
-				<h1 className="usersTitle">{title}</h1>
+				<div className="titleContainer">
+					<h1 className="titleSection">{title}</h1>
+				</div>
 				{userList.length > 0 ? (
 					<ul>
 						{userList.map((user: User) => (

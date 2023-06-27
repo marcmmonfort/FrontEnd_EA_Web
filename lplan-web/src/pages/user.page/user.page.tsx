@@ -312,10 +312,10 @@ const UserProfile = () => {
 			<div className="user-profile">
 				{currentUser ? (
 					<div className="profile">
-						<h1 className="profile-user-name">
-							{currentUser.appUser}
-							{icon && <div>{icon}</div>}
-						</h1>
+						<div className="userNameProfile">
+							{icon && <div className="typeUserIcon">{icon}</div>}
+							<h1 className="profile-user-name">{currentUser.appUser}</h1>
+						</div>
 						<div className="profile-image">
 							{currentUser.photoUser ? (
 								<img
@@ -398,34 +398,31 @@ const UserProfile = () => {
 						</div>
 					)}
 				</div>
-				<div className="calendar">
-					<div className="calendar-nav">
-						<button
-							className="calendar-nav-button"
-							onClick={handlePreviousWeek}
-						>
-							Previous Week
-						</button>
-						<button className="calendar-nav-button" onClick={handleNextWeek}>
-							Next Week
-						</button>
-					</div>
-					{recargarCalendar && (
-						<Calendar
-							activities={listActivities}
-							showWeekButton={false}
-							showDayButton={false}
-							showMonthButton={false}
-							showWeekChangeButtons={true}
-							editable={true}
-							selectedTimetable={"My Timetable"}
-							showAllDay={false}
-							userId={currentUser?.uuid || ""}
-							setRecargar={setRecargarCalendar}
-							initialDate={date}
-						/>
-					)}
+			</div>
+			<div className="calendar">
+				<div className="calendar-nav">
+					<button className="calendar-nav-button" onClick={handlePreviousWeek}>
+						Previous Week
+					</button>
+					<button className="calendar-nav-button" onClick={handleNextWeek}>
+						Next Week
+					</button>
 				</div>
+				{recargarCalendar && (
+					<Calendar
+						activities={listActivities}
+						showWeekButton={false}
+						showDayButton={false}
+						showMonthButton={false}
+						showWeekChangeButtons={true}
+						editable={true}
+						selectedTimetable={"My Timetable"}
+						showAllDay={false}
+						userId={currentUser?.uuid || ""}
+						setRecargar={setRecargarCalendar}
+						initialDate={date}
+					/>
+				)}
 			</div>
 			<Footer />
 		</div>

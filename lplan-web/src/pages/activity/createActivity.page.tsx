@@ -249,6 +249,7 @@ const CreateActivity = () => {
 						</select>
 						<label className="hourMinuteLabel">min.</label>
 					</div>
+
 					<input
 						className="checkboxCreateActivity"
 						type="checkbox"
@@ -257,10 +258,10 @@ const CreateActivity = () => {
 						onChange={handleInputChange}
 					/>
 				</div>
+				<button className="buttonCreateActivity" type="submit">
+					{t("Create")}
+				</button>
 			</form>
-			<button className="buttonCreateActivity" type="submit">
-				{t("Create")}
-			</button>
 			<Footer />
 		</div>
 	);

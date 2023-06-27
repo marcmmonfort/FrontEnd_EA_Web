@@ -247,6 +247,7 @@ const MapPage = () => {
 			<div>
 				<div className="search-container">
 					<input
+						className="input_location_style"
 						type="text"
 						placeholder="Location"
 						value={searchValue}
