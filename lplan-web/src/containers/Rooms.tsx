@@ -1,35 +1,27 @@
 import { useRef } from "react";
-import EVENTS from "../context/events";
 import { useSockets } from "../context/socket.context";
 import styles from "../styles/Room.module.css";
-import React from 'react';
-
-type Room = {
-  name: string;
-};
-
-type Rooms = {
-  [key: string]: Room;
-};
+import React from "react";
 
 function RoomsContainer() {
   const { socket, roomId, rooms } = useSockets();
   const newRoomRef = useRef<any>(null);
 
   function handleCreateRoom() {
-    const roomName = newRoomRef.current?.value || "";
+    const roomName = newRoomRef.current.value || "";
 
-    if (!String(roomName).trim()) return;
+    if (!roomName.trim()) return;
 
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
-
-    newRoomRef.current!.value = "";
+    socket.emit("create-room", roomName);
+    console.log('Rooms:', rooms);
+    console.log('RoomID:', roomId);
+    newRoomRef.current.value = "";
   }
 
   function handleJoinRoom(key: string) {
     if (key === roomId) return;
 
-    socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+    socket.emit("join-room", key);
   }
 
   return (
@@ -42,7 +34,8 @@ function RoomsContainer() {
       </div>
 
       <ul className={styles.roomList}>
-        {Object.keys(rooms).map((key: string) => {
+        {Object.keys(rooms).map((key) => {
+          console.log("Room Name:", rooms[key].name);
           return (
             <div key={key}>
               <button

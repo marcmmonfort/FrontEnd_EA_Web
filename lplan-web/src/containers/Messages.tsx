@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import EVENTS from "../context/events";
 import { useSockets } from "../context/socket.context";
-import styles from "../styles/Messages.module.css";
+import styles from "../styles/Message.module.css"
 import React from 'react';
 
 function MessagesContainer() {
@@ -21,7 +21,7 @@ function MessagesContainer() {
     const date = new Date();
 
     setMessages([
-      ...messages,
+      ...(messages || []),
       {
         username: "You",
         message,
@@ -43,7 +43,7 @@ function MessagesContainer() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.messageList}>
-        {messages.map(({ message, username, time }, index) => {
+        {messages?.map(({ message, username, time }, index) => {
           return (
             <div key={index} className={styles.message}>
               <div key={index} className={styles.messageInner}>

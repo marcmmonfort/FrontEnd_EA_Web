@@ -23,6 +23,7 @@ import Footer from './components/footer/footer';
 import { Auth } from './models/auth.model';
 import './App.css';
 import Navbar from './components/navbar/navbar';
+import Chat from './pages/chat/chat.page';
 
 
 
@@ -39,7 +40,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='login' element={<LoginForm onSubmit={function (auth: Auth): void {} } />} />
           <Route path='register' element={<RegisterForm onSubmit={handleRegister}/>} />
-          
+          <Route path="/chat" element={<Chat/>}/>
           <Route path="/feed" element={<Feed />} />
           <Route path="/discovery" element={<Discovery />} />
           <Route path="/user/:userId" element={<UserProfile />} />

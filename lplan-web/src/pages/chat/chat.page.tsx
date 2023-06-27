@@ -1,32 +1,41 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Chat.module.css"
 import { useSockets } from "../../context/socket.context";
 import RoomsContainer from "../../containers/Rooms";
 import MessagesContainer from "../../containers/Messages";
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useEffect, useRef } from "react";
+import { User } from "../../models/user.model";
+import { AuthService } from "../../services/auth.service";
 
-export default function Home() {
-  const { socket, username, setUsername } = useSockets();
+export default function Chat() {
+  //const { socket,username, setUsername } = useSockets();
+  const { socket } = useSockets();
   const usernameRef = useRef<any>(null);
+  const [username, setUsername] = useState<User | null>(null);
+  //const [userId, setUserId] = useState<string>("hola");
 
   function handleSetUsername() {
     const value = usernameRef.current.value;
+    console.log("Value:  "+value)
     if (!value) {
       return;
     }
+    setUsername(value);
 
-    //setUsername(value);
+    //setUsername();
 
     localStorage.setItem("username", value);
   }
+  console.log("username:  "+username)
 
   useEffect(() => {
     if (usernameRef)
       usernameRef.current.value = localStorage.getItem("username") || "";
   }, []);
+  
 
   return (
     <div>
