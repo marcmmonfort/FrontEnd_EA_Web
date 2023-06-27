@@ -223,35 +223,33 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 	return (
 		<div className="modal">
 			<div className={`modal-content${isShareClicked ? " share-clicked" : ""}`}>
-				<h2>{t("ActivityDetails")}</h2>
-				<p>
-					{t("Name")}: {activity.nameActivity}
-				</p>
-				<p>
-					{t("Date")}:{" "}
+				<div className="titleContainer_Calendar">
+					<h1 className="titleSection_modal">{t("ActivityDetails")}</h1>
+				</div>
+				<p className="AD_Title">{t("Name")}</p>
+				<p className="AD_Text">{activity.nameActivity}</p>
+				<p className="AD_Title">{t("Date")}</p>
+				<p className="AD_Text">
 					{new Date(activity.dateActivity).toISOString().substr(0, 10)}
 				</p>
-				<p>
-					{t("Description")}: {activity.descriptionActivity}
-				</p>
+				<p className="AD_Title">{t("Description")}</p>
+				<p className="AD_Text">{activity.descriptionActivity}</p>
 				{creatorUser && (
-					<Link to={`/user/${creatorUser.uuid}`} className="user-link">
-						<div className="post__header">
-							<img
-								className="post__profile-img"
-								src={`${creatorUser.photoUser}`}
-								alt="Profile"
-							/>
-							<div className="post__info">
-								<p className="post__username_header">
-									{t("Creator")}: {creatorAppName}
-								</p>
-							</div>
+					<Link to={`/user/${creatorUser.uuid}`} className="user-link-modal">
+						<img
+							className="post__profile-img-modal"
+							src={`${creatorUser.photoUser}`}
+							alt="Profile"
+						/>
+						<div className="post__info">
+							<p className="post__username_header-modal">
+								Created by @{creatorAppName}
+							</p>
 						</div>
 					</Link>
 				)}
 
-				<h2>Valoració</h2>
+				<h2 className="AD_Subtitle">Rating</h2>
 				<h2 className="stars_amount">
 					{ratingAverage ? `☆ ${ratingAverage.toFixed(2)}` : "Not Rated"}
 				</h2>
@@ -286,8 +284,8 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 					</div>
 				)}
 
-				<p>
-					Participantes:
+				<h2 className="AD_Subtitle">Participants</h2>
+				<div className="row_participants_activity">
 					{fotoParticipantes &&
 						fotoParticipantes.map((participant, index) => {
 							if (id === participant.uuid) {
@@ -297,7 +295,7 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 											<img
 												src={participant.photoUser}
 												alt={participant.nameUser}
-												className="user__profile-img"
+												className="user__profile-img-modal"
 											/>
 										</div>
 									</Link>
@@ -306,21 +304,21 @@ const ActivityDetailsModal: React.FC<ActivityDetailsModalProps> = ({
 								return (
 									<Link
 										to={`/user/${participant.uuid}`}
-										className="user-link"
+										className="user-link-modal"
 										key={index}
 									>
 										<div>
 											<img
 												src={participant.photoUser}
 												alt={participant.nameUser}
-												className="user__profile-img"
+												className="user__profile-img-modal"
 											/>
 										</div>
 									</Link>
 								);
 							}
 						})}
-				</p>
+				</div>
 
 				<button onClick={onClose}>{t("Close")}</button>
 				{showJoinButton && (

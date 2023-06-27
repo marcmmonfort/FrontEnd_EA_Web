@@ -105,13 +105,13 @@ const Calendar: React.FC<CalendarProps> = ({
 
 		let color;
 		if (activity.roleActivity === "verificado") {
-			color = "green"; // Color para el rol "verificado"
+			color = "#cc1e4a"; // Color para el rol "verificado"
 		} else if (activity.roleActivity === "common") {
-			color = "blue"; // Color para el rol "common"
+			color = "#004c6c"; // Color para el rol "common"
 		} else if (activity.roleActivity === "empresa") {
-			color = "orange"; // Color para el rol "empresa"
+			color = "#121f45"; // Color para el rol "empresa"
 		} else {
-			color = "gray"; // Color predeterminado para otros roles no especificados
+			color = "#202a2f"; // Color predeterminado para otros roles no especificados
 		}
 
 		return {
