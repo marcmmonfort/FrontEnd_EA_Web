@@ -120,12 +120,8 @@ const Navbar = () => {
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
 			<nav className={showMenu ? "open" : ""}>
-				<Link to="/messages" className="logout-link">
-					<FontAwesomeIcon className="logout-link" icon={faBell} />
-				</Link>
 				<Link to="/feed">{t("Feed")}</Link>
 				<Link to="/discovery">{t("Discovery")}</Link>
-				<Link to="/messages">{t("Messages")}</Link>
 				<Link to="/calendarevents">{t("Calendar")}</Link>
 				<Link to="/map">{t("Locations")}</Link>
 				<Link to="/profile">

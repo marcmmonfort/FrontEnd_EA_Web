@@ -9,6 +9,11 @@ body {
     display: inline-block;
     margin-right: 10px;
     text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .Demo__container{
+    margin-bottom: 14px;
   }
   
   .Demo__some-network__share-count {
@@ -17,8 +22,12 @@ body {
     white-space: nowrap;
     overflow: visible;
     width: 0;
-    margin-top: 3px;
+    margin-top: 0px;
     font-size: 12px;
+  }
+
+  .inputDescriptionShare{
+    margin-bottom: 28px !important;
   }
   
   .Demo__some-network__share-button {
@@ -32,4 +41,8 @@ body {
   .Demo__some-network__custom-icon {
     width:32px;
     height:32px;
+  }
+
+  .inputeDescription{
+    margin-bottom: 28px !important;
   }

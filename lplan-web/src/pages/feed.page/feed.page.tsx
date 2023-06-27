@@ -453,7 +453,9 @@ const Feed = () => {
 		<div>
 			<Navbar />
 			{isLoading ? (
-				<CircleLoader color="#123abc" loading={isLoading} />
+				<div className="loaderContainer">
+					<CircleLoader size="120" color="#66fcf1" loading={isLoading} />
+				</div>
 			) : (
 				<div>
 					<div className="titleContainer">

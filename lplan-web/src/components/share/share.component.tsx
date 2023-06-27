@@ -72,10 +72,10 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 		<div className="Demo__container">
 			<div className="popup-container">
 				<div className="popup-content">
-					<h2>Share with your colleagues!!!</h2>
 					<input
+						className="inputDescriptionShare"
 						type="text"
-						placeholder="Introduce a description"
+						placeholder="Introduce a Description"
 						value={title}
 						onChange={handleTitleChange}
 					/>
@@ -153,13 +153,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<PinterestIcon size={32} round />
 						</PinterestShareButton>
-
-						<div>
-							<PinterestShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 
 					<div className="Demo__some-network">
@@ -170,13 +163,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<VKIcon size={32} round />
 						</VKShareButton>
-
-						<div>
-							<VKShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 
 					<div className="Demo__some-network">
@@ -187,13 +173,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<OKIcon size={32} round />
 						</OKShareButton>
-
-						<div>
-							<OKShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 
 					<div className="Demo__some-network">
@@ -206,13 +185,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<RedditIcon size={32} round />
 						</RedditShareButton>
-
-						<div>
-							<RedditShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 
 					<div className="Demo__some-network">
@@ -223,13 +195,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<TumblrIcon size={32} round />
 						</TumblrShareButton>
-
-						<div>
-							<TumblrShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 
 					<div className="Demo__some-network">
@@ -334,13 +299,6 @@ const ShareComponent = ({ shareUrl, handleShare }: ShareComponentProps) => {
 						>
 							<HatenaIcon size={32} round />
 						</HatenaShareButton>
-
-						<div>
-							<HatenaShareCount
-								url={shareUrl}
-								className="Demo__some-network__share-count"
-							/>
-						</div>
 					</div>
 				</div>
 			</div>
