@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Component } from "react";
 import { User } from "../../models/user.model";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+
 document.body.style.backgroundImage = `url(${backgroundImage})`;
 
 const lngs: any = {
