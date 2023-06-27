@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -12,7 +12,7 @@ import { ActivityService } from "../../services/activity.service";
 
 interface CalendarProps {
 	activities: ActivityEntity[];
-	uuid: string;
+	uuid?: string;
 	showWeekButton: boolean;
 	showDayButton: boolean;
 	showMonthButton: boolean;
@@ -21,8 +21,8 @@ interface CalendarProps {
 	editable: boolean;
 	showAllDay: boolean;
 	userId: string; // ID del usuario actual
-	recargar: boolean; // Pasa el estado recargar como prop
 	setRecargar: React.Dispatch<React.SetStateAction<boolean>>;
+	initialDate: Date;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -34,8 +34,8 @@ const Calendar: React.FC<CalendarProps> = ({
 	selectedTimetable,
 	showAllDay,
 	userId,
-	recargar,
 	setRecargar,
+	initialDate,
 }) => {
 	const [selectedActivity, setSelectedActivity] =
 		useState<ActivityEntity | null>(null);
@@ -65,13 +65,11 @@ const Calendar: React.FC<CalendarProps> = ({
 						...activityToUpdate.participantsActivity,
 						userId,
 					];
-					console.warn("Joined Activity");
 				} else {
 					activityToUpdate.participantsActivity =
 						activityToUpdate.participantsActivity.filter(
 							(participantId) => participantId !== userId
 						);
-					console.error("Left Activity");
 				}
 
 				setSelectedActivity(activityToUpdate);
@@ -94,12 +92,27 @@ const Calendar: React.FC<CalendarProps> = ({
 	};
 
 	const adjustedActivities = activities.map((activity) => {
-		const startHour = activity.hoursActivity[0];
-		const endHour = activity.hoursActivity[1];
+		const startHourParts = activity.hoursActivity[0].split(":");
+		const endHourParts = activity.hoursActivity[1].split(":");
+		const startHour = parseInt(startHourParts[0]);
+		const startMinute = parseInt(startHourParts[1]);
+		const endHour = parseInt(endHourParts[0]);
+		const endMinute = parseInt(endHourParts[1]);
 		const startDate = new Date(activity.dateActivity);
-		startDate.setHours(parseInt(startHour), 0, 0);
+		startDate.setHours(startHour, startMinute, 0, 0);
 		const endDate = new Date(activity.dateActivity);
-		endDate.setHours(parseInt(endHour), 0, 0);
+		endDate.setHours(endHour, endMinute, 0, 0);
+
+		let color;
+		if (activity.roleActivity === "verificado") {
+			color = "green"; // Color para el rol "verificado"
+		} else if (activity.roleActivity === "common") {
+			color = "blue"; // Color para el rol "common"
+		} else if (activity.roleActivity === "empresa") {
+			color = "orange"; // Color para el rol "empresa"
+		} else {
+			color = "gray"; // Color predeterminado para otros roles no especificados
+		}
 
 		return {
 			id: activity.uuid,
@@ -107,6 +120,7 @@ const Calendar: React.FC<CalendarProps> = ({
 			start: startDate.toISOString(),
 			end: endDate.toISOString(),
 			allDay: false,
+			color: color,
 		};
 	});
 
@@ -117,6 +131,7 @@ const Calendar: React.FC<CalendarProps> = ({
 				initialView="timeGridWeek"
 				events={adjustedActivities}
 				eventClick={handleEventClick}
+				initialDate={initialDate}
 				customButtons={{}}
 				headerToolbar={{
 					left: "prev,next today",

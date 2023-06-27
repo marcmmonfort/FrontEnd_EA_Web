@@ -161,4 +161,18 @@ export class UserService {
       }
     */
 	}
+
+	static async disableUser(uuid: string | undefined) {
+		try {
+			const response = await axios.put(
+				API_URL + "/disable/this",
+				{ uuid: uuid },
+				{ headers: authHeader() }
+			);
+			return response;
+		} catch (error) {
+			console.error("Error getting followed:", error);
+			throw error;
+		}
+	}
 }

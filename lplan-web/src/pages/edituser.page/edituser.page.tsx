@@ -37,6 +37,12 @@ const EditUser = () => {
 	const { t } = useTranslation();
 
 	useEffect(() => {
+		const isAudioDescription = AuthService.getAudioDescription();
+		if (isAudioDescription === "si") {
+			const pageToSpeech = "You are in edit user page";
+			speakText(pageToSpeech);
+		}
+
 		const getUser = async () => {
 			const userId = AuthService.getCurrentUser();
 			if (userId) {
@@ -55,6 +61,13 @@ const EditUser = () => {
 		getUser();
 	}, []);
 
+	// Función para leer el texto en voz alta
+	const speakText = (text: string) => {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en";
+		window.speechSynthesis.speak(utterance);
+	};
+
 	const handlePrivacy = () => {
 		const newPrivacy = !privacy;
 		setPrivacy(newPrivacy);
@@ -72,7 +85,6 @@ const EditUser = () => {
 	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = e.target;
 		setUser((prevUser) => ({ ...prevUser, [name]: value }));
-
 		// Convertir el valor a una instancia de `Date`
 		const dateValue = name === "birthdateUser" ? new Date(value) : value;
 
@@ -107,7 +119,6 @@ const EditUser = () => {
 			})
 			.catch((error: any) => {
 				console.error(error);
-				console.error(error.response);
 				Swal.fire({
 					position: "center",
 					icon: "info",

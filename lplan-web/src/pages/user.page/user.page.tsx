@@ -12,12 +12,20 @@ import { useTranslation } from "react-i18next";
 import "./user.page.css";
 import { RatingsEntity } from "../../models/ratings.model";
 import { RatingsService } from "../../services/ratings.service";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
+import Calendar from "../../components/calendar/calendar.component";
+import { ActivityService } from "../../services/activity.service";
+import { ActivityEntity } from "../../models/activity.model";
 
 const UserProfile = () => {
 	const { userId } = useParams();
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [myId, setMyId] = useState("1234");
+	const [icon, setIcon] = useState(<FaBuilding />);
+	const [listActivities, setListActivities] = useState<ActivityEntity[]>([]);
+	const [date, setDate] = useState<Date>(new Date());
+	const [recargarCalendar, setRecargarCalendar] = useState(true);
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
@@ -46,6 +54,25 @@ const UserProfile = () => {
 		try {
 			const response = await UserService.getPerson(userId ?? "NoID");
 			setCurrentUser(response.data);
+			if (response.data.roleUser === "business") {
+				setIcon(<FaBuilding />);
+			} else if (response.data.roleUser === "admin") {
+				setIcon(<FaCog />);
+			} else if (response.data.roleUser === "verified") {
+				setIcon(<FaShieldAlt />);
+			} else {
+				setIcon(<FaUser />);
+			}
+			const currentDate = new Date();
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			ActivityService.getMySchedule(userId ?? "NoID", dateAux)
+				.then((response) => {
+					setListActivities(response.data);
+				})
+				.catch((error) => {
+					navigate("*");
+				});
 		} catch (error) {
 			navigate("*");
 
@@ -231,13 +258,64 @@ const UserProfile = () => {
 
 	// - - - - - END of RATINGS - - - - -
 
+	const handlePreviousWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			if (userId) {
+				ActivityService.getMySchedule(userId, dateAux)
+					.then((response) => {
+						setListActivities(response.data);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+			setRecargarCalendar(true);
+		}, 500);
+	};
+
+	const handleNextWeek = () => {
+		setRecargarCalendar(false);
+		setTimeout(() => {
+			setDate((prevDate) => {
+				const newDate = new Date(prevDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+				return newDate;
+			});
+			const currentDate = new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+			currentDate.setHours(0, 0, 0, 0);
+			const dateAux = currentDate.toString();
+			if (userId) {
+				ActivityService.getMySchedule(userId, dateAux)
+					.then((response) => {
+						setListActivities(response.data);
+					})
+					.catch((error) => {
+						navigate("*");
+					});
+			}
+			setRecargarCalendar(true);
+		}, 500);
+
+		//setDate(new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000));
+	};
+
 	return (
 		<div>
 			<Navbar />
 			<div className="user-profile">
 				{currentUser ? (
 					<div className="profile">
-						<h1 className="profile-user-name">{currentUser.appUser}</h1>
+						<h1 className="profile-user-name">
+							{currentUser.appUser}
+							{icon && <div>{icon}</div>}
+						</h1>
 						<div className="profile-image">
 							{currentUser.photoUser ? (
 								<img
@@ -318,6 +396,34 @@ const UserProfile = () => {
 								Rate with {rate} ☆
 							</button>
 						</div>
+					)}
+				</div>
+				<div className="calendar">
+					<div className="calendar-nav">
+						<button
+							className="calendar-nav-button"
+							onClick={handlePreviousWeek}
+						>
+							Previous Week
+						</button>
+						<button className="calendar-nav-button" onClick={handleNextWeek}>
+							Next Week
+						</button>
+					</div>
+					{recargarCalendar && (
+						<Calendar
+							activities={listActivities}
+							showWeekButton={false}
+							showDayButton={false}
+							showMonthButton={false}
+							showWeekChangeButtons={true}
+							editable={true}
+							selectedTimetable={"My Timetable"}
+							showAllDay={false}
+							userId={currentUser?.uuid || ""}
+							setRecargar={setRecargarCalendar}
+							initialDate={date}
+						/>
 					)}
 				</div>
 			</div>

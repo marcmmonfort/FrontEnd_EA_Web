@@ -21,6 +21,7 @@ import { LocationService } from "../../services/location.service";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../models/location.model";
 import { useTranslation } from "react-i18next";
+import { AuthService } from "../../services/auth.service";
 
 const customIcon = L.icon({
 	iconUrl: markerIcon,
@@ -45,6 +46,12 @@ const MapPage = () => {
 	const { t } = useTranslation();
 
 	useEffect(() => {
+		const audioDescription = AuthService.getAudioDescription();
+		// Leer el texto del usuario actual en voz alta al cargar la página
+		if (audioDescription === "si") {
+			const pageToSpeech = "You are in map";
+			speakText(pageToSpeech);
+		}
 		const getLocations = async () => {
 			LocationService.getLocations()
 				.then((response) => {
@@ -56,6 +63,13 @@ const MapPage = () => {
 		};
 		getLocations();
 	}, []);
+
+	// Función para leer el texto en voz alta
+	const speakText = (text: string) => {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en";
+		window.speechSynthesis.speak(utterance);
+	};
 
 	const handleKeyPress = (event: React.KeyboardEvent) => {
 		/*

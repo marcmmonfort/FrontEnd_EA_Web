@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaComment, FaHeart } from "react-icons/fa";
 import { useSpring, animated } from "react-spring";
 import i18n from "../../i18n";
+import { CircleLoader } from "react-spinners";
+import { FaUser, FaShieldAlt, FaBuilding, FaCog } from "react-icons/fa";
 
 const Feed = () => {
 	const [listPublications, setListPublications] = useState<Publication[]>([]);
@@ -39,188 +41,205 @@ const Feed = () => {
 	const [numPublications, setNumPublications] = useState<number>(0);
 	const [hasLiked, setHasLiked] = useState<{ [key: string]: boolean }>({});
 	const [reloadPublication, setReloadPublication] = useState<string>("");
+	const [isLoading, setIsLoading] = useState(true);
 
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
 	useEffect(() => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
+		setTimeout(() => {
+			const fetchData = async () => {
+				const userId = AuthService.getCurrentUser();
+				if (userId) {
+					PublicationService.feed(numPagePublication.toString(), userId)
+						.then((response) => {
+							const initialVisibility = response.data.reduce(
+								(acc: { [key: string]: boolean }, publication: Publication) => {
+									acc[publication.uuid] = false;
+									return acc;
+								},
+								{}
+							);
+							//setCommentsVisibility(initialVisibility);
+							//setCommentsVisibility((prevVisibility) => ({...prevVisibility, initialVisibility}));
+							setCommentsVisibility((prevVisibility) => {
+								const updatedVisibility = Object.assign(
+									{},
+									prevVisibility,
+									initialVisibility
+								);
+								return updatedVisibility;
+							});
 
-		const fetchData = async () => {
-			const userId = AuthService.getCurrentUser();
+							const initialPage = response.data.reduce(
+								(acc: { [key: string]: number }, publication: Publication) => {
+									acc[publication.uuid] = 1;
+									return acc;
+								},
+								{}
+							);
+							//setPageComments(initialPage);
+							//setPageComments((prevPageComments) => ({...prevPageComments,initialPage}));
+							setPageComments((prevPageComments) => {
+								const updatedPageComments = Object.assign(
+									{},
+									prevPageComments,
+									initialPage
+								);
+								return updatedPageComments;
+							});
 
-			if (userId) {
-				PublicationService.feed(numPagePublication.toString(), userId)
+							const initialCommentButton = response.data.reduce(
+								(acc: { [key: string]: string }, publication: Publication) => {
+									acc[publication.uuid] = "Show Comments";
+									return acc;
+								},
+								{}
+							);
+							//setCommentButton(initialCommentButton);
+							//setCommentButton((prevCommentButton) => ({...prevCommentButton,initialCommentButton}));
+							setCommentButton((prevCommentButton) => {
+								const updatedCommentButton = Object.assign(
+									{},
+									prevCommentButton,
+									initialCommentButton
+								);
+								return updatedCommentButton;
+							});
+
+							const initialListComments = response.data.reduce(
+								(
+									acc: { [key: string]: Comment[] },
+									publication: Publication
+								) => {
+									acc[publication.uuid] = [];
+									return acc;
+								},
+								{}
+							);
+							//setListCommentsPublication(initialListComments);
+							//setListCommentsPublication((prevListCommentsPublication) => ({...prevListCommentsPublication,initialListComments}));
+							setListCommentsPublication((prevListCommentsPublication) => {
+								const updatedListCommentsPublication = Object.assign(
+									{},
+									prevListCommentsPublication,
+									initialListComments
+								);
+								return updatedListCommentsPublication;
+							});
+
+							const initialShowCommentButton = response.data.reduce(
+								(acc: { [key: string]: boolean }, publication: Publication) => {
+									acc[publication.uuid] = false;
+									return acc;
+								},
+								{}
+							);
+							setShowCommentForm((prevInitialShowCommentButton) => {
+								const updatedInitialShowCommentButton = Object.assign(
+									{},
+									prevInitialShowCommentButton,
+									initialShowCommentButton
+								);
+								return updatedInitialShowCommentButton;
+							});
+
+							const initialCommentText = response.data.reduce(
+								(acc: { [key: string]: string }, publication: Publication) => {
+									acc[publication.uuid] = "";
+									return acc;
+								},
+								{}
+							);
+							//setCommentText(initialCommentText);
+							//setCommentText((prevCommentButton) => ({...prevCommentButton,initialCommentText}));
+							setCommentText((prevCommentButton) => {
+								const updatedCommentText = Object.assign(
+									{},
+									prevCommentButton,
+									initialCommentText
+								);
+								return updatedCommentText;
+							});
+
+							const initialShowLikes = response.data.reduce(
+								(acc: { [key: string]: boolean }, publication: Publication) => {
+									const hasLiked =
+										publication.likesPublication?.includes(userId) || false;
+									acc[publication.uuid] = hasLiked;
+									return acc;
+								},
+								{}
+							);
+							//setHasLiked(initialShowLikes);
+							//setHasLiked((prevHasLiked) => ({...prevHasLiked,initialShowLikes}));
+							setHasLiked((prevHasLiked) => {
+								const updatedHasLiked = Object.assign(
+									{},
+									prevHasLiked,
+									initialShowLikes
+								);
+								return updatedHasLiked;
+							});
+
+							setListPublications((prevPublications) => [
+								...prevPublications,
+								...response.data,
+							]);
+						})
+						.catch((error) => {
+							navigate("*");
+						});
+
+					PublicationService.numPublicationsFollowing(userId)
+						.then((response) => {
+							setNumPublications(response.data);
+						})
+						.catch((error) => {
+							navigate("*");
+						});
+				}
+			};
+			if (recargar === "Inicio" || recargar === "More Publications") {
+				fetchData();
+				if (recargar === "Inicio") {
+					const isAudioDescription = AuthService.getAudioDescription();
+					if (isAudioDescription === "si") {
+						const pageToSpeech = "You are in feed";
+						speakText(pageToSpeech);
+					}
+				}
+			} else if (
+				recargar === "New Comment" ||
+				recargar === "Delete Like" ||
+				recargar === "Update Like"
+			) {
+				PublicationService.getPublication(reloadPublication)
 					.then((response) => {
-						const initialVisibility = response.data.reduce(
-							(acc: { [key: string]: boolean }, publication: Publication) => {
-								acc[publication.uuid] = false;
-								return acc;
-							},
-							{}
+						const index = listPublications.findIndex(
+							(publication) => publication.uuid === reloadPublication
 						);
-						//setCommentsVisibility(initialVisibility);
-						//setCommentsVisibility((prevVisibility) => ({...prevVisibility, initialVisibility}));
-						setCommentsVisibility((prevVisibility) => {
-							const updatedVisibility = Object.assign(
-								{},
-								prevVisibility,
-								initialVisibility
-							);
-							return updatedVisibility;
-						});
 
-						const initialPage = response.data.reduce(
-							(acc: { [key: string]: number }, publication: Publication) => {
-								acc[publication.uuid] = 1;
-								return acc;
-							},
-							{}
-						);
-						//setPageComments(initialPage);
-						//setPageComments((prevPageComments) => ({...prevPageComments,initialPage}));
-						setPageComments((prevPageComments) => {
-							const updatedPageComments = Object.assign(
-								{},
-								prevPageComments,
-								initialPage
-							);
-							return updatedPageComments;
-						});
-
-						const initialCommentButton = response.data.reduce(
-							(acc: { [key: string]: string }, publication: Publication) => {
-								acc[publication.uuid] = "Show Comments";
-								return acc;
-							},
-							{}
-						);
-						//setCommentButton(initialCommentButton);
-						//setCommentButton((prevCommentButton) => ({...prevCommentButton,initialCommentButton}));
-						setCommentButton((prevCommentButton) => {
-							const updatedCommentButton = Object.assign(
-								{},
-								prevCommentButton,
-								initialCommentButton
-							);
-							return updatedCommentButton;
-						});
-
-						const initialListComments = response.data.reduce(
-							(acc: { [key: string]: Comment[] }, publication: Publication) => {
-								acc[publication.uuid] = [];
-								return acc;
-							},
-							{}
-						);
-						//setListCommentsPublication(initialListComments);
-						//setListCommentsPublication((prevListCommentsPublication) => ({...prevListCommentsPublication,initialListComments}));
-						setListCommentsPublication((prevListCommentsPublication) => {
-							const updatedListCommentsPublication = Object.assign(
-								{},
-								prevListCommentsPublication,
-								initialListComments
-							);
-							return updatedListCommentsPublication;
-						});
-
-						const initialShowCommentButton = response.data.reduce(
-							(acc: { [key: string]: boolean }, publication: Publication) => {
-								acc[publication.uuid] = false;
-								return acc;
-							},
-							{}
-						);
-						setShowCommentForm((prevInitialShowCommentButton) => {
-							const updatedInitialShowCommentButton = Object.assign(
-								{},
-								prevInitialShowCommentButton,
-								initialShowCommentButton
-							);
-							return updatedInitialShowCommentButton;
-						});
-
-						const initialCommentText = response.data.reduce(
-							(acc: { [key: string]: string }, publication: Publication) => {
-								acc[publication.uuid] = "";
-								return acc;
-							},
-							{}
-						);
-						//setCommentText(initialCommentText);
-						//setCommentText((prevCommentButton) => ({...prevCommentButton,initialCommentText}));
-						setCommentText((prevCommentButton) => {
-							const updatedCommentText = Object.assign(
-								{},
-								prevCommentButton,
-								initialCommentText
-							);
-							return updatedCommentText;
-						});
-
-						const initialShowLikes = response.data.reduce(
-							(acc: { [key: string]: boolean }, publication: Publication) => {
-								const hasLiked =
-									publication.likesPublication?.includes(userId) || false;
-								acc[publication.uuid] = hasLiked;
-								return acc;
-							},
-							{}
-						);
-						//setHasLiked(initialShowLikes);
-						//setHasLiked((prevHasLiked) => ({...prevHasLiked,initialShowLikes}));
-						setHasLiked((prevHasLiked) => {
-							const updatedHasLiked = Object.assign(
-								{},
-								prevHasLiked,
-								initialShowLikes
-							);
-							return updatedHasLiked;
-						});
-
-						setListPublications((prevPublications) => [
-							...prevPublications,
-							...response.data,
-						]);
-					})
-					.catch((error) => {
-						navigate("*");
-					});
-
-				PublicationService.numPublicationsFollowing(userId)
-					.then((response) => {
-						setNumPublications(response.data);
+						if (index >= 0) {
+							listPublications.splice(index, 1, response.data);
+							setListPublications([...listPublications]);
+						}
 					})
 					.catch((error) => {
 						navigate("*");
 					});
 			}
-		};
-
-		if (recargar === "Inicio" || recargar === "More Publications") {
-			fetchData();
-		} else if (
-			recargar === "New Comment" ||
-			recargar === "Delete Like" ||
-			recargar === "Update Like"
-		) {
-			PublicationService.getPublication(reloadPublication)
-				.then((response) => {
-					const index = listPublications.findIndex(
-						(publication) => publication.uuid === reloadPublication
-					);
-
-					if (index >= 0) {
-						listPublications.splice(index, 1, response.data);
-						setListPublications([...listPublications]);
-					}
-				})
-				.catch((error) => {
-					navigate("*");
-					console.error(error);
-				});
-		}
+			setIsLoading(false);
+		}, 500);
 	}, [recargar]);
+
+	// Función para leer el texto en voz alta
+	const speakText = (text: string) => {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en";
+		window.speechSynthesis.speak(utterance);
+	};
 
 	const handleLoadMore = () => {
 		setRecargar("More Publications");
@@ -254,7 +273,6 @@ const Feed = () => {
 					...prevCommentButton,
 					[idPublication]: (prevCommentButton[idPublication] = "Hide Comments"),
 				}));
-
 				CommentService.getCommentsPublication(
 					idPublication,
 					pageComments[idPublication].toString()
@@ -273,7 +291,6 @@ const Feed = () => {
 					...prevCommentButton,
 					[idPublication]: (prevCommentButton[idPublication] = "Show Comments"),
 				}));
-
 				setListCommentsPublication((prevListComments) => ({
 					...prevListComments,
 					[idPublication]: [],
@@ -345,7 +362,6 @@ const Feed = () => {
 				})
 				.catch((error) => {
 					navigate("*");
-					console.error(error);
 				});
 		}
 
@@ -363,7 +379,6 @@ const Feed = () => {
 					...prevLikes,
 					[idPublication]: !prevLikes[idPublication],
 				}));
-
 				PublicationService.deleteLike(idPublication, userId)
 					.then((response) => {
 						setReloadPublication(idPublication);
@@ -399,182 +414,228 @@ const Feed = () => {
 		setRecargar("No Recargues");
 	};
 
+	interface UserProfileProps {
+		user: {
+			nameUser: string;
+			surnameUser: string;
+			roleUser: string;
+		};
+	}
+	const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
+		if (user.roleUser === "business") {
+			return (
+				<p className="post__username_header">
+					{user.nameUser} {user.surnameUser} <FaBuilding />
+				</p>
+			);
+		} else if (user.roleUser === "admin") {
+			return (
+				<p className="post__username_header">
+					{user.nameUser} {user.surnameUser} <FaCog />
+				</p>
+			);
+		} else if (user.roleUser === "verified") {
+			return (
+				<p className="post__username_header">
+					{user.nameUser} {user.surnameUser} <FaShieldAlt />
+				</p>
+			);
+		} else {
+			return (
+				<p className="post__username_header">
+					{user.nameUser} {user.surnameUser} <FaUser />
+				</p>
+			);
+		}
+	};
+
 	return (
 		<div>
 			<Navbar />
-			<div className="titleContainer">
-				<h1 className="titleSection">{t("Feed")}</h1>
-			</div>
-			<div className="feed">
-				{listPublications.map((publication) => (
-					<div className="post" key={publication.uuid}>
-						<Link
-							to={`/user/${publication.idUser.uuid}`}
-							className="user-link"
-							onClick={handleGoToScreenUser}
-						>
-							<div className="post__header">
-								<img
-									className="post__profile-img"
-									src={`${publication.idUser.photoUser}`}
-									alt="Profile"
-								/>
-								<div className="post__info">
-									<p className="post__username_header">
-										{publication.idUser.nameUser}{" "}
-										{publication.idUser.surnameUser}
-									</p>
-									<p className="post__timestamp_header">
-										{new Date(publication.createdAt).toLocaleString()}
-									</p>
-								</div>
-							</div>
-						</Link>
-						<div className="post__body">
-							{publication.photoPublication.map((photo) => (
-								<img
-									className="post__image"
-									key={photo}
-									src={photo}
-									alt="Post"
-								/>
-							))}
-							<div className="likes-info">
-								<span className={hasLiked[publication.uuid] ? "liked" : ""}>
-									<Link
-										to={`/profile/userList/${publication.uuid}/likes`}
-										onClick={handleGoToScreenUser}
-									>
-										{publication.likesPublication?.length}
-									</Link>
-								</span>
-								<FaHeart
-									onClick={() => {
-										handleLike(publication.uuid.toString());
-									}}
-									className={hasLiked[publication.uuid] ? "liked" : ""}
-								/>
-							</div>
-							<p className="post__text">{publication.textPublication}</p>
-							<div style={{ textAlign: "center" }}>
-								<button
-									className="show__comments"
-									onClick={() => {
-										getComments(publication.uuid.toString());
-									}}
+			{isLoading ? (
+				<CircleLoader color="#123abc" loading={isLoading} />
+			) : (
+				<div>
+					<div className="titleContainer">
+						<h1 className="titleSection">{t("Feed")}</h1>
+					</div>
+					<div className="feed">
+						{listPublications.map((publication) => (
+							<div className="post" key={publication.uuid}>
+								<Link
+									to={`/user/${publication.idUser.uuid}`}
+									className="user-link"
+									onClick={handleGoToScreenUser}
 								>
-									{commentsVisibility[publication.uuid]}{" "}
-									{commentButton[publication.uuid]}{" "}
-									{publication.commentsPublication?.length}
-								</button>
-								<div
-									className="comment-icon"
-									onClick={() => {
-										handleToggleCommentForm(publication.uuid.toString());
-									}}
-								>
-									<FaComment className="comment-logo"></FaComment>
-								</div>
-								{showCommentForm[publication.uuid] && (
-									<form
-										onSubmit={(event) => {
-											handleSubmit(event, publication.uuid.toString());
-										}}
-									>
-										<input
-											className="input-comment"
-											value={commentText[publication.uuid]}
-											onChange={(event) => {
-												handleInputChange(event, publication.uuid.toString());
-											}}
+									<div className="post__header">
+										<img
+											className="post__profile-img"
+											src={`${publication.idUser.photoUser}`}
+											alt="Profile"
 										/>
-										<button className="submit-comment" type="submit">
-											{i18n.t("SendComment")}
-										</button>
-									</form>
-								)}
-							</div>
-							{commentsVisibility[publication.uuid] && (
-								<div>
-									{" "}
-									{listCommentsPublication[publication.uuid].map((comment) => (
-										<div className="commentContainer_2" key={comment.uuid}>
+										<div className="post__info">
+											<UserProfile user={publication.idUser}></UserProfile>
+											<p className="post__timestamp_header">
+												{new Date(publication.createdAt).toLocaleString()}
+											</p>
+										</div>
+									</div>
+								</Link>
+								<div className="post__body">
+									{publication.photoPublication.map((photo) => (
+										<img
+											className="post__image"
+											key={photo}
+											src={photo}
+											alt="Post"
+										/>
+									))}
+									<div className="likes-info">
+										<span className={hasLiked[publication.uuid] ? "liked" : ""}>
 											<Link
-												to={`/user/${comment.idUserComment.uuid}`}
-												className="user-link"
+												to={`/profile/userList/${publication.uuid}/likes`}
 												onClick={handleGoToScreenUser}
 											>
-												<div className="user_2">
-													{comment.idUserComment.photoUser ? (
-														<img
-															src={comment.idUserComment.photoUser}
-															alt={comment.idUserComment.nameUser}
-															className="user__profile-img_2"
-														/>
-													) : (
-														<img
-															src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-															alt="profile-img"
-															className="user__profile-img_2"
-														/>
-													)}
-													<div className="user__info">
-														<p className="user__commentname">
-															@{comment.idUserComment.appUser}
-														</p>
-														<span className="comment__text">
-															{comment.textComment}
-														</span>
-													</div>
-												</div>
+												{publication.likesPublication?.length}
 											</Link>
+										</span>
+										<FaHeart
+											onClick={() => {
+												handleLike(publication.uuid.toString());
+											}}
+											className={hasLiked[publication.uuid] ? "liked" : ""}
+										/>
+									</div>
+									<p className="post__text">{publication.textPublication}</p>
+									<div style={{ textAlign: "center" }}>
+										<button
+											className="show__comments"
+											onClick={() => {
+												getComments(publication.uuid.toString());
+											}}
+										>
+											{commentsVisibility[publication.uuid]}{" "}
+											{commentButton[publication.uuid]}{" "}
+											{publication.commentsPublication?.length}
+										</button>
+										<div
+											className="comment-icon"
+											onClick={() => {
+												handleToggleCommentForm(publication.uuid.toString());
+											}}
+										>
+											<FaComment className="comment-logo"></FaComment>
 										</div>
-									))}
-									{publication.commentsPublication &&
-									publication.commentsPublication.length >
-										(pageComments[publication.uuid] ?? 0) * 2 ? (
-										<button
-											className="show_more_comments"
-											onClick={() => {
-												showMoreComments(publication.uuid);
-											}}
-										>
-											{"Show More"}
-										</button>
-									) : (
-										<button
-											className="show_more_comments"
-											onClick={() => {
-												showMoreComments(publication.uuid);
-											}}
-											disabled
-										>
-											{"Show More"}
-										</button>
+										{showCommentForm[publication.uuid] && (
+											<form
+												onSubmit={(event) => {
+													handleSubmit(event, publication.uuid.toString());
+												}}
+											>
+												<input
+													className="input-comment"
+													value={commentText[publication.uuid]}
+													onChange={(event) => {
+														handleInputChange(
+															event,
+															publication.uuid.toString()
+														);
+													}}
+												/>
+												<button className="submit-comment" type="submit">
+													{i18n.t("SendComment")}
+												</button>
+											</form>
+										)}
+									</div>
+									{commentsVisibility[publication.uuid] && (
+										<div>
+											{" "}
+											{listCommentsPublication[publication.uuid].map(
+												(comment) => (
+													<div
+														className="commentContainer_2"
+														key={comment.uuid}
+													>
+														<Link
+															to={`/user/${comment.idUserComment.uuid}`}
+															className="user-link"
+															onClick={handleGoToScreenUser}
+														>
+															<div className="user_2">
+																{comment.idUserComment.photoUser ? (
+																	<img
+																		src={comment.idUserComment.photoUser}
+																		alt={comment.idUserComment.nameUser}
+																		className="user__profile-img_2"
+																	/>
+																) : (
+																	<img
+																		src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+																		alt="profile-img"
+																		className="user__profile-img_2"
+																	/>
+																)}
+																<div className="user__info">
+																	<p className="user__commentname">
+																		@{comment.idUserComment.appUser}
+																	</p>
+																	<span className="comment__text">
+																		{comment.textComment}
+																	</span>
+																</div>
+															</div>
+														</Link>
+													</div>
+												)
+											)}
+											{publication.commentsPublication &&
+											publication.commentsPublication.length >
+												(pageComments[publication.uuid] ?? 0) * 2 ? (
+												<button
+													className="show_more_comments"
+													onClick={() => {
+														showMoreComments(publication.uuid);
+													}}
+												>
+													{"Show More"}
+												</button>
+											) : (
+												<button
+													className="show_more_comments"
+													onClick={() => {
+														showMoreComments(publication.uuid);
+													}}
+													disabled
+												>
+													{"Show More"}
+												</button>
+											)}
+										</div>
 									)}
 								</div>
+							</div>
+						))}
+						<div className="load-more">
+							{numPublications > numPagePublication * 3 ? (
+								<button className="buttonLoadMore" onClick={handleLoadMore}>
+									{" "}
+									{t("LoadMore")}{" "}
+								</button>
+							) : (
+								<button
+									className="buttonLoadMoreD"
+									onClick={handleLoadMore}
+									disabled
+								>
+									{" "}
+									{t("LoadMore")}
+								</button>
 							)}
 						</div>
 					</div>
-				))}
-				<div className="load-more">
-					{numPublications > numPagePublication * 3 ? (
-						<button className="buttonLoadMore" onClick={handleLoadMore}>
-							{" "}
-							{t("LoadMore")}{" "}
-						</button>
-					) : (
-						<button
-							className="buttonLoadMoreD"
-							onClick={handleLoadMore}
-							disabled
-						>
-							{" "}
-							{t("LoadMore")}
-						</button>
-					)}
 				</div>
-			</div>
+			)}
 			<Footer />
 		</div>
 	);

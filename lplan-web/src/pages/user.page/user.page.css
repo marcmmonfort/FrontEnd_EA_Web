@@ -44,6 +44,7 @@
     .profile-user-name {
     font-size: 2rem;
     margin-bottom: 0;
+    display: flex;
     }
     
     .follow-button,

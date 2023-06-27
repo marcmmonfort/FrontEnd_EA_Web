@@ -17,6 +17,7 @@ import {
 	faPlusCircle,
 	faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import _debounce from "lodash/debounce";
 import "./calendarevents.page.css";
 
 // Fondo de pantalla personalizado ...
@@ -41,12 +42,17 @@ const CalendarEvents = () => {
 	useEffect(() => {
 		document.body.style.backgroundImage = `url(${backgroundImage})`;
 
+		const isAudioDescription = AuthService.getAudioDescription();
+		if (isAudioDescription === "si") {
+			const pageToSpeech = "You are in calendar";
+			speakText(pageToSpeech);
+		}
+
 		const userId = AuthService.getCurrentUser();
 		setUuid(userId);
 
 		const currentDate = new Date();
 		currentDate.setHours(0, 0, 0, 0);
-
 		const date = currentDate.toString();
 
 		const fetchData = async () => {
@@ -60,7 +66,6 @@ const CalendarEvents = () => {
 						userId,
 						date
 					);
-
 					setListActivities(myScheduleResponse.data);
 				} else {
 					const numPage = currentPage.toString();
@@ -74,7 +79,6 @@ const CalendarEvents = () => {
 					} else {
 						const otherScheduleResponse =
 							await ActivityService.getOtherSchedule(userId, numPage, date);
-
 						setListActivities(otherScheduleResponse.data.activities);
 						const response = await UserService.getPerson(
 							otherScheduleResponse.data.uuid
@@ -89,6 +93,13 @@ const CalendarEvents = () => {
 		};
 		fetchData();
 	}, [selectedTimetable, currentPage, recargar, selectedUser]);
+
+	// Función para leer el texto en voz alta
+	const speakText = (text: string) => {
+		const utterance = new SpeechSynthesisUtterance(text);
+		utterance.lang = "en";
+		window.speechSynthesis.speak(utterance);
+	};
 
 	const handleTimetableChange = (timetable: string) => {
 		setSelectedTimetable(timetable);
@@ -113,6 +124,8 @@ const CalendarEvents = () => {
 			setUserList([]);
 		}
 	};
+
+	const debouncedSearch = _debounce(handleSearch, 500);
 
 	return (
 		<div>
@@ -213,7 +226,7 @@ const CalendarEvents = () => {
 								value={searchQuery}
 								onChange={(event) => {
 									setSearchQuery(event.target.value);
-									handleSearch(event);
+									debouncedSearch(event);
 								}}
 							/>
 							<div className="cardsUsers-Calendar">
@@ -326,8 +339,8 @@ const CalendarEvents = () => {
 						selectedTimetable={selectedTimetable}
 						showAllDay={false}
 						userId={currentUser?.uuid || ""}
-						recargar={recargar}
 						setRecargar={setRecargar}
+						initialDate={new Date()}
 					/>
 				</div>
 			</div>

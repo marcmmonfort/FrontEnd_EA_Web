@@ -2,8 +2,6 @@ import axios from "axios";
 
 import authHeader from "./authHeader.service";
 
-import { Location } from "../models/location.model";
-
 let API_URL = "";
 let API_URL_All = "";
 
