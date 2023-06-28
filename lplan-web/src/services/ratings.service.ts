@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === "production") {
 	API_URL = "http://147.83.7.158:5432";
 } else {
 	API_URL = "http://localhost:5432";
+	//API_URL = "http://147.83.7.158:5432";
 }
 
 export class RatingsService {

@@ -120,6 +120,7 @@ const Navbar = () => {
 		<header>
 			<img className="logo" src={icon} alt="Logo" />
 			<nav className={showMenu ? "open" : ""}>
+				<Link to="/messages">{t("Messages")}</Link>
 				<Link to="/feed">{t("Feed")}</Link>
 				<Link to="/discovery">{t("Discovery")}</Link>
 				<Link to="/calendarevents">{t("Calendar")}</Link>

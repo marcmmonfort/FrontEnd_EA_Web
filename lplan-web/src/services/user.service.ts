@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
 	// Cargar variables de entorno desde .env.local
 	API_URL = "http://localhost:5432/user";
+	//API_URL = "http://147.83.7.158:5432/user";
 }
 
 export class UserService {

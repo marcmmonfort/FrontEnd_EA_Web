@@ -13,6 +13,8 @@ if (process.env.NODE_ENV === "production") {
 	// Cargar variables de entorno desde .env.local
 	API_URL = "http://localhost:5432/location";
 	API_URL_All = "http://localhost:5432/locations";
+	//API_URL = "http://147.83.7.158:5432/location";
+	//API_URL_All = "http://147.83.7.158:5432/locations";
 }
 
 export class LocationService {

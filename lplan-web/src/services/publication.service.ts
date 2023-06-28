@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
 	// Cargar variables de entorno desde .env.local
 	API_URL = "http://localhost:5432/publication";
+	//API_URL = "http://147.83.7.158:5432/publication";
 }
 
 export class PublicationService {
@@ -94,24 +95,26 @@ export class PublicationService {
 		}
 	}
 
-  static async getPublication( uuid: string|undefined) {
-    try {
-      const response = await axios.get(API_URL + "/"+ uuid, { headers: authHeader() });
-      return response;
-    } catch (error) {
-      console.error('Error during load feed:', error);
-      throw error;
-    }
-  }
-  static async getAllPublicationByUser( uuid: string) {
-    try {
-      const response = await axios.get(API_URL + "/ownPosts/"+ uuid, { headers: authHeader() });
-      return response;
-    } catch (error) {
-      console.error('Error during load feed:', error);
-      throw error;
-    }
-  }
-
-
+	static async getPublication(uuid: string | undefined) {
+		try {
+			const response = await axios.get(API_URL + "/" + uuid, {
+				headers: authHeader(),
+			});
+			return response;
+		} catch (error) {
+			console.error("Error during load feed:", error);
+			throw error;
+		}
+	}
+	static async getAllPublicationByUser(uuid: string) {
+		try {
+			const response = await axios.get(API_URL + "/ownPosts/" + uuid, {
+				headers: authHeader(),
+			});
+			return response;
+		} catch (error) {
+			console.error("Error during load feed:", error);
+			throw error;
+		}
+	}
 }
